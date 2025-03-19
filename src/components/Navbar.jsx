@@ -5,7 +5,7 @@ import { navIcons, navlinks } from '../constants'
 
 const Navbar = () => {
   return (
-    <div className='grid grid-cols-4 items-center w-full bg-[#005C53] px-16 h-[128px]'>
+    <div className='grid grid-cols-4 items-center w-full bg-[#005C53] px-16 h-[128px] z-50'>
       <div className='col-span-1 justify-start'>
         <div className='justify-start'>
           <img src={Logo} alt="logo" className='object-contain' />
@@ -32,7 +32,7 @@ const Navbar = () => {
                 <h1 className=' text-lg transition-transform duration-200 ease-in-out cursor-pointer group-hover:-translate-y-3'>
                   {item}
                 </h1>
-                <hr className='absolute text-[#F0F0D6] left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100' />
+                <hr className='absolute text-[#F0F0D6] left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none' />
               </div>
             ))}
           </div>

@@ -1,0 +1,41 @@
+import React from 'react'
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import Tags from './Tags';
+import SortIcon from   '../../assets/svg/trending/sortIcon.svg'
+
+const Header = () => {
+    const tags = [
+        "G-Shock","Fastrack","Titan"
+    ]
+  return (
+    <div className='flex flex-col gap-3'>
+        <h1 className='font-bold text-2xl'>Trending</h1>
+        <div className='flex items-center gap-1'>
+            <h1 className='text-[#546D7D]'>Home</h1>
+            <span><MdOutlineKeyboardArrowRight color='#546D7D'/></span>
+            <h1 className='text-[#005C53]'>Trending</h1>
+        </div>
+        <div className='flex justify-between items-center'>
+            <div className='flex gap-5 items-center'>
+                <h1 className='text-base'>Filter By : </h1>
+                <div className='flex gap-3'>
+                    {tags.map((item, index)=>(<div key={index}>
+                        <Tags tag={item}/>
+                    </div>))}
+                </div>
+            </div>
+            <div className='flex items-center gap-3'>
+                <h1>Sort by : </h1>
+                <div className='flex gap-3 items-center'>
+                    <h1>Low to High</h1>
+                    <div>
+                        <img src={SortIcon} alt="icon" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  )
+}
+
+export default Header

@@ -82,3 +82,66 @@ export const footerData = [
         ]
     },
 ]
+
+export const sidebarData = [
+    {
+        title:"Gender",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Brand",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Model",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Product Type",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Price",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Case size",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Gender",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Dial Color",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Strap Color",
+        options:[
+            "Male","Female"
+        ]
+    },
+    {
+        title:"Percent Sale",
+        options:[
+            "Male","Female"
+        ]
+    },
+]
