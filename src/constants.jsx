@@ -85,63 +85,53 @@ export const footerData = [
 
 export const sidebarData = [
     {
+        id:1,
         title:"Gender",
         options:[
             "Male","Female"
         ]
     },
     {
+        id:2,
         title:"Brand",
         options:[
             "Male","Female"
         ]
     },
     {
+        id:3,
         title:"Model",
         options:[
             "Male","Female"
         ]
     },
     {
+        id:4,
         title:"Product Type",
         options:[
             "Male","Female"
         ]
     },
     {
+        id:5,
         title:"Price",
         options:[
             "Male","Female"
         ]
     },
-    {
-        title:"Case size",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        title:"Gender",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        title:"Dial Color",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        title:"Strap Color",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        title:"Percent Sale",
-        options:[
-            "Male","Female"
-        ]
-    },
+    
 ]
+
+export const productDetails = [
+    { label: "Product ID", value: "SKU 1245" },
+    { label: "Product Dimensions", value: "20 x 1.6 x 4.6 cm; 56 g" },
+    { label: "Item Model Number", value: "GMA-S140M-1ADR(GA106)" },
+    { label: "Colour", value: "Brown" },
+    { label: "Weight", value: "50 GM" },
+    { label: "Display", value: "LED" },
+    { label: "Generic Name", value: "Casual Watch" },
+    { label: "Type", value: "Analog" },
+    { label: "Item Model Number", value: "GMA-S150M-2ADR(GA107)" },
+    { label: "Net Qty", value: "1 nos" },
+    { label: "Weight", value: "70 GM" }
+  ];

@@ -5,6 +5,7 @@ import Layout from './layouts/Layout';
 
 const HomePage = lazy(()=> import('./pages/Home/Home'))
 const TrendingPage  = lazy(()=> import('./pages/Trending/Trending'))
+const ProductPage = lazy(()=> import('./pages/Product/Product'))
 
 const LoadingFallback =()=><div className='flex justify-center items-center'>Loading...</div>
 
@@ -16,6 +17,7 @@ const AppRoutes = () => {
           <Routes>
             <Route path='/' element={<HomePage/>}></Route>
             <Route path='/trending' element={<TrendingPage/>}></Route>
+            <Route path='/product/:id' element={<ProductPage/>}></Route>
           </Routes>
         </Suspense>
       </Layout>

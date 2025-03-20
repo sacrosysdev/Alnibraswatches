@@ -6,7 +6,7 @@ import AppDownload from '../Home/AppDownload'
 
 const Trending = () => {
   return (
-    <div className='px-16 py-5'>
+    <div className='px-16 py-5 bg-[#F1F1F1]'>
         <div className='grid grid-cols-4 gap-5'>
             <div className='col-span-1'>
                 <Sidebar/>

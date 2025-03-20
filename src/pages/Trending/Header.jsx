@@ -27,7 +27,7 @@ const Header = () => {
             <div className='flex items-center gap-3'>
                 <h1>Sort by : </h1>
                 <div className='flex gap-3 items-center'>
-                    <h1>Low to High</h1>
+                    <h1 className='text-base font-normal'>Low to High</h1>
                     <div>
                         <img src={SortIcon} alt="icon" />
                     </div>
