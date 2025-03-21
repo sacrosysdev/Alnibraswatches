@@ -4,6 +4,7 @@ import DoubleTick from '../../assets/svg/product/doubletick.svg'
 import ProductInfo from './ProductInfo';
 import Ratings from './Ratings';
 
+
 const ProductDetails = () => {
     const colors = [
         {
@@ -24,6 +25,7 @@ const ProductDetails = () => {
         },
     ]
     return (
+        
         <section className='flex flex-col gap-4 '>
             <h2 className='font-bold font-bodoni text-4xl text-[#0D1217]'>Trending</h2>
             <h3 className='text-[#546D7D] text-base font-normal'>Huawei 3pro Smart Watch</h3>
@@ -82,6 +84,7 @@ const ProductDetails = () => {
             <ProductInfo/>
             <hr className='text-[#E5E5E5]' />
             <Ratings/>
+            
         </section>
     )
 }

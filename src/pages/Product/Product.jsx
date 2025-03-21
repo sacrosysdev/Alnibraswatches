@@ -1,6 +1,7 @@
 import React from 'react'
 import ProductDetails from './ProductDetails'
 import ImageSection from './ImageSection'
+import RecentSearch from './RecentSearch'
 
 const Product = () => {
   return (
@@ -13,6 +14,7 @@ const Product = () => {
                 <ProductDetails/>
             </div>
         </div>
+        <RecentSearch/>
     </div>
   )
 }
