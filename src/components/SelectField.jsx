@@ -9,12 +9,12 @@ const SelectField = ({ optionText, optionsData, ...props }) => {
     return (
         <div className="">
             
-            <div className="relative flex items-center border border-[#BBBBBB] rounded-xl ">
+            <div className="relative flex items-center ">
                 
                 <select
                     {...field}
                     {...props}
-                    className={`w-full p-3 bg-transparent focus:outline-none appearance-none pr-10 'text-[#333333]`}
+                    className={'w-full py-3 px-5 font-medium font-gilroy appearance-none  text-sm bg-[#F9F9F9] rounded-sm border border-[#E8E9EA] focus:outline-none text-[#A3A7AB]'}
                 >
                     {optionText && <option value="" disabled>
                         {optionText}

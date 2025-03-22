@@ -7,9 +7,8 @@ import { features } from '../../constants'
 const Banner = () => {
   return (
     <div className=''>
-      <div className='relative h-[130vh]'>
+      <div className='relative h-[130vh] overflow-hidden'>
         <img src={BannerImage} alt="" className=' h-full w-full object-cover'/>
-        <div className='absolute inset-0 bg-black/30'></div>
         <div className='absolute left-16 top-16 w-full'>
             <h1 className='w-1/2 font-unlock text-[60px] leading-16 text-white'>Discover the Future of Watch E-Commerce: Unleash Your Style!</h1>
             <p className='w-1/3 pt-5 font-extralight leading-5 text-white'>Explore the next generation of watch shopping with our cutting-edge e-commerce platform, featuring extraordinary craftsmanship and one-of-a-kind styles.</p>

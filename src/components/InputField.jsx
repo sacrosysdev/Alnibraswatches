@@ -15,7 +15,7 @@ export const InputField = ({ ...props }) => {
             {...field}
             {...props}
             
-            className={`w-full p-3  bg-[#F9F9F9] rounded-md border border-[#E8E9EA] focus:outline-none text-[#333333]`}
+            className={`w-full py-3 px-5 font-medium font-gilroy  text-sm bg-[#F9F9F9] rounded-sm border border-[#E8E9EA] focus:outline-none text-[#A3A7AB]`}
           />
 
       </div>

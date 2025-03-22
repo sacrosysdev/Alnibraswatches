@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import TopNav from '../components/TopNav';
+import BelowFooter from '../components/BelowFooter';
 
 const Layout = ({ children }) => {
     return (
@@ -10,6 +11,7 @@ const Layout = ({ children }) => {
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <BelowFooter/>
       </div>
     );
   };

@@ -25,7 +25,7 @@ const Navbar = () => {
 
           </div>
         </div>
-        <div className='flex justify-start items-end pt-8 pl-10 text-[#F0F0D6]'>
+        <div className='xl:flex justify-start items-end pt-8 pl-10 text-[#F0F0D6] hidden'>
           <div className='flex gap-3 '>
             {navlinks.map((item, index) => (
               <div key={index} className='relative uppercase group'>

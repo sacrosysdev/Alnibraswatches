@@ -6,15 +6,14 @@ import PlaceOrder from './PlaceOrder'
 
 const Checkout = () => {
   return (
-    <div className='w-full py-10'>
+    <div className='w-full py-20'>
         <div className='grid grid-cols-3 gap-6 items-start mx-auto  w-[80%]'>
             <div className='col-span-2'>
                 <Header/>
                 <CheckOutForm/>
-                <hr />
                 <PaymentSection/>
             </div>
-            <div className='col-span-1 border w-full rounded-2xl'>
+            <div className='col-span-1 border w-full rounded-2xl border-[#A5B2BA]'>
                 <PlaceOrder/>
             </div>
         </div>
