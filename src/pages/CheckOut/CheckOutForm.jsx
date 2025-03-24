@@ -41,7 +41,7 @@ const CheckOutForm = () => {
                     placeholder="Full Name*"
                     />
                 </div>
-                <div className='grid grid-cols-2 gap-3'>
+                <div className='grid grid-cols-1 xl:grid-cols-2 gap-3'>
                 <InputField
                     name="phone"
                     placeholder="Phone number*"
@@ -51,7 +51,7 @@ const CheckOutForm = () => {
                     placeholder="Pincode*"
                     />
                 </div>
-                <div className='grid grid-cols-2 gap-3'>
+                <div className='grid grid-cols-1 xl:grid-cols-2 gap-3'>
                 <InputField
                     name="houseNo"
                     placeholder="house number/ building name*"
@@ -61,7 +61,7 @@ const CheckOutForm = () => {
                     placeholder="road name, area colony*"
                     />
                 </div>
-                <div className='grid grid-cols-2 gap-3'>
+                <div className='grid grid-cols-1 xl:grid-cols-2 gap-3'>
                 <InputField
                     name="city"
                     placeholder="City*"

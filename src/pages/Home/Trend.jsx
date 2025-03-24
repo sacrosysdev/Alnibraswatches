@@ -14,109 +14,109 @@ import Application from '../../assets/svg/home/app.svg'
 
 
 const Trend = () => {
-    const productDetails  = [
+    const productDetails = [
         {
-            logo:Esim,
-            desc:"eSIM Cellular Calling"
+            logo: Esim,
+            desc: "eSIM Cellular Calling"
         },
         {
-            logo:Health,
-            desc:"All-day Health Management"
+            logo: Health,
+            desc: "All-day Health Management"
         },
         {
-            logo:Battery,
-            desc:"5-Day Battery Life"
+            logo: Battery,
+            desc: "5-Day Battery Life"
         },
     ]
     const features = [
         {
-            title:"Challenges",
-            logo:Challenge
+            title: "Challenges",
+            logo: Challenge
         },
         {
-            title:"Music",
-            logo:Music
+            title: "Music",
+            logo: Music
         },
         {
-            title:"Applications",
-            logo:Application
+            title: "Applications",
+            logo: Application
         },
     ]
 
-  return (
-    <div className=''>
-        <div>
-        <h1 className='font-bodoni  text-[#00211E] font-bold text-[34px]'>Shop on Trend</h1>
-        <p className='text-[#005C53]'>We have every style at your affordable budget</p>
-        </div>
-        <div className='bg-white grid grid-cols-3 gap-8 px-10 py-5 mt-16  items-start'>
-            <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
-                <div className='absolute left-0 top-0'>
-                    <img src={Blob1} alt="" />
-                </div>
-                <div className='relative'>
-                <div className=' flex flex-col gap-5 items-center inset-0 '>
-                    <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
-                    <div>
-                        <img src={Trend1} alt="" />
+    return (
+        <div className=''>
+            <div>
+                <h1 className='font-bodoni  text-[#00211E] font-bold text-[34px]'>Shop on Trend</h1>
+                <p className='text-[#005C53]'>We have every style at your affordable budget</p>
+            </div>
+            <div className='bg-white grid grid-cols-3 gap-8 px-10 py-5 mt-16  items-start'>
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
+                    <div className='absolute left-0 top-0'>
+                        <img src={Blob1} alt="" className='object-contain w-full h-full' />
                     </div>
-                </div>
-                <div className='flex flex-col pt-5 px-5'>
-                    {productDetails.map((item, index)=>(<div key={index} className='flex gap-2 items-center justify-start'>
-                        <div>
-                            <img src={item.logo} alt="logo" />
+                    <div className='relative'>
+                        <div className=' flex flex-col gap-5 items-center inset-0 '>
+                            <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
+                            <div>
+                                <img src={Trend1} alt="" />
+                            </div>
                         </div>
-                        <h1 className='text-base'>{item.desc}
-                        </h1>
-                    </div>))}
+                        <div className='flex flex-col pt-5 px-5'>
+                            {productDetails.map((item, index) => (<div key={index} className='flex gap-2 items-center justify-start'>
+                                <div>
+                                    <img src={item.logo} alt="logo" />
+                                </div>
+                                <h1 className='text-base'>{item.desc}
+                                </h1>
+                            </div>))}
+                        </div>
                     </div>
+
                 </div>
-                
-            </div>
-            <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
-                <div className='absolute left-0 top-0'>
-                    <img src={Blob2} alt="" />
-                </div>
-                <div className='relative'>
-                <div className=' flex flex-col gap-5 items-center inset-0 '>
-                    <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
-                    <div>
-                        <img src={Product2} alt="" />
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
+                    <div className='absolute left-0 top-0'>
+                        <img src={Blob2} alt="object-contain w-full h-full" />
                     </div>
+                    <div className='relative'>
+                        <div className=' flex flex-col gap-5 items-center inset-0 '>
+                            <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
+                            <div>
+                                <img src={Product2} alt="" />
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                </div>
-                
-            </div>
-            <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>  
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
                     <div className='absolute bottom-0 right-0'>
                         <img src={Blob3} alt="" />
                     </div>
-                <div className='relative'>
-                <div className=' flex flex-col gap-5 items-center inset-0 '>
-                    <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
-                    <div className='flex items-center justify-center'>
-                    <div className='flex flex-col gap-5 items-end justify-center'>
-                        {features.map((el, index)=>(<div key={index} className='flex items-center'>
-                            <div className='bg-[#005C53] p-2 rounded-lg'>
-                                <img src={el.logo} alt="logo" className='h-6 w-6 object-cover'/>
+                    <div className='relative'>
+                        <div className=' flex flex-col gap-5 items-center inset-0 '>
+                            <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
+                            <div className='flex items-center justify-center'>
+                                <div className='flex flex-col gap-5 items-start justify-center'>
+                                    {features.map((el, index) => (<div key={index} className='flex items-center '>
+                                        <div className='bg-[#005C53] p-2 rounded-lg'>
+                                            <img src={el.logo} alt="logo" className='h-6 w-6 object-cover' />
+                                        </div>
+                                        <div className='bg-[#E1E1E1]  py-1 px-3'>
+                                            <h1>{el.title}</h1>
+                                        </div>
+                                    </div>))}
+                                </div>
+                                <div className='flex  items-center justify-center w-fit h-fit overflow-hidden'>
+        <img src={Product3} alt="product" className='object-cover w-full h-full' />
+    </div>
                             </div>
-                            <div className='bg-[#E1E1E1] py-1 px-3'>
-                                <h1>{el.title}</h1>
-                            </div>
-                        </div>))}
+
+                        </div>
                     </div>
-                    <div>
-                        <img src={Product3} alt="" />
-                    </div>
-                    </div>
-                    
+
                 </div>
-                </div>
-                
             </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default Trend

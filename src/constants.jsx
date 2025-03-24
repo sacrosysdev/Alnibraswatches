@@ -83,44 +83,6 @@ export const footerData = [
     },
 ]
 
-export const sidebarData = [
-    {
-        id:1,
-        title:"Gender",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        id:2,
-        title:"Brand",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        id:3,
-        title:"Model",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        id:4,
-        title:"Product Type",
-        options:[
-            "Male","Female"
-        ]
-    },
-    {
-        id:5,
-        title:"Price",
-        options:[
-            "Male","Female"
-        ]
-    },
-    
-]
 
 export const productDetails = [
     { label: "Product ID", value: "SKU 1245" },
@@ -135,3 +97,34 @@ export const productDetails = [
     { label: "Net Qty", value: "1 nos" },
     { label: "Weight", value: "70 GM" }
   ];
+
+  import OurMission from './assets/images/aboutus/ourmission.png'
+  import OurVision from './assets/images/aboutus/ourvision.png'
+  import OurTeam from './assets/images/aboutus/ourteam.png'
+
+  export const aboutUsData = [
+
+    {
+        image:OurMission,
+        title:"Our Mission",
+        desc:"Al Nibras is a premier watch e-commerce platform, offering a curated selection of luxury timepieces from renowned brands. Our mission is to provide watch enthusiasts with an unparalleled shopping experience, combining authenticity, quality, and style.",
+        order1:"order-1",
+        order2:"order-2"
+
+        
+    },
+    {
+        image:OurVision,
+        title:"Our Vision",
+        desc:"At our Al Nibras watch e-commerce store, we envision a world where every individual can express their unique story through the art of timekeeping. We aim to be a leading destination for those who appreciate the beauty and craftsmanship of watches, offering a curated selection that reflects diverse styles and personal journeys. We aspire to inspire our customers to embrace their individuality, celebrating each moment with a watch that resonates with their lifestyle and values. Through innovation and a commitment to sustainability, we strive to redefine the watch industry, making luxury accessible while honoring our planet.",
+        order1:"xl:order-2",
+        order2:"xl:order-1"
+    },
+    {
+        image:OurTeam,
+        title:"The Teams",
+        desc:"Once upon a time in a  city, a group of passionate watch enthusiasts to create something extraordinary. They believed that every watch tells a story, capturing the essence of time and the moments that matter most. With a shared vision, they founded a watch e-commerce store, where each timepiece was crafted with love and precision.Among them was Mia, a talented designer who poured her heart into every sketch, ensuring that each watch was not only functional but also a work of art. Then there was Leo, the master craftsman, whose skilled hands transformed raw materials into stunning timepieces, each one a testament to quality and craftsmanship.As they worked tirelessly, their mission became clear: to empower individuals to express their unique stories through their watches. They sourced materials ethically, ensuring that every piece reflected their commitment to sustainability and responsibility.Together, they celebrated milestones, shared laughter, and created a community of watch lovers who cherished the beauty of time. Their journey was not just about selling watches; it was about creating lasting memories and inspiring confidence in every wearer. And so, the team thrived, united by their passion for timepieces and the stories they tell.",
+        order1:"order-1",
+        order2:"order-2"
+    },
+  ]
