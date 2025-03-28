@@ -16,7 +16,7 @@ const Sidebar = () => {
   ];
   const deals =["Today's Deals"]
   return (
-    <div className='px-5 py-3 bg-white flex flex-col gap-5'>
+    <div className='px-5 py-3 bg-white flex flex-col gap-5 w-full h-[70vh] md:h-auto overflow-y-auto md:overflow-y-hidden'>
         <div className='text-sm flex flex-col gap-2'>
           <h1 className='font-bold '>Department</h1>
             <div>

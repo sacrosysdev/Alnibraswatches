@@ -49,7 +49,7 @@ const Trend = () => {
                 <h1 className='font-bodoni  text-[#00211E] font-bold text-[34px]'>Shop on Trend</h1>
                 <p className='text-[#005C53]'>We have every style at your affordable budget</p>
             </div>
-            <div className='bg-white grid grid-cols-3 gap-8 px-10 py-5 mt-16  items-start'>
+            <div className='bg-white grid grid-cols-1 xl:grid-cols-3 gap-8 px-5 xl:px-10 py-5 mt-16  items-start'>
                 <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
                     <div className='absolute left-0 top-0'>
                         <img src={Blob1} alt="" className='object-contain w-full h-full' />
@@ -71,7 +71,6 @@ const Trend = () => {
                             </div>))}
                         </div>
                     </div>
-
                 </div>
                 <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
                     <div className='absolute left-0 top-0'>
@@ -81,21 +80,20 @@ const Trend = () => {
                         <div className=' flex flex-col gap-5 items-center inset-0 '>
                             <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
                             <div>
-                                <img src={Product2} alt="" />
+                                <img src={Product2} alt="product" />
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full '>
                     <div className='absolute bottom-0 right-0'>
-                        <img src={Blob3} alt="" />
+                        <img src={Blob3} alt="blob" />
                     </div>
                     <div className='relative'>
                         <div className=' flex flex-col gap-5 items-center inset-0 '>
                             <h1 className='font-medium text-xl'>HUAWEI Watch 3 Pro</h1>
-                            <div className='flex items-center justify-center'>
-                                <div className='flex flex-col gap-5 items-start justify-center'>
+                            <div className='flex items-center justify-center '>
+                                <div className='flex flex-col gap-5 items-start justify-center '>
                                     {features.map((el, index) => (<div key={index} className='flex items-center '>
                                         <div className='bg-[#005C53] p-2 rounded-lg'>
                                             <img src={el.logo} alt="logo" className='h-6 w-6 object-cover' />
@@ -105,14 +103,12 @@ const Trend = () => {
                                         </div>
                                     </div>))}
                                 </div>
-                                <div className='flex  items-center justify-center w-fit h-fit overflow-hidden'>
-        <img src={Product3} alt="product" className='object-cover w-full h-full' />
-    </div>
+                                <div className=' flex justify-end  w-fit h-fit overflow-hidden'>
+                                    <img src={Product3} alt="product" className='object-cover w-full h-full' />
+                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

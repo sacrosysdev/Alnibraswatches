@@ -12,15 +12,15 @@ const ImageSection = () => {
     }
   return (
     <div>
-        <div className='grid grid-cols-5 gap-3'>
-            <div className='col-span-1  flex flex-col gap-3'>
+        <div className='grid grid-cols-2 md:grid-cols-5 gap-3'>
+            <div className='col-span-1  flex flex-row md:flex-col gap-3'>
                 {products.map((item, index)=>(<div key={index}>
                     <div className='h-24 w-24 border border-[#E6E6E6] rounded-sm' onClick={()=>{changeMainImage(item.name)}}>
                         <img src={item.name} alt="product" className='h-full w-full object-contain' />
                     </div>
                 </div>))}
             </div>
-            <div className='relative col-span-4 border rounded-sm border-[#E6E6E6] flex justify-center items-center  h-[550px]'>
+            <div className='relative col-span-4 border rounded-sm border-[#E6E6E6] flex justify-center items-center min-h-[50vh] xl:min-h-[550px]'>
                 <div className=''>
                     <img src={mainImage} alt="product" className='h-full w-full object-contain' />
                 </div>

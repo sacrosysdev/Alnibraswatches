@@ -1,20 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from '../assets/images/navbar/alnibraslogo.png'
 import Searchbox from './Searchbox'
 import { navIcons, navlinks } from '../constants'
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import ResponsiveNav from './ResponsiveNav';
 
 const Navbar = () => {
+  const [navOpen, setNavOpen] = useState(false)
+  const handleNav = () => {
+    setNavOpen(!navOpen)
+  }
   return (
-    <div className='grid grid-cols-4 items-center w-full bg-[#005C53] px-16 h-[128px] z-50'>
+    <>
+    <div className='relative grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50'>
       <div className='col-span-1 justify-start'>
-        <div className='justify-start'>
-          <img src={Logo} alt="logo" className='object-contain' />
+        <div className='justify-start '>
+          <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
         </div>
       </div>
       <div className='col-span-3'>
         <div className='flex justify-end'>
           <div className='flex gap-5 items-center justify-end w-4/5'>
-            <div className='w-1/2'>
+            <div className='hidden xl:flex w-full xl:w-1/2'>
               <Searchbox />
             </div>
             <div className='flex gap-3'>
@@ -22,6 +29,10 @@ const Navbar = () => {
                 <img src={item.icon} alt="icon" />
               </div>))}
             </div>
+            <div className='flex xl:hidden'>
+              <HiOutlineMenuAlt3 color='#FFFFFF' size={25} onClick={handleNav} />
+            </div>
+
 
           </div>
         </div>
@@ -38,7 +49,12 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <div className=''>
+        <ResponsiveNav open={navOpen} handleClose = {handleNav}/>
+      </div>
     </div>
+      
+    </>
   )
 }
 

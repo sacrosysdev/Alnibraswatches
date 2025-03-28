@@ -6,12 +6,12 @@ import AppDownload from '../Home/AppDownload'
 
 const Trending = () => {
   return (
-    <div className='px-16 py-5 bg-[#F1F1F1]'>
-        <div className='grid grid-cols-4 gap-5'>
-            <div className='col-span-1'>
+    <div className='px-5 xl:px-16 py-5 bg-[#F1F1F1]'>
+        <div className='grid grid-cols-1 xl:grid-cols-4 gap-5'>
+            <div className='hidden  xl:flex xl:col-span-1'>
                 <Sidebar/>
             </div>
-            <div className='col-span-3'>
+            <div className='col-span-1 xl:col-span-3'>
                 <div>
                     <Header/>
                     <ProductListing/>
@@ -20,7 +20,7 @@ const Trending = () => {
             </div>
         </div>
         <div className='py-10'>
-        <AppDownload/>
+            <AppDownload/>
         </div>
     </div>
   )

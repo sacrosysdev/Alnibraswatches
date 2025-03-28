@@ -128,3 +128,29 @@ export const productDetails = [
         order2:"order-2"
     },
   ]
+  export const pageLinks =[
+    {
+        title:"Home",
+        path:"/"
+    },
+    {
+        title:"Trending",
+        path:"/trending"
+    },
+    {
+        title:"Product",
+        path:"/product"
+    },
+    {
+        title:"Checkout",
+        path:"/checkout"
+    },
+    {
+        title:"Order History",
+        path:"/order-history"
+    },
+    {
+        title:"About Us",
+        path:"/aboutus"
+    },
+  ]

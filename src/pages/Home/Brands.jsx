@@ -13,9 +13,9 @@ const Brands = () => {
           See all
         </div>
         </div>
-        <div className='grid  grid-cols-6 gap-3 px-5 pt-10'>
+        <div className='grid grid-cols-3 xl:grid-cols-6 gap-3 px-5 pt-10'>
             {Array.from({length:18}).map((_, index)=>(<div key={index}>
-                <img src={Product} alt="" />
+                <img src={Product} alt="" className='h-full w-full object-cover'/>
             </div>))}
         </div>
     </div>
