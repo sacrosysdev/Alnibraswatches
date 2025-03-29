@@ -50,7 +50,7 @@ const Trend = () => {
                 <p className='text-[#005C53]'>We have every style at your affordable budget</p>
             </div>
             <div className='bg-white grid grid-cols-1 xl:grid-cols-3 gap-8 p-5 xl:p-10  mt-16  items-center'>
-                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-105 transition-all  duration-300 ease-in-out'>
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-110 transition-all  duration-300 ease-in-out cursor-pointer'>
                     <div className='absolute left-0 top-0'>
                         <img src={Blob1} alt="" className='object-contain w-full h-full' />
                     </div>
@@ -72,7 +72,7 @@ const Trend = () => {
                         </div>
                     </div>
                 </div>
-                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-105 transition-all  duration-300 ease-in-out'>
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-110 transition-all  duration-300 ease-in-out cursor-pointer'>
                     <div className='absolute left-0 top-0'>
                         <img src={Blob2} alt="object-contain w-full h-full" />
                     </div>
@@ -85,7 +85,7 @@ const Trend = () => {
                         </div>
                     </div>
                 </div>
-                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-105 transition-all  duration-300 ease-in-out'>
+                <div className='relative  shadow-2xl rounded-2xl overflow-hidden py-5 w-full h-[428px] hover:scale-110 transition-all  duration-300 ease-in-out cursor-pointer'>
                     <div className='absolute bottom-0 right-0'>
                         <img src={Blob3} alt="blob" />
                     </div>
