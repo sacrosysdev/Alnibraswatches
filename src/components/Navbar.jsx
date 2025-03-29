@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className={` grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md transition-all duration-300' : ''}`}>
+    <div className={` grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md transition-all duration-300' : 'relative'}`}>
       <div className='col-span-1 justify-start'>
         <div className='justify-start '>
           <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
