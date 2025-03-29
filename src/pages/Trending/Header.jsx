@@ -30,7 +30,7 @@ const Header = () => {
                     </div>))}
                 </div>
             </div>
-            <div className='flex gap-2 items-center' onClick={handleFilterMobile}>
+            <div className='flex xl:hidden gap-2 items-center' onClick={handleFilterMobile}>
                 <h1 className='text-base'>Filter</h1>
                 <VscSettings />
             </div>

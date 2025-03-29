@@ -8,7 +8,7 @@ const OfferBanner = () => {
     <div className="h-full w-full">
       <img src={Banner} alt="" className="h-full w-full object-cover transform -translate-40 xl:-translate-x-96" />
     </div>
-    <div className="absolute flex flex-col gap-2 justify-center items-end inset-0 left-2 right-5 xl:right-10 ">
+    <div className="absolute flex flex-col gap-2 justify-center items-end inset-0 left-2 right-10 ">
       <h1 className="font-bold text-5xl text-[#DDDDDD]  xl:w-1/2">
         Elevate Every Moment with Hamas Watches!
       </h1>

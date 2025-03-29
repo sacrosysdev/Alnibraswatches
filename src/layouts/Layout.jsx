@@ -7,7 +7,7 @@ import BelowFooter from '../components/BelowFooter';
 const Layout = ({ children }) => {
     return (
       <div className='font-dm'>
-        <div className='hidden md:flex'>
+        <div className=''>
           <TopNav/> 
         </div>
         <Navbar />

@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaAngleDown } from "react-icons/fa6";
-import { SelectOption, StarRating, CheckboxList } from './Filters';
+import SelectOption from './Filters/SelectOption';
+import StarRating from './Filters/StarRating';
+import CheckboxList from './Filters/CheckboxList';
 
 
 const Sidebar = () => {
+  const [deptShowAll, setDeptShowAll] = useState(false)
+  const handleDeptShow =()=>{
+    setDeptShowAll(!deptShowAll)
+  }
   const brands = ['Samsung', 'Realme', 'Vivo', 'Oppo', 'Apple', 'Xiaomi', 'Redmi', 'Sony'];
   const types = ['Analog', 'Digital', 'Analog-Digital', 'iOS', 'Symbian'];
-  const department = ['Smart Watches', 'Basic Watches']
+  const department = ['Smart Watches', 'Basic Watches','Kids Watches']
   const priceRanges = [
     'Under ₹1000',
     '₹1000 - ₹5000',
@@ -20,7 +26,7 @@ const Sidebar = () => {
         <div className='text-sm flex flex-col gap-2'>
           <h1 className='font-bold '>Department</h1>
             <div>
-              <SelectOption items={department} showMore={true}/>
+              <SelectOption items={department} showMore={true} initialItems={2}/>
             </div>
         </div>
        <div>
@@ -33,11 +39,11 @@ const Sidebar = () => {
         </div>
        <div>
         <h1 className='font-bold text-sm pb-2'>Brand</h1>
-        <CheckboxList items={brands} showMore={true} />
+        <CheckboxList items={brands} showMore={true} initialItems={5}/>
        </div>
        <div>
         <h1 className='font-bold text-sm pb-2'>Type</h1>
-        <CheckboxList items={types} showMore={false} />
+        <CheckboxList items={types} showMore={false} initialItems={3}/>
        </div>
        <div className='text-sm flex flex-col gap-2'>
           <h1 className='font-bold '>Price</h1>

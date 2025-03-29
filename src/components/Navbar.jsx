@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../assets/images/navbar/alnibraslogo.png'
 import Searchbox from './Searchbox'
 import { navIcons, navlinks } from '../constants'
@@ -7,12 +7,31 @@ import ResponsiveNav from './ResponsiveNav';
 
 const Navbar = () => {
   const [navOpen, setNavOpen] = useState(false)
+  const [navSticky, setNavSticky] = useState(false)
   const handleNav = () => {
     setNavOpen(!navOpen)
   }
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 64) {
+        setNavSticky(true);
+      } else {
+        setNavSticky(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    handleScroll();
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <>
-    <div className='relative grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50'>
+    <div className={` grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md transition-all duration-300' : ''}`}>
       <div className='col-span-1 justify-start'>
         <div className='justify-start '>
           <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
