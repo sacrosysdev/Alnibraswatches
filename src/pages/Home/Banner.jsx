@@ -11,7 +11,7 @@ const Banner = () => {
         <img src={BannerImage} alt="" className=' h-full w-full object-cover'/>
         <div className='absolute left-2 xl:left-16 top-5 xl:top-16 w-full'>
             <h1 className='md:w-1/2 font-unlock text-3xl xl:text-[60px] xl:leading-16 text-white'>Discover the Future of Watch E-Commerce: Unleash Your Style!</h1>
-            <p className='md:w-1/3 pt-5 font-extralight leading-5 text-white'>Explore the next generation of watch shopping with our cutting-edge e-commerce platform, featuring extraordinary craftsmanship and one-of-a-kind styles.</p>
+            <p className='w-11/12 md:w-1/3 pt-5 font-extralight leading-5 text-white'>Explore the next generation of watch shopping with our cutting-edge e-commerce platform, featuring extraordinary craftsmanship and one-of-a-kind styles.</p>
         </div>
         <div className='absolute bottom-0 py-14 backdrop-blur-md w-full flex xl:gap-10 justify-center items-center'>
             <div className='flex absolute bottom-48  md:-bottom-3 lg:-bottom-10 xl:-bottom-10 '>
