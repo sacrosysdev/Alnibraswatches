@@ -4,13 +4,27 @@ import Searchbox from './Searchbox'
 import { navIcons, navlinks } from '../constants'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import ResponsiveNav from './ResponsiveNav';
+import Cart from '../assets/svg/navbar/cart.svg';
+import CartSidebar from '../pages/Home/CartSidebar';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
+  const [cartOpen, setCartOpen] = useState(false)
   const [navOpen, setNavOpen] = useState(false)
   const [navSticky, setNavSticky] = useState(false)
+
   const handleNav = () => {
     setNavOpen(!navOpen)
   }
+  const handleCart = () => {
+    if (window.innerWidth >= 1280) {
+      setCartOpen(!cartOpen); 
+    } else {
+      console.log("small  screen design"); 
+      
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 64) {
@@ -31,7 +45,11 @@ const Navbar = () => {
 
   return (
     <>
-    <div className={` grid grid-cols-4 items-center w-full bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md transition-all duration-300' : 'relative'}`}>
+    <motion.div
+    initial={{ width: "100%" }}
+    animate={{ width: cartOpen ? "75%" : "100%" }}
+    transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
+    className={` grid grid-cols-4 items-center  bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
       <div className='col-span-1 justify-start'>
         <div className='justify-start '>
           <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
@@ -45,14 +63,15 @@ const Navbar = () => {
             </div>
             <div className='flex gap-3'>
               {navIcons.map((item, index) => (<div key={index}>
-                <img src={item.icon} alt="icon" />
+                <img src={item.icon} alt={item.name} className='cursor-pointer'/>
               </div>))}
+              <div>
+                <img src={Cart} alt="cart" className='cursor-pointer' onClick={handleCart}/>
+              </div>
             </div>
             <div className='flex xl:hidden'>
-              <HiOutlineMenuAlt3 color='#FFFFFF' size={25} onClick={handleNav} />
+              <HiOutlineMenuAlt3 color='#FFFFFF' size={25} onClick={handleNav} className='cursor-pointer' />
             </div>
-
-
           </div>
         </div>
         <div className='xl:flex justify-start items-end pt-8 pl-10 text-[#F0F0D6] hidden'>
@@ -68,11 +87,13 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className=''>
+      <div className='flex xl:hidden'>
         <ResponsiveNav open={navOpen} handleClose = {handleNav}/>
       </div>
+    </motion.div>
+    <div>
+      <CartSidebar cartOpen={cartOpen} handleCart={handleCart}/>
     </div>
-      
     </>
   )
 }

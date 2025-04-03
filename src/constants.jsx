@@ -1,25 +1,25 @@
 import Notification from './assets/svg/navbar/notification.svg'
 import Profile from './assets/svg/navbar/profile.svg'
 import Wishlist from './assets/svg/navbar/wishlist.svg'
-import Cart from './assets/svg/navbar/cart.svg'
+
 
 export const navIcons = [
     {
+        name:"notification",
         icon:Notification,
         path:'/'
     },
     {
+        name:"profile",
         icon:Profile,
         path:'/'
     },
     {
+        name:"wishlist",
         icon:Wishlist,
         path:'/'
     },
-    {
-        icon:Cart,
-        path:'/'
-    },
+
 ]
 
 export const navlinks = [
