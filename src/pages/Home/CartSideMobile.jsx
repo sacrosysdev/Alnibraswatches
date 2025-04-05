@@ -41,7 +41,7 @@ const CartSideMobile = ({ cartOpen, handleCart }) => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-                        className="fixed inset-0 overflow-hidden w-full  h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
+                        className="fixed inset-0 overflow-hidden w-full  min-h-screen bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center  pb-3 ">
