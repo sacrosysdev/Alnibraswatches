@@ -10,6 +10,7 @@ const ProductPage = lazy(()=> import('./pages/Product/Product'))
 const CheckoutPage = lazy(()=> import('./pages/CheckOut/Checkout'))
 const OrderHistoryPage = lazy(()=> import('./pages/OrderHistory/OrderHistory'))
 const AboutUsPage = lazy(()=> import('./pages/AboutUs/AboutUs'))
+const CartPage = lazy(()=> import('./pages/Cart/Cart'))
 
 const LoadingFallback =()=><div className='flex justify-center items-center h-screen'>
   <img src={loader} alt="loader" />
@@ -27,6 +28,7 @@ const AppRoutes = () => {
             <Route path='/checkout' element={<CheckoutPage/>}></Route>
             <Route path='/order-history' element={<OrderHistoryPage/>}></Route>
             <Route path='/aboutus' element={<AboutUsPage/>}></Route>
+            <Route path='/cart' element={<CartPage/>}></Route>
           </Routes>
         </Suspense>
       </Layout>
