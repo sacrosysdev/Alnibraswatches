@@ -153,4 +153,8 @@ export const productDetails = [
         title:"About Us",
         path:"/aboutus"
     },
+    {
+        title:"Cart",
+        path:"/cart"
+    },
   ]
