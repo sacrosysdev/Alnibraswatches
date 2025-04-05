@@ -7,9 +7,11 @@ import ResponsiveNav from './ResponsiveNav';
 import Cart from '../assets/svg/navbar/cart.svg';
 import CartSidebar from '../pages/Home/CartSidebar';
 import { motion } from 'framer-motion';
+import CartSideMobile from '../pages/Home/CartSideMobile';
 
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false)
+  const [mobileCartOpen, setMobileCartOpen] = useState(false)
   const [navOpen, setNavOpen] = useState(false)
   const [navSticky, setNavSticky] = useState(false)
 
@@ -17,10 +19,10 @@ const Navbar = () => {
     setNavOpen(!navOpen)
   }
   const handleCart = () => {
-    if (window.innerWidth >= 1280) {
+    if (window.innerWidth >=768) {
       setCartOpen(!cartOpen); 
     } else {
-      console.log("small  screen design"); 
+      setMobileCartOpen(!mobileCartOpen)
       
     }
   };
@@ -93,6 +95,9 @@ const Navbar = () => {
     </motion.div>
     <div>
       <CartSidebar cartOpen={cartOpen} handleCart={handleCart}/>
+    </div>
+    <div>
+      <CartSideMobile cartOpen={mobileCartOpen} handleCart={handleCart}/>
     </div>
     </>
   )

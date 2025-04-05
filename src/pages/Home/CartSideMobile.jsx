@@ -5,50 +5,43 @@ import Product from '../../assets/images/home/productimage.png'
 import QuantityManage from "./QuantityManage";
 import Delete from '../../assets/svg/home/delete.svg'
 
-const dummyCartItems = [
-    { id: 1, name: "Product 1", price: "$10", quantity: 1 },
-    { id: 2, name: "Product 2", price: "$20", quantity: 2 },
-    { id: 3, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 4, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 5, name: "Product 1", price: "$10", quantity: 1 },
-    { id: 6, name: "Product 2", price: "$20", quantity: 2 },
-    { id: 7, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 8, name: "Product 3", price: "$20", quantity: 2 },
-];
 
-const CartSidebar = ({ cartOpen, handleCart }) => {
-    
-    // useEffect(() => {
-    //     if (cartOpen) {
-    //       document.body.classList.add("overflow-hidden");
-    //     } else {
-    //       document.body.classList.remove("overflow-hidden");
-    //     }
+const CartSideMobile = ({ cartOpen, handleCart }) => {
+    useEffect(() => {
+        if (cartOpen) {
+          document.body.classList.add("overflow-hidden");
+        } else {
+          document.body.classList.remove("overflow-hidden");
+        }
+      
+        return () => {
+          document.body.classList.remove("overflow-hidden"); // Cleanup
+        };
+      }, [cartOpen]);
+      console.log(cartOpen)
+    const dummyCartItems = [
+        { id: 1, name: "Product 1", price: "$10", quantity: 1 },
+        { id: 2, name: "Product 2", price: "$20", quantity: 2 },
+        { id: 3, name: "Product 3", price: "$20", quantity: 2 },
+        { id: 4, name: "Product 3", price: "$20", quantity: 2 },
+        { id: 5, name: "Product 1", price: "$10", quantity: 1 },
+        { id: 6, name: "Product 2", price: "$20", quantity: 2 },
+        { id: 7, name: "Product 3", price: "$20", quantity: 2 },
+        { id: 8, name: "Product 3", price: "$20", quantity: 2 },
+    ];
 
-    //     return () => {
-    //       document.body.classList.remove("overflow-hidden"); // Cleanup
-    //     };
-    //   }, [cartOpen]);
     return (
         <AnimatePresence>
-            {cartOpen && (
-                <>
-                    {/* Background Overlay */}
-                    {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed top-0 left-0 w-full h-full bg-black/50 z-40"
-            onClick={handleCart} // Close cart when clicking outside
-          /> */}
+        {cartOpen && (<div>
 
-                    {/* Sidebar */}
-                    <motion.div
+
+            {/* Sidebar */}
+            <motion.div
                         initial={{ x: "100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-                        className="fixed top-0 right-0 md:w-1/2 xl:w-1/4 h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
+                        className="fixed inset-0 overflow-hidden w-full  h-screen bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center  pb-3 ">
@@ -67,7 +60,9 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                 <p className="w-1/4 text-center">Quantity</p>
                                 <p className="w-1/4 text-right">Price</p>
                             </div>
-                            <div className="flex-grow overflow-y-auto h-[70vh] xl:h-[50vh]  scrollbar-hide py-5">
+                            <div className="flex-grow overflow-y-auto   scrollbar-hide py-3" style={{
+                            maxHeight: 'calc(100vh - 320px)' // Adjust 320px based on your header/footer heights
+                        }}>
 
                             {/* Cart Items */}
                             {dummyCartItems.length > 0 ? (
@@ -127,10 +122,9 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                             
                         </div>
                     </motion.div>
-                </>
-            )}
+        </div>)}
         </AnimatePresence>
-    );
-};
+    )
+}
 
-export default CartSidebar;
+export default CartSideMobile
