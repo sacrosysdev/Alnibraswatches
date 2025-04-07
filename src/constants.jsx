@@ -23,8 +23,28 @@ export const navIcons = [
 ]
 
 export const navlinks = [
-    "Offers","Luxury", "Latest", "Smart Watches", "Sports", "Classic","Analog","Swimming", "Formal"
-]
+    "Offers",
+    "Luxury",
+    "Latest",
+    "Smart Watches",
+    "Sports",
+    "Classic",
+    "Analog",
+    "Swimming",
+    "Formal",
+    "Digital",
+    "Casual",
+    "Limited Edition",
+    "Trending",
+    "Chronograph",
+    "Minimalist",
+    "Vintage",
+    "Metal Strap",
+    "Leather Strap",
+    "Kids",
+    "Men's Collection",
+    "Women's Collection"
+];
 
 import Shipping from './assets/svg/home/shipping.svg'
 import Payment from './assets/svg/home/payment.svg'

@@ -52,17 +52,15 @@ const Navbar = () => {
     initial={{ width: "100%" }}
     animate={{ width: cartOpen ? "75%" : "100%" }}
     transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-    className={` grid grid-cols-4 items-center  bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
-      <div className='col-span-1 justify-start'>
-        <Link to="/">
-          <div className='justify-start '>
+    className={`   bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
+      <div className='flex justify-between items-center'>
+        
+          <div className='w-1/3'>
             <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
           </div>
-        </Link>
-      </div>
-      <div className='col-span-3'>
-        <div className='flex justify-end'>
-          <div className='flex gap-5 items-center justify-end w-4/5'>
+        
+        <div className='w-1/2'>
+          <div className='flex gap-x-5 items-center justify-end '>
             <div className='hidden xl:flex w-full xl:w-1/2'>
               <Searchbox />
             </div>
@@ -79,14 +77,17 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        <div className='xl:flex justify-start items-end pt-8 pl-10 text-[#F0F0D6] hidden'>
-          <div className='flex gap-3 '>
+      </div>
+      <div className='w-full'>
+        
+        <div className='xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap justify-start items-end pt-2  text-[#F0F0D6] hidden'>
+          <div className='flex gap-5 '>
             {navlinks.map((item, index) => (
               <div key={index} className='relative uppercase group'>
                 <h1 className=' text-lg transition-transform duration-200 ease-in-out cursor-pointer group-hover:-translate-y-3'>
                   {item}
                 </h1>
-                <hr className='absolute text-[#F0F0D6] left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none' />
+                <hr className='absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none' />
               </div>
             ))}
           </div>
