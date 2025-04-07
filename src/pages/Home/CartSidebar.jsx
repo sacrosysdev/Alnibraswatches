@@ -4,6 +4,7 @@ import { MdOutlineClose } from "react-icons/md";
 import Product from '../../assets/images/home/productimage.png'
 import QuantityManage from "./QuantityManage";
 import Delete from '../../assets/svg/home/delete.svg'
+import { Link } from "react-router-dom";
 
 const dummyCartItems = [
     { id: 1, name: "Product 1", price: "$10", quantity: 1 },
@@ -48,7 +49,7 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-                        className="fixed top-0 right-0 md:w-1/2 xl:w-1/4 h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
+                        className="fixed top-0 right-0 w-full md:w-1/2 xl:w-1/4 h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center  pb-3 ">
@@ -67,7 +68,9 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                 <p className="w-1/4 text-center">Quantity</p>
                                 <p className="w-1/4 text-right">Price</p>
                             </div>
-                            <div className="flex-grow overflow-y-auto h-[70vh] xl:h-[50vh]  scrollbar-hide py-5">
+                            <div className="flex-grow overflow-y-auto   scrollbar-hide py-3" style={{
+                            maxHeight: 'calc(100vh - 320px)' // Adjust 320px based on your header/footer heights
+                        }}>
 
                             {/* Cart Items */}
                             {dummyCartItems.length > 0 ? (
@@ -120,9 +123,9 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                     <h1>Sub total</h1>
                                     <h1>AED 12.00</h1>
                                 </div>
-                                <button className="w-full bg-[#005C53] cursor-pointer text-white py-2 rounded-md m">
+                                <Link to="/cart"><button onClick={handleCart} className="w-full bg-[#005C53] cursor-pointer text-white py-2 rounded-md ">
                                 Order Now
-                            </button>
+                            </button></Link>
                             </div>
                             
                         </div>

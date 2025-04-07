@@ -13,15 +13,15 @@ const ProductCard = () => {
             <p className='pt-2 text-sm'>#63632324</p>
         </div>
         <div className='flex col-span-1 items-center justify-center xl:justify-start gap-3'>
-            <div>-</div>
+            <div className='cursor-pointer'>-</div>
             <div className='px-5 py-1 border border-[#D9D9D9] rounded-lg flex justify-center items-center'>
                 <h1>1</h1>
             </div>
-            <div>+</div>
+            <div className='cursor-pointer'>+</div>
         </div>
         <div className='col-span-1 font-medium text-xl'>AED 100</div>
-        <div className='hidden xl:flex col-span-1'><IoCloseOutline size={25} /></div>
-        <div className='absolute top-2 right-2 flex xl:hidden  col-span-1'><IoCloseOutline size={25} /></div>
+        <div className='hidden xl:flex col-span-1 cursor-pointer'><IoCloseOutline size={25} /></div>
+        <div className='absolute top-2 right-2 flex xl:hidden  col-span-1 cursor-pointer'><IoCloseOutline size={25} /></div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ import Cart from '../assets/svg/navbar/cart.svg';
 import CartSidebar from '../pages/Home/CartSidebar';
 import { motion } from 'framer-motion';
 import CartSideMobile from '../pages/Home/CartSideMobile';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false)
@@ -19,12 +20,12 @@ const Navbar = () => {
     setNavOpen(!navOpen)
   }
   const handleCart = () => {
-    if (window.innerWidth >=768) {
+    // if (window.innerWidth >=768) {
       setCartOpen(!cartOpen); 
-    } else {
-      setMobileCartOpen(!mobileCartOpen)
+    // } else {
+    //   setMobileCartOpen(!mobileCartOpen)
       
-    }
+    // }
   };
 
   useEffect(() => {
@@ -53,9 +54,11 @@ const Navbar = () => {
     transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
     className={` grid grid-cols-4 items-center  bg-[#005C53] px-5 xl:px-16 py-5 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
       <div className='col-span-1 justify-start'>
-        <div className='justify-start '>
-          <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
-        </div>
+        <Link to="/">
+          <div className='justify-start '>
+            <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-20' />
+          </div>
+        </Link>
       </div>
       <div className='col-span-3'>
         <div className='flex justify-end'>
@@ -96,9 +99,9 @@ const Navbar = () => {
     <div>
       <CartSidebar cartOpen={cartOpen} handleCart={handleCart}/>
     </div>
-    <div>
+    {/* <div>
       <CartSideMobile cartOpen={mobileCartOpen} handleCart={handleCart}/>
-    </div>
+    </div> */}
     </>
   )
 }
