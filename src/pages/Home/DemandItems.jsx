@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductCard from '../../components/ProductCard'
+import productData from '../../constants'
 
 const DemandItems = () => {
   return (
@@ -8,9 +9,9 @@ const DemandItems = () => {
             <h1 className='font-bodoni  text-[#0D1217] font-bold text-4xl'>Top Demanded Items</h1>
             <p className='text-[#031C2C] py-1'>234 New items added</p>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-7 gap-y-10 pt-10'>
-        {Array.from({length:8}).map((_, index)=>(<div key={index}>
-          <ProductCard/>
+        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-9 gap-y-10 pt-10'>
+        {productData.map((item)=>(<div key={item.id}>
+          <ProductCard image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
         </div>))}
         </div>
     </div>

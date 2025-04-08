@@ -178,3 +178,75 @@ export const productDetails = [
         path:"/cart"
     },
   ]
+
+import Prod1 from './assets/images/products/prod1.png';
+import Prod2 from './assets/images/products/prod2.png';
+import Prod3 from './assets/images/products/prod3.png';
+import Prod4 from './assets/images/products/prod4.png';
+import Prod5 from './assets/images/products/prod5.png';
+import Prod6 from './assets/images/products/prod6.png';
+import Prod7 from './assets/images/products/prod7.png';
+import Prod8 from './assets/images/products/prod8.png';
+
+
+const productData = [
+  {
+    id: 1,
+    image: Prod1,
+    title: 'IWA Sport Watch',
+    brand: 'Titan',
+    price: '27000',
+  },
+  {
+    id: 2,
+    image: Prod2,
+    title: 'Elegant Analog Watch',
+    brand: 'Fastrack',
+    price: '18500',
+  },
+  {
+    id: 3,
+    image: Prod3,
+    title: 'Digital Chrono Watch',
+    brand: 'Casio',
+    price: '9900',
+  },
+  {
+    id: 4,
+    image: Prod4,
+    title: 'Leather Strap Watch',
+    brand: 'Fossil',
+    price: '21500',
+  },
+  {
+    id: 5,
+    image: Prod5,
+    title: 'Smart Fitness Watch',
+    brand: 'Noise',
+    price: '12500',
+  },
+  {
+    id: 6,
+    image: Prod6,
+    title: 'Classic Men’s Watch',
+    brand: 'Timex',
+    price: '19800',
+  },
+  {
+    id: 7,
+    image: Prod7,
+    title: 'Ladies Designer Watch',
+    brand: 'Michael Kors',
+    price: '28900',
+  },
+  {
+    id: 8,
+    image: Prod8,
+    title: 'Digital Sport Watch',
+    brand: 'G-Shock',
+    price: '15900',
+  },
+
+];
+
+export default productData;
