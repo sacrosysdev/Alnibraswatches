@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Logo from '../assets/images/navbar/alnibraslogo.png'
 import Searchbox from './Searchbox'
 import { navIcons, navlinks } from '../constants'
@@ -17,6 +17,9 @@ const Navbar = () => {
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
   const [navOpen, setNavOpen] = useState(false)
   const [navSticky, setNavSticky] = useState(false)
+  
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(false);
 
   const handleNav = () => {
     setNavOpen(!navOpen)
@@ -47,19 +50,54 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const scrollRef = useRef();
+
   const clickLeft = () => {
-    const container = document.querySelector('.scroll-container');
-    if (container) {
-      container.scrollBy({ left: -100, behavior: 'smooth' });
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
     }
   };
   
   const clickRight = () => {
-    const container = document.querySelector('.scroll-container');
-    if (container) {
-      container.scrollBy({ left: 100, behavior: 'smooth' });
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
     }
   };
+
+
+  // Check if scroll buttons should be visible
+  const checkScrollPosition = () => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    // Show left button only if scrolled to the right
+    setShowLeftButton(scrollContainer.scrollLeft > 0);
+    
+    // Show right button only if can scroll further right
+    const canScrollRight = 
+      scrollContainer.scrollWidth > scrollContainer.clientWidth &&
+      scrollContainer.scrollLeft < (scrollContainer.scrollWidth - scrollContainer.clientWidth);
+    
+    setShowRightButton(canScrollRight);
+  };
+
+    // Initial check and event listeners
+    useEffect(() => {
+      checkScrollPosition();
+      
+      const scrollContainer = scrollRef.current;
+      if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', checkScrollPosition);
+        window.addEventListener('resize', checkScrollPosition);
+      }
+      
+      return () => {
+        if (scrollContainer) {
+          scrollContainer.removeEventListener('scroll', checkScrollPosition);
+          window.removeEventListener('resize', checkScrollPosition);
+        }
+      };
+    }, []);
   return (
     <>
     <motion.div
@@ -93,8 +131,15 @@ const Navbar = () => {
         </div>
       </div>
       <div className='w-full  h-10 flex items-center'>
-        <div className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out h-full hidden xl:flex items-center px-1 rounded-tl-lg rounded-bl-lg cursor-pointer text-[#00554F]' onClick={clickLeft}><FaCaretLeft size={20}/></div>
-        <div className='xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-2 px-2 text-[#F0F0D6] hidden  scroll-container'>
+      {showLeftButton && (
+        <div 
+          className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out h-full hidden xl:flex items-center px-1 rounded-tl-lg rounded-bl-lg cursor-pointer text-[#00554F]' 
+          onClick={clickLeft}
+        >
+          <FaCaretLeft size={20}/>
+        </div>
+      )}
+        <div ref={scrollRef} className='xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-2 px-2 text-[#F0F0D6] hidden  '>
           <div className='flex gap-5 '>
             {navlinks.map((item, index) => (
               <div key={index} className='relative uppercase group'>
@@ -106,7 +151,14 @@ const Navbar = () => {
             ))}
           </div>
         </div>
-        <div  onClick={clickRight} className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out px-1 h-full hidden xl:flex items-center rounded-tr-lg rounded-br-lg cursor-pointer text-[#00554F]'><FaCaretRight size={20}/></div>
+        {showRightButton && (
+        <div 
+          onClick={clickRight} 
+          className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out px-1 h-full hidden xl:flex items-center rounded-tr-lg rounded-br-lg cursor-pointer text-[#00554F]'
+        >
+          <FaCaretRight size={20}/>
+        </div>
+      )}
       </div>
       <div className='flex xl:hidden'>
         <ResponsiveNav open={navOpen} handleClose = {handleNav}/>
