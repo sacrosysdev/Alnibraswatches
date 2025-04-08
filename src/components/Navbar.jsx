@@ -9,6 +9,8 @@ import CartSidebar from '../pages/Home/CartSidebar';
 import { motion } from 'framer-motion';
 import CartSideMobile from '../pages/Home/CartSideMobile';
 import { Link } from 'react-router-dom';
+import { FaCaretRight } from "react-icons/fa6";
+import { FaCaretLeft } from "react-icons/fa6";
 
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false)
@@ -45,7 +47,19 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
+  const clickLeft = () => {
+    const container = document.querySelector('.scroll-container');
+    if (container) {
+      container.scrollBy({ left: -100, behavior: 'smooth' });
+    }
+  };
+  
+  const clickRight = () => {
+    const container = document.querySelector('.scroll-container');
+    if (container) {
+      container.scrollBy({ left: 100, behavior: 'smooth' });
+    }
+  };
   return (
     <>
     <motion.div
@@ -78,9 +92,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className='w-full'>
-        
-        <div className='xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap justify-start items-end pt-2  text-[#F0F0D6] hidden'>
+      <div className='w-full  h-10 flex items-center'>
+        <div className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out h-full hidden xl:flex items-center px-1 rounded-tl-lg rounded-bl-lg cursor-pointer text-[#00554F]' onClick={clickLeft}><FaCaretLeft size={20}/></div>
+        <div className='xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-2 px-2 text-[#F0F0D6] hidden  scroll-container'>
           <div className='flex gap-5 '>
             {navlinks.map((item, index) => (
               <div key={index} className='relative uppercase group'>
@@ -92,6 +106,7 @@ const Navbar = () => {
             ))}
           </div>
         </div>
+        <div  onClick={clickRight} className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out px-1 h-full hidden xl:flex items-center rounded-tr-lg rounded-br-lg cursor-pointer text-[#00554F]'><FaCaretRight size={20}/></div>
       </div>
       <div className='flex xl:hidden'>
         <ResponsiveNav open={navOpen} handleClose = {handleNav}/>
