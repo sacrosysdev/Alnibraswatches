@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './ImageMagnifier.css'
+import './imageMagnifier.css'
 
 const ImageMagnifier = ({ImageUrl}) => {
     const [position, setPosition] = useState({x:0, y:0})
