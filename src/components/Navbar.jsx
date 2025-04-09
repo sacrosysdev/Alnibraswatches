@@ -104,7 +104,7 @@ const Navbar = () => {
     initial={{ width: "100%" }}
     animate={{ width: cartOpen ? "75%" : "100%" }}
     transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-    className={`   bg-[#005C53] px-5 xl:px-16 py-2 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
+    className={`   bg-[#005C53] px-5 xl:px-16 py-5 xl:py-2 z-50 ${navSticky ? 'fixed top-0 left-0 right-0 shadow-md ' : 'relative'}`}>
       <div className='flex justify-between items-center'>
         
           <div className='w-1/3'>
@@ -130,7 +130,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className='w-full  h-10 flex items-center'>
+      <div className='hidden  w-full  h-10 xl:flex items-center'>
       {showLeftButton && (
         <div 
           className='bg-white/90 hover:bg-white transform transition-colors duration-300 ease-in-out h-full hidden xl:flex items-center px-1 rounded-tl-lg rounded-bl-lg cursor-pointer text-[#00554F]' 
