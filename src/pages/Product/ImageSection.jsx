@@ -22,7 +22,7 @@ const ImageSection = () => {
             </div>
             <div className='relative col-span-4 border rounded-sm border-[#E6E6E6] flex justify-center items-center min-h-[50vh] xl:min-h-[550px]'>
                 <div className=''>
-                    <img src={mainImage} alt="product" className='h-full w-full object-contain' />
+                    <img src={mainImage} alt="product" className='h-full w-full object-contain hover:scale-125 transform transition-all duration-500 ease-in-out cursor-pointer' />
                 </div>
                 <div className='absolute top-5 right-5'>
                     <img src={Heart} alt="wishlist" />
