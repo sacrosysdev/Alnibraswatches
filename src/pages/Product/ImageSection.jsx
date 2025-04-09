@@ -3,6 +3,7 @@ import Product1 from '../../assets/images/home/trendImg1.png'
 import Product2 from '../../assets/images/home/product2.png'
 import Product3 from '../../assets/images/home/product3.png'
 import Heart from '../../assets/svg/product/heart.svg'
+import ImageMagnifier from '../../components/imagemagnifier/ImageMagnifier'
 
 const ImageSection = () => {
     const products = [{id:1,name:Product1}, {id:2,name:Product2}, {id:3,name:Product3}]
@@ -22,7 +23,8 @@ const ImageSection = () => {
             </div>
             <div className='relative col-span-4 border rounded-sm border-[#E6E6E6] flex justify-center items-center min-h-[50vh] xl:min-h-[550px]'>
                 <div className=''>
-                    <img src={mainImage} alt="product" className='h-full w-full object-contain hover:scale-125 transform transition-all duration-500 ease-in-out cursor-pointer' />
+                    <ImageMagnifier ImageUrl={mainImage}/>
+                    {/* <img src={mainImage} alt="product" className='h-full w-full object-contain hover:scale-125 transform transition-all duration-500 ease-in-out cursor-pointer' /> */}
                 </div>
                 <div className='absolute top-5 right-5'>
                     <img src={Heart} alt="wishlist" />

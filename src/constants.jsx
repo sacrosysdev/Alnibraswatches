@@ -250,3 +250,33 @@ const productData = [
 ];
 
 export default productData;
+
+import BannerImage2 from './assets/images/home/bannerimg2.jpg'
+import BannerImage3 from './assets/images/home/bannerimg3.jpg'
+export const sliderData = [
+    {
+        id:1,
+        img:BannerImage2,
+        title:"Redefine Timekeeping: Experience the Luxury of Smart Elegance",
+        desc:"Step into a world where tradition meets innovation — our curated collection blends timeless craftsmanship with modern design to elevate your wrist game like never before."
+    },
+    {
+        id:2,
+        img:BannerImage3,
+        title:"Elevate Every Moment with Iconic Timepieces",
+        desc:"From bold statements to subtle elegance, discover watches that reflect your unique style. Dive into a seamless shopping journey designed for true watch enthusiasts."
+    },
+]
+
+export const offerSliderData = [
+    {
+        id:1,
+        title:"Make Time Stylish with Timeluxe!",
+        desc:"Get 25% Off + Free Shipping on all orders this week only."
+    },
+    {
+        id:2,
+        title:"Timeless Elegance, Just a Click Away!",
+        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
+    },
+]

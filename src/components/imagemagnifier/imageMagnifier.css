@@ -1,0 +1,22 @@
+.img-magnifier-container {
+    position: relative;
+    
+}
+
+.magnifier-img {
+    width: auto;
+    height: 40vh; /* Default height for smaller screens */
+}
+
+@media (min-width: 1280px) { /* Assuming 'xl' is 1280px or above - adjust as needed */
+    .magnifier-img {
+        height: 60vh; /* Height for xl screens and larger */
+    }
+}
+
+.magnifier-image {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #fff;
+    
+}
