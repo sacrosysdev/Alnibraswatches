@@ -10,7 +10,7 @@ const isEmpty = wishlist.length > 0 ? false : true;
 console.log(wishlist)
 console.log(isEmpty)
   return (
-    <div>
+    <div className='bg-[#F1F1F1]'>
         {isEmpty ? (
             <div className='h-screen flex flex-col gap-5 justify-center items-center'>
                 <div className='h-[300px] w-[300px]'>
