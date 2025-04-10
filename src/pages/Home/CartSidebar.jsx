@@ -49,7 +49,7 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-                        className="fixed top-0 right-0 w-full md:w-1/2 xl:w-1/4 h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
+                        className="fixed inset-0 md:top-0 md:right-0 w-full md:w-1/2 xl:w-1/4 h-full bg-[#003F38] shadow-lg z-50 p-5 flex flex-col text-white"
                     >
                         {/* Header */}
                         <div className="flex justify-between items-center  pb-3 ">
