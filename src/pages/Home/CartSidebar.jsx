@@ -5,16 +5,17 @@ import Product from '../../assets/images/home/productimage.png'
 import QuantityManage from "./QuantityManage";
 import Delete from '../../assets/svg/home/delete.svg'
 import { Link } from "react-router-dom";
+import Nodata from '../../assets/images/wishlist/Nodata.webp';
 
 const dummyCartItems = [
-    { id: 1, name: "Product 1", price: "$10", quantity: 1 },
-    { id: 2, name: "Product 2", price: "$20", quantity: 2 },
-    { id: 3, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 4, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 5, name: "Product 1", price: "$10", quantity: 1 },
-    { id: 6, name: "Product 2", price: "$20", quantity: 2 },
-    { id: 7, name: "Product 3", price: "$20", quantity: 2 },
-    { id: 8, name: "Product 3", price: "$20", quantity: 2 },
+    // { id: 1, name: "Product 1", price: "$10", quantity: 1 },
+    // { id: 2, name: "Product 2", price: "$20", quantity: 2 },
+    // { id: 3, name: "Product 3", price: "$20", quantity: 2 },
+    // { id: 4, name: "Product 3", price: "$20", quantity: 2 },
+    // { id: 5, name: "Product 1", price: "$10", quantity: 1 },
+    // { id: 6, name: "Product 2", price: "$20", quantity: 2 },
+    // { id: 7, name: "Product 3", price: "$20", quantity: 2 },
+    // { id: 8, name: "Product 3", price: "$20", quantity: 2 },
 ];
 
 const CartSidebar = ({ cartOpen, handleCart }) => {
@@ -68,7 +69,7 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                 <p className="w-1/4 text-center">Quantity</p>
                                 <p className="w-1/4 text-right">Price</p>
                             </div>
-                            <div className="flex-grow overflow-y-auto   scrollbar-hide py-3" style={{
+                            <div className="flex-grow overflow-y-auto  scrollbar-hide py-3" style={{
                             maxHeight: 'calc(100vh - 320px)' // Adjust 320px based on your header/footer heights
                         }}>
 
@@ -105,7 +106,11 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                     
                                 ))
                             ) : (
-                                <p className="text-center text-gray-500 mt-10">Your cart is empty</p>
+                                <div className="min-h-[250px] flex justify-center items-center  ">
+                                    <div className='h-[200px] w-[200px]'>
+                                        <img src={Nodata} alt="NoDataFound" />
+                                    </div>
+                                </div>
                             )}
                         </div>
                                                         
@@ -113,7 +118,7 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
 
 
                         {/* Checkout Button */}
-                        <div className="mt-auto pt-3 border-t">
+                        {dummyCartItems.length > 0 ? (<div className="mt-auto pt-3 border-t">
                             <div className="flex flex-col gap-3">
                                 <div className="flex justify-between">
                                     <h1>Discount</h1>
@@ -128,7 +133,17 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                             </button></Link>
                             </div>
                             
-                        </div>
+                        </div>):(
+                            <div>
+                                <Link to="/trending">
+                                    <div className="flex  justify-center">
+                                        <button onClick={handleCart} className="w-fit px-5  bg-[#005C53] cursor-pointer text-white py-2 rounded-md ">
+                                            Explore
+                                        </button>
+                                    </div>
+                                </Link>
+                            </div>
+                        )}
                     </motion.div>
                 </>
             )}

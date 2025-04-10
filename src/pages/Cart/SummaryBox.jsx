@@ -2,7 +2,7 @@ import React from 'react'
 
 const SummaryBox = () => {
     return (
-        <div>
+        <div className='py-10'>
             <div className='p-5  md:p-10 border border-[#EBEBEB] rounded-xl flex flex-col gap-10'>
                 <h1 className='font-bold text-xl'>Order Summary</h1>
                 <div>
@@ -32,7 +32,7 @@ const SummaryBox = () => {
                     </div>
                 </div>
                 <div className='w-full  '>
-                    <button className='bg-[#00211E] font-bold py-2 w-full rounded-lg text-white'>Checkout</button>
+                    <button className='bg-[#00211E] font-bold py-2 w-full rounded-lg text-white cursor-pointer'>Checkout</button>
                 </div>
             </div>
         </div>
