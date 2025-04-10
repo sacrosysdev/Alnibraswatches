@@ -48,7 +48,6 @@ const ResponsiveNav = ({open, handleClose}) => {
                                     <li className='' onClick={handleClose}>{item.title}</li>
                                 </Link>
                             </div>
-
                         ))}
                     </ul>
                 </div>
