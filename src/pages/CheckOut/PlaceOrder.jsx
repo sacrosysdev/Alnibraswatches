@@ -16,7 +16,7 @@ const PlaceOrder = () => {
         <hr className='text-[#E8E9EA]'/>
         <h1 className='text-sm text-[#30933A] font-semibold'>You totaly saved 5000. hurray!..</h1>
         <h1 className='font-medium text-[#303A42]'>Do you have Voucher code</h1>
-        <button className='px-6 py-3 bg-[#00211E] font-bold text-base text-white w-full rounded-lg'>
+        <button type='submit' className='px-6 py-3 bg-[#00211E] font-bold text-base text-white w-full rounded-lg'>
             Place Order
         </button>
     </div>
