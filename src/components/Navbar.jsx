@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { FaCaretRight } from "react-icons/fa6";
 import { FaCaretLeft } from "react-icons/fa6";
 
+
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false)
   const [mobileCartOpen, setMobileCartOpen] = useState(false)
@@ -108,7 +109,9 @@ const Navbar = () => {
       <div className='flex justify-between items-center'>
         
           <div className='w-1/3 '>
+           <Link to='/'> 
             <img src={Logo} alt="logo" className='object-cover xl:object-contain min-h-10 min-w-16 max-h-20' />
+           </Link>
           </div>
         
         <div className='w-1/2'>
@@ -118,7 +121,7 @@ const Navbar = () => {
             </div>
             <div className='flex gap-3'>
               {navIcons.map((item, index) => (<div key={index}>
-                <img src={item.icon} alt={item.name} className='cursor-pointer'/>
+                <Link to={item.path}><img src={item.icon} alt={item.name} className='cursor-pointer'/></Link>
               </div>))}
               <div>
                 <img src={Cart} alt="cart" className='cursor-pointer' onClick={handleCart}/>

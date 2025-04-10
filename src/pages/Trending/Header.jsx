@@ -39,7 +39,7 @@ const Header = () => {
                 <div className='flex gap-3 items-center'>
                     <h1 className='text-base font-normal'>Low to High</h1>
                     <div>
-                        <img src={SortIcon} alt="icon" />
+                        <img src={SortIcon} alt="icon" className='cursor-pointer' />
                     </div>
                 </div>
             </div>

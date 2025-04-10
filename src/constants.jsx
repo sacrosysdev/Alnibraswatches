@@ -17,7 +17,7 @@ export const navIcons = [
     {
         name:"wishlist",
         icon:Wishlist,
-        path:'/'
+        path:'/wishlist'
     },
 
 ]
