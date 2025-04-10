@@ -2,7 +2,9 @@ import React from 'react'
 import ProductCard from '../../components/ProductCard'
 import productData from '../../constants'
 
+
 const DemandItems = () => {
+  
   return (
     <div>
         <div className='flex flex-col gap-2'>
@@ -11,7 +13,7 @@ const DemandItems = () => {
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-x-9 gap-y-10 pt-10'>
         {productData.map((item)=>(<div key={item.id}>
-          <ProductCard image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
+          <ProductCard id = {item.id} image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
         </div>))}
         </div>
     </div>

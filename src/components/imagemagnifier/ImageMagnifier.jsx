@@ -22,7 +22,7 @@ const ImageMagnifier = ({ImageUrl}) => {
     onMouseLeave={()=> setShowMagnifier(false)} onMouseMove={handleMouseHover}>
         <img className='magnifier-img ' src={ImageUrl} alt="" />
         {showMagnifier && <div style={{ position:'absolute', left:`${cursorPosition.x - 100}px`, top:`${cursorPosition.y - 100}px`, pointerEvents:'none'}}>
-            <div className='magnifier-image' style={{ backgroundImage: `url(${ImageUrl})`, backgroundPosition: `${position.x}% ${position.y}%`,
+            <div className='magnifier-image' style={{ backgroundImage: `url(${ImageUrl})`, backgroundPosition: `${position.x}% ${position.y}%`,backgroundRepeat:'no-repeat',
     backgroundSize: '200%', }}>
 
             </div>

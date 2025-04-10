@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Layout from './layouts/Layout';
 import  loader from './assets/svg/loader.svg'
+import { WishlistProvider } from './contexts/WishListContext';
 
 const HomePage = lazy(()=> import('./pages/Home/Home'))
 const TrendingPage  = lazy(()=> import('./pages/Trending/Trending'))
@@ -18,21 +19,23 @@ const LoadingFallback =()=><div className='flex justify-center items-center h-sc
 
 const AppRoutes = () => {
   return (
-    <Router>
-      <Layout>
-        <Suspense fallback={<LoadingFallback/>}>
-          <Routes>
-            <Route path='/' element={<HomePage/>}></Route>
-            <Route path='/trending' element={<TrendingPage/>}></Route>
-            <Route path='/product' element={<ProductPage/>}></Route>
-            <Route path='/checkout' element={<CheckoutPage/>}></Route>
-            <Route path='/order-history' element={<OrderHistoryPage/>}></Route>
-            <Route path='/aboutus' element={<AboutUsPage/>}></Route>
-            <Route path='/cart' element={<CartPage/>}></Route>
-          </Routes>
-        </Suspense>
-      </Layout>
-    </Router>
+    <WishlistProvider>
+      <Router>
+        <Layout>
+          <Suspense fallback={<LoadingFallback/>}>
+            <Routes>
+              <Route path='/' element={<HomePage/>}></Route>
+              <Route path='/trending' element={<TrendingPage/>}></Route>
+              <Route path='/product' element={<ProductPage/>}></Route>
+              <Route path='/checkout' element={<CheckoutPage/>}></Route>
+              <Route path='/order-history' element={<OrderHistoryPage/>}></Route>
+              <Route path='/aboutus' element={<AboutUsPage/>}></Route>
+              <Route path='/cart' element={<CartPage/>}></Route>
+            </Routes>
+          </Suspense>
+        </Layout>
+      </Router>
+    </WishlistProvider>
   )
 }
 

@@ -1,8 +1,14 @@
 import React from 'react'
 import Heart from '../assets/svg/product/smallHeart.svg'
+import { useWishlist } from '../contexts/WishListContext'
+import FillHeart from '../assets/svg/product/heartfill.svg'
+import { motion } from 'framer-motion'
 
+const ProductCard = ({id,image, title, brand, price}) => {
+  const {wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
+  const isInWishList= wishlist.some((item) => item.id === id)
+  console.log(wishlist)
 
-const ProductCard = ({image, title, brand, price}) => {
   return (
     <div className='relative flex flex-col items-center gap-4 pb-5 bg-[#F1F1F1] border border-[#A3C4C1] shadow-xl rounded-2xl'>
       <div className='w-[272px] h-[272px] overflow-hidden'>
@@ -14,7 +20,7 @@ const ProductCard = ({image, title, brand, price}) => {
       </div>
       <h1 className='font-bold text-xl text-[#003F38]'>AED : <span>{price}</span></h1>
       <div className='absolute top-4 right-4 '>
-        <img src={Heart} alt="wishlist" className='cursor-pointer hover:text-black' />
+        <motion.img  src={isInWishList ? FillHeart : Heart} whileTap={{ scale:0.8}}  alt="wishlist" className='cursor-pointer hover:text-black' onClick={()=>{ isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price })}} />
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ const RecentSearched = () => {
         </div>
         <div className='flex gap-x-7 gap-y-10 py-10 overflow-x-auto  scrollbar-hide '>
           {productData.map((item)=>(<div key={item.id}>
-            <ProductCard image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
+            <ProductCard id={item.id} image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
           </div>))}
         </div>
     </div>
