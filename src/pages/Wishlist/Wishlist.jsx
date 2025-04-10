@@ -26,7 +26,7 @@ console.log(isEmpty)
                 </Link>
             </div>
         ):(
-            <div className='grid grid-cols-4 gap-5 xl:gap-10 p-5 xl:p-16'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 xl:gap-10 p-5 xl:p-16'>
                 {wishlist.map((item)=>(<div key={item.id}>
             <ProductCard id={item.id} image = {item.image} title = {item.title} brand={item.brand} price ={item.price}/>
           </div>))}
