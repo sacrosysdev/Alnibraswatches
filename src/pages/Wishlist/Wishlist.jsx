@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductCard from '../../components/ProductCard'
 import { useWishlist } from '../../contexts/WishListContext'
-import NoData from '../../assets/images/wishlist/NoData.webp'
+import NoData from '../../assets/images/wishlist/Nodata.webp'
 import { Link } from 'react-router-dom'
 
 const Wishlist = () => {
