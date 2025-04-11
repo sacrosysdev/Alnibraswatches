@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 import Product from '../../assets/images/home/productimage.png'
-import QuantityManage from "./QuantityManage";
+
 import Delete from '../../assets/svg/home/delete.svg'
 
 

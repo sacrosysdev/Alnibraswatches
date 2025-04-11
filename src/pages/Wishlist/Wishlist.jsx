@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const Wishlist = () => {
 const {wishlist} = useWishlist()
-const isEmpty = wishlist.length > 0 ? false : true;
+const isEmpty = wishlist.length === 0 ;
 console.log(wishlist)
 console.log(isEmpty)
   return (

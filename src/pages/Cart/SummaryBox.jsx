@@ -1,6 +1,11 @@
 import React from 'react'
+import { useCart } from '../../contexts/CartContext'
 
 const SummaryBox = () => {
+    const {cart} = useCart()
+    const subtotal = cart.reduce((acc,item)=>{
+        return acc + (item.quantity * item.price);
+    },0)
     return (
         <div className='py-10'>
             <div className='p-5  md:p-10 border border-[#EBEBEB] rounded-xl flex flex-col gap-10'>
@@ -15,7 +20,7 @@ const SummaryBox = () => {
                     <div className='flex flex-col gap-5 pt-5'>
                         <div className="flex justify-between">
                             <span className="font-medium">Subtotal</span>
-                            <span className="font-medium">AED 699</span>
+                            <span className="font-medium">AED <span>{subtotal}</span></span>
                         </div>
                         <div className="flex justify-between text-gray-600">
                             <span>Estimated Tax</span>
@@ -27,7 +32,7 @@ const SummaryBox = () => {
                         </div>
                         <div className="flex justify-between font-semibold  pt-3">
                             <span>Total</span>
-                            <span>AED 749.00</span>
+                            <span>AED <span>{subtotal + 50}</span></span>
                         </div>
                     </div>
                 </div>

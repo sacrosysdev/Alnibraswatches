@@ -5,6 +5,7 @@ import Layout from './layouts/Layout';
 import  loader from './assets/svg/loader.svg'
 import { WishlistProvider } from './contexts/WishListContext';
 import ScrollToTop from './components/ScrollToTop';
+import { CartProvider } from './contexts/CartContext';
 
 const HomePage = lazy(()=> import('./pages/Home/Home'))
 const TrendingPage  = lazy(()=> import('./pages/Trending/Trending'))
@@ -21,6 +22,7 @@ const LoadingFallback =()=><div className='flex justify-center items-center h-sc
 
 const AppRoutes = () => {
   return (
+    <CartProvider>
     <WishlistProvider>
       <Router>
         <ScrollToTop/>
@@ -40,6 +42,7 @@ const AppRoutes = () => {
         </Layout>
       </Router>
     </WishlistProvider>
+    </CartProvider>
   )
 }
 

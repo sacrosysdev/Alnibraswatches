@@ -119,7 +119,7 @@ const Navbar = () => {
             <div className='hidden xl:flex w-full xl:w-1/2'>
               <Searchbox />
             </div>
-            <div className='flex gap-3'>
+            <div className='flex gap-3 xl:gap-4'>
               {navIcons.map((item, index) => (<div key={index}>
                 <Link to={item.path}><img src={item.icon} alt={item.name} className='cursor-pointer'/></Link>
               </div>))}
