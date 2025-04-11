@@ -1,20 +1,20 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Layout from './layouts/Layout';
+import Layout from './layouts/user/Layout';
 import  loader from './assets/svg/loader.svg'
-import { WishlistProvider } from './contexts/WishListContext';
-import ScrollToTop from './components/ScrollToTop';
-import { CartProvider } from './contexts/CartContext';
+import { WishlistProvider } from './contexts/user/WishListContext';
+import ScrollToTop from './components/user/ScrollToTop';
+import { CartProvider } from './contexts/user/CartContext';
 
-const HomePage = lazy(()=> import('./pages/Home/Home'))
-const TrendingPage  = lazy(()=> import('./pages/Trending/Trending'))
-const ProductPage = lazy(()=> import('./pages/Product/Product'))
-const CheckoutPage = lazy(()=> import('./pages/CheckOut/Checkout'))
-const OrderHistoryPage = lazy(()=> import('./pages/OrderHistory/OrderHistory'))
-const AboutUsPage = lazy(()=> import('./pages/AboutUs/AboutUs'))
-const CartPage = lazy(()=> import('./pages/Cart/Cart'))
-const WishlistPage = lazy(()=> import('./pages/Wishlist/Wishlist'))
+const HomePage = lazy(()=> import('./pages/user/Home/Home'))
+const TrendingPage  = lazy(()=> import('./pages/user/Trending/Trending'))
+const ProductPage = lazy(()=> import('./pages/user/Product/Product'))
+const CheckoutPage = lazy(()=> import('./pages/user/CheckOut/Checkout'))
+const OrderHistoryPage = lazy(()=> import('./pages/user/OrderHistory/OrderHistory'))
+const AboutUsPage = lazy(()=> import('./pages/user/AboutUs/AboutUs'))
+const CartPage = lazy(()=> import('./pages/user/Cart/Cart'))
+const WishlistPage = lazy(()=> import('./pages/user/Wishlist/Wishlist'))
 
 const LoadingFallback =()=><div className='flex justify-center items-center h-screen'>
   <img src={loader} alt="loader" />
