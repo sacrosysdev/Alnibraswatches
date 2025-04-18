@@ -13,11 +13,26 @@ import AddProduct from "../../pages/admin/AddProduct";
 import ProductList from "../../pages/admin/ProductList";
 import Admin from "../../pages/admin/Admin";
 import Settings from "../../pages/admin/Settings";
+import ProtectedRoute from "../../components/admin/shared/ProtectedRoute";
 
 const AdminRoute = () => {
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("isLoged");
+    return !!token;
+  };
   return (
     <Routes>
-      <Route path="/" element={<DashboardLayout />}>
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute
+            isAuthenticated={isAuthenticated()}
+            redirectPath="/auth/login"
+          >
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<DashboardHome />} />
         <Route path="order" element={<Orders />} />
         <Route path="customers" element={<Customers />} />
