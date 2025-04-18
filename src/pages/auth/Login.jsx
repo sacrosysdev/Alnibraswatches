@@ -14,7 +14,7 @@ const Login = () => {
       </div>
       <div className="bg-white p-4 w-6/12 h-full flex flex-col items-center justify-center lg:px-28">
         <h1 className="font-DM font-semibold text-3xl text-gray-900 mb-8 ">
-          Login
+          updaged Login
         </h1>
         <div className="w-full h-fit">
           <LoginForm />
