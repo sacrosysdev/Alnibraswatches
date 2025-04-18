@@ -1,30 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Unlock&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Unlock&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('./assets/fonts/gilroy-medium.ttf') format('truetype');
+  font-family: "Gilroy";
+  src: url("./assets/fonts/gilroy-medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
 }
 
 @theme {
   --font-dm: "DM Sans", sans-serif;
-  --font-unlock:"Unlock", sans-serif;
-  --font-gilroy:"Gilroy", sans-serif;
-  --font-bodoni:"Bodoni Moda", sans-serif;
-  --font-poppins:"Poppins", sans-serif;
-  --font-playfair:"Playfair Display", sans-serif;
-  --font-jakartha:"Plus Jakarta Sans", sans-serif;
+  --font-unlock: "Unlock", sans-serif;
+  --font-gilroy: "Gilroy", sans-serif;
+  --font-bodoni: "Bodoni Moda", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-playfair: "Playfair Display", sans-serif;
+  --font-jakartha: "Plus Jakarta Sans", sans-serif;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
@@ -44,4 +44,15 @@ body{
 
 .custom-slider .slick-list {
   margin: 0 -10px; /* Compensates for padding so the first and last slide don't have extra space */
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    width: 0;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: 0; /* Firefox */
+  }
 }
