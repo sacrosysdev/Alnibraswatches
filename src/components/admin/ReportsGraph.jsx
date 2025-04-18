@@ -16,7 +16,7 @@ import {
   PRODUCT_DATA,
   REVENUE_DATA,
 } from "../../constant/dummy";
-import { REPORTS_GRAPH_NAV } from "../../constant";
+import { REPORTS_GRAPH_NAV } from "../../constant/admin/index";
 
 ChartJS.register(
   LineElement,

@@ -3,7 +3,11 @@ import logo from "../../assets/svg/dashboard/logo.svg";
 import sidebarButton from "../../assets/svg/dashboard/sidebarOpen.svg";
 import { NavLink } from "react-router";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { PRODUCT_MENU, MAIN_MENU, ADMIN_MENU } from "../../constant/index";
+import {
+  PRODUCT_MENU,
+  MAIN_MENU,
+  ADMIN_MENU,
+} from "../../constant/admin/index";
 
 function DashboardSidebar({ open, setOpen }) {
   return (

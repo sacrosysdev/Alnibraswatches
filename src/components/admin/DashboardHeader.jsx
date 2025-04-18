@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import profilePic from "../../assets/images/dashboard/profilePhoto.png";
-import { HEADER_TITLE } from "../../constant";
+import { HEADER_TITLE } from "../../constant/admin/index";
 
 function DashboardHeader() {
   const location = useLocation();
