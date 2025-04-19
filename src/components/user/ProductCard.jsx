@@ -7,8 +7,7 @@ import { motion } from 'framer-motion'
 const ProductCard = ({id,image, title, brand, price}) => {
   const {wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
   const isInWishList= wishlist.some((item) => item.id === id)
-  console.log(wishlist)
-
+ 
   return (
     <div className='relative flex flex-col items-center gap-4 pb-5 bg-[#F1F1F1] border border-[#A3C4C1] shadow-xl rounded-2xl'>
       <div className='w-[272px] h-[272px] overflow-hidden'>

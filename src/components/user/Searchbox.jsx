@@ -10,7 +10,7 @@ const Searchbox = () => {
                 <input
                     type="text"
                     placeholder="Search Here"
-                    className="w-full pl-10 pr-4 py-2 bg-white  rounded-sm focus:outline-none"
+                    className="w-full pl-10 pr-4 py-1 bg-white  rounded-sm focus:outline-none"
                 />
             </form>
 

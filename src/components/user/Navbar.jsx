@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa6";
 import { FaCaretLeft } from "react-icons/fa6";
-
+import { useCategoryList } from "../../api/user/hooks";
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(false);
-
+  const { data: categories, isLoading: loadingCategories } = useCategoryList()
   const handleNav = () => {
     setNavOpen(!navOpen);
   };
@@ -31,7 +31,6 @@ const Navbar = () => {
 
     // }
   };
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 64) {
@@ -40,7 +39,6 @@ const Navbar = () => {
         setNavSticky(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
 
     handleScroll();
@@ -56,7 +54,6 @@ const Navbar = () => {
       scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
     }
   };
-
   const clickRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
@@ -79,11 +76,9 @@ const Navbar = () => {
 
     setShowRightButton(canScrollRight);
   };
-
   // Initial check and event listeners
   useEffect(() => {
     checkScrollPosition();
-
     const scrollContainer = scrollRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", checkScrollPosition);
@@ -103,7 +98,7 @@ const Navbar = () => {
         initial={{ width: "100%" }}
         animate={{ width: cartOpen ? "75%" : "100%" }}
         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-        className={`   bg-[#005C53] px-5 xl:px-16 py-2 z-50 ${
+        className={`   bg-[#005C53] px-5 xl:px-16 py-1 z-50 ${
           navSticky ? "fixed top-0 left-0 right-0 shadow-md " : "relative"
         }`}
       >
@@ -113,7 +108,7 @@ const Navbar = () => {
               <img
                 src={Logo}
                 alt="logo"
-                className="object-cover xl:object-contain min-h-10 min-w-16 max-h-20"
+                className="object-cover xl:object-contain min-h-10 min-w-16 max-h-15"
               />
             </Link>
           </div>
@@ -166,18 +161,19 @@ const Navbar = () => {
           )}
           <div
             ref={scrollRef}
-            className="xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-2 px-2 text-[#F0F0D6] hidden  "
+            className="xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-1 px-2 text-[#F0F0D6] hidden  "
           >
             <div className="flex gap-5 ">
-              {navlinks.map((item, index) => (
-                <div key={index} className="relative uppercase group">
-                  <h1 className=" text-lg transition-transform duration-200 ease-in-out cursor-pointer group-hover:-translate-y-3">
-                    {item}
-                  </h1>
-                  <hr className="absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none" />
-                </div>
-              ))}
-            </div>
+                {!loadingCategories && categories?.length > 0 && categories.map((item, index) => (
+                  <div key={index} className="relative uppercase group">
+                  
+                    <h1 className=" text-[15px] transition-transform duration-200 ease-in-out cursor-pointer group-hover:-translate-y-3">
+                      {item.CategoryName}
+                    </h1>
+                    <hr className="absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none" />
+                  </div>
+                ))}
+              </div>
           </div>
           {showRightButton && (
             <div
