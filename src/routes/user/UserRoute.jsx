@@ -17,7 +17,7 @@ const UserRoute = () => {
       <Route path="/" element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/trending" element={<TrendingPage />} />
-        <Route path="/product" element={<ProductPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/aboutus" element={<AboutUsPage />} />

@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa6";
 import { FaCaretLeft } from "react-icons/fa6";
 import { useCategoryList } from "../../api/user/hooks";
+
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
@@ -166,9 +167,9 @@ const Navbar = () => {
             <div className="flex gap-5 ">
                 {!loadingCategories && categories?.length > 0 && categories.map((item, index) => (
                   <div key={index} className="relative uppercase group">
-                  
-                    <h1 className=" text-[15px] transition-transform duration-200 ease-in-out cursor-pointer group-hover:-translate-y-3">
-                      {item.CategoryName}
+                    <h1 className="text-[15px] transition-transform duration-200 ease-in-out 
+                                    cursor-pointer group-hover:-translate-y-3">
+                      {item.Name}
                     </h1>
                     <hr className="absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none" />
                   </div>
