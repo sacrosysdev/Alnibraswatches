@@ -1,6 +1,36 @@
-// dashboard
+export const IMAGE_UPLOAD_ENDPOINT =
+  "https://fileserver.sacrosys.net/api/1234/UploadImages";
+export const IMAGE_DELETE_ENDPOINT =
+  "https://fileserver.sacrosys.net/api/1234/DeleteImages";
+
+// Login
 export const ADMIN_LOGIN = "oauth";
-// export const USER_LOGIN = "6661/login";
-// export const TODAY_INSIGHT = "6662/TodayInsights";
-// export const TODAY_INSIGHT_GAPH = "6662/RevenueVsProfitVsExpense";
-// export const TOTAL_REVENUE = "6662/TotalRevenue";
+
+// Category
+export const GET_CATEGORY = "getCategoryMaster";
+export const POST_CATEGORY = "postCategoryMaster";
+export const PUT_CATEGORY = "putCategoryMaster";
+export const DELETE_CATEGORY = "deleteCategoryMaster";
+
+// Brand
+export const GET_BRAND = "getBrandMaster";
+export const POST_BRAND = "BrandMaster";
+export const PUT_BRAND = "putBrandMaster";
+export const DELETE_BRAND = "deleteBrandMaster";
+
+// Color
+export const GET_COLOR = "getColorsMaster";
+export const POST_COLOR = "postColorsMaster";
+export const PUT_COLOR = "putColorsMaster";
+export const PUT_COLOR_ACITVE = "putColorActive";
+
+// size
+export const GET_SIZE = "getSizeMaster";
+export const POST_SIZE = "postSizeMaster";
+export const PUT_SIZE = "putSizeMaster";
+export const PUT_SIZE_ACTIVE = "putSizeActive";
+
+// banner
+export const POST_BANNER = "postEcommerceConfig";
+export const PUT_BANNER = "putEcommerceConfig";
+export const GET_BANNER = "getEcommerceConfig";

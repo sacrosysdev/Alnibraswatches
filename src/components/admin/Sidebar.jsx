@@ -3,11 +3,7 @@ import logo from "../../assets/svg/dashboard/logo.svg";
 import sidebarButton from "../../assets/svg/dashboard/sidebarOpen.svg";
 import { NavLink } from "react-router";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import {
-  PRODUCT_MENU,
-  MAIN_MENU,
-  ADMIN_MENU,
-} from "../../constant/admin/index";
+import { SIDE_MENU } from "../../constant/admin/index";
 
 function DashboardSidebar({ open, setOpen }) {
   return (
@@ -51,119 +47,47 @@ function DashboardSidebar({ open, setOpen }) {
       </div>
 
       {/* main menu */}
-      <div className="w-full h-fit flex flex-col">
-        <div
-          className={`w-full h-fit py-[15px]  text-[#A3C4C1] font-DM text-xs font-normal whitespace-nowrap transition-all duration-300 ${
-            open ? "px-[30px]" : "px-2"
-          } `}
-        >
-          Main Menu
-        </div>
-        <div className="w-full h-fit ">
-          <ul className={`w-full h-fit flex flex-col gap-2 px-3`}>
-            {MAIN_MENU.map((items, index) => (
-              <NavLink
-                key={index}
-                to={items.path}
-                end
-                className={({ isActive }) =>
-                  `w-full  transition-all duration-150  h-fit py-2 px-4 flex flex-row gap-2 rounded-md font-DM font-normal text-base ${
+      {Object.keys(SIDE_MENU).map((menuHead, index) => (
+        <div key={index} className="w-full h-fit flex flex-col">
+          <div
+            className={`w-full h-fit py-[15px]  text-[#A3C4C1] font-DM text-xs font-normal whitespace-nowrap transition-all duration-300 ${
+              open ? "px-[30px]" : "px-2"
+            } `}
+          >
+            {menuHead}
+          </div>
+          <div className="w-full h-fit ">
+            <ul className={`w-full h-fit flex flex-col gap-2 px-3`}>
+              {SIDE_MENU[menuHead].map((items, index) => (
+                <NavLink
+                  key={index}
+                  to={items.path}
+                  end
+                  className={({ isActive }) =>
+                    `w-full  transition-all duration-150  h-fit py-2 px-4 flex flex-row
+                 gap-2 rounded-md font-DM font-normal border-2 border-[#005C53]
+                  text-base ${
                     isActive
                       ? "bg-white text-[#003F38] "
-                      : " bg-transparent text-[#A3C4C1] hover:border hover:scale-105 border-[#A3C4C1] "
+                      : " bg-transparent text-[#A3C4C1]  hover:border-[#A3C4C1] "
                   }`
-                }
-              >
-                <div>
-                  {" "}
-                  <Icon icon={items.icon} width="24" height="24" />
-                </div>
-                {open && (
-                  <span className="capitalize text-base font-DM font-normal whitespace-nowrap">
-                    {items.title}
-                  </span>
-                )}
-              </NavLink>
-            ))}
-          </ul>
+                  }
+                >
+                  <div>
+                    {" "}
+                    <Icon icon={items.icon} width="24" height="24" />
+                  </div>
+                  {open && (
+                    <span className="capitalize text-base font-DM font-normal whitespace-nowrap">
+                      {items.title}
+                    </span>
+                  )}
+                </NavLink>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-
-      {/* products */}
-      <div className="w-full h-fit mt-4 ">
-        <div
-          className={`w-full h-fit py-[15px] flex justify-start text-[#A3C4C1] font-DM text-xs font-normal whitespace-nowrap transition-all duration-300 ${
-            open ? "px-[30px] " : "px-4 "
-          } `}
-        >
-          Products
-        </div>
-        <div className="w-full h-fit ">
-          <ul className={`w-full h-fit flex flex-col gap-2 px-3`}>
-            {PRODUCT_MENU.map((items, index) => (
-              <NavLink
-                key={index}
-                to={items.path}
-                className={({ isActive }) =>
-                  `w-full  h-fit py-2 px-4 flex flex-row transition-all duration-150 gap-2 rounded-md font-DM font-normal text-base ${
-                    isActive
-                      ? "bg-white text-[#003F38] "
-                      : " bg-transparent text-[#A3C4C1] hover:border hover:scale-105 border-[#A3C4C1] "
-                  }`
-                }
-              >
-                <div>
-                  {" "}
-                  <Icon icon={items.icon} width="24" height="24" />
-                </div>
-                {open && (
-                  <span className="capitalize text-base font-DM font-normal whitespace-nowrap">
-                    {items.title}
-                  </span>
-                )}
-              </NavLink>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Admin */}
-      <div className="w-full h-fit mt-4 ">
-        <div
-          className={`w-full h-fit py-[15px] flex justify-start text-[#A3C4C1] font-DM text-xs font-normal whitespace-nowrap transition-all duration-300 ${
-            open ? "px-[30px] " : "px-5.5 "
-          } `}
-        >
-          Admin
-        </div>
-        <div className="w-full h-fit ">
-          <ul className={`w-full h-fit flex flex-col gap-2 px-3`}>
-            {ADMIN_MENU.map((items, index) => (
-              <NavLink
-                key={index}
-                to={items.path}
-                className={({ isActive }) =>
-                  `w-full  h-fit py-2 px-4 flex flex-row transition-all duration-150 gap-2 rounded-md font-DM font-normal text-base ${
-                    isActive
-                      ? "bg-white text-[#003F38] "
-                      : " bg-transparent text-[#A3C4C1] hover:border hover:scale-105 border-[#A3C4C1] "
-                  }`
-                }
-              >
-                <div>
-                  {" "}
-                  <Icon icon={items.icon} width="24" height="24" />
-                </div>
-                {open && (
-                  <span className="capitalize text-base font-DM font-normal whitespace-nowrap">
-                    {items.title}
-                  </span>
-                )}
-              </NavLink>
-            ))}
-          </ul>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

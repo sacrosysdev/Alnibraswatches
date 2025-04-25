@@ -29,10 +29,8 @@ const label = VISIT_CHART_DATA.map((data) => data.day);
 const DataForChart = VISIT_CHART_DATA.map((data) => data.count);
 
 const lastWeekCount = LAST_WEEK_TOTAL;
-console.log(lastWeekCount);
 
 const thisWeekCount = DataForChart.reduce((acc, val) => acc + val, 0);
-console.log(thisWeekCount);
 
 const displayCount = (thisWeekCount / 1000).toFixed(1) + "k";
 
