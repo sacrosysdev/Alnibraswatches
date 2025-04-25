@@ -18,17 +18,16 @@ const Brands = () => {
     <div>
       <div className='flex justify-between items-center'>
         <div>
-          <h1 className='font-bodoni text-[#0D1217] font-bold text-[34px]'>Shop by Brands</h1>
-          <p className='text-[#031C2C] py-1'>234 New items added</p>
+          <h1 className='font-bodoni text-[#0D1217] font-bold md:text-[34px] text-[25px]'>Shop by Brands</h1>
+          {/* <p className='text-[#031C2C] py-1'>234 New items added</p> */}
         </div>
-     
       </div>
-        <div className="relative px-5 pt-10">
+      <div className="relative px-0 md:px-5 pt-6 md:pt-10">
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full"
         >
-          <ChevronLeft className='cursor-pointer'/>
+          <ChevronLeft className='cursor-pointer' />
         </button>
 
         <div
@@ -37,19 +36,18 @@ const Brands = () => {
         >
           {!loadingBrands && brands?.length > 0 && brands.map((item, index) => (
             <img
-              key={index}
-              src={item.ImageUrl}
-              alt=""
-              className="w-[300px] h-[300px] object-cover rounded-md"
-            />
+            key={index}
+            src={item.ImageUrl}
+            alt=""
+            className="w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[150px] sm:h-[200px] md:h-[250px] lg:h-[300px] object-cover rounded-md"
+          />
           ))}
         </div>
-
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-1 rounded-full"
         >
-          <ChevronRight className='cursor-pointer'/>
+          <ChevronRight className='cursor-pointer' color='#005C53' />
         </button>
       </div>
     </div>
