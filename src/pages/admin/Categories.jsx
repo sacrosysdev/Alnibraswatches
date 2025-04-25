@@ -1,7 +1,214 @@
-import React from "react";
+import { LayoutGrid, PlusCircle, Table, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import {
+  useDeleteCategory,
+  useGetAllCategory,
+  usePostCategory,
+  usePutCategory,
+} from "../../api/admin/hooks";
+import CategoryList from "../../components/admin/category/CategoryList";
+import CategoryModal from "../../components/admin/category/CategoryModal";
+import DeleteModal from "../../components/admin/shared/DeleteModal";
+import PageHeader from "../../components/admin/shared/PageHeader";
 
 const Categories = () => {
-  return <div></div>;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [gridView, setGridView] = useState(() => {
+    const savedView = localStorage.getItem("gridView");
+    return savedView === "true";
+  });
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    imageUrl: "",
+  });
+
+  // State for selected categories
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [deletedError, setDeleteError] = useState(null);
+
+  // Fetch categories
+  const { data: categories, refetch } = useGetAllCategory();
+
+  // Mutations
+  const postCategory = usePostCategory();
+  const putCategory = usePutCategory();
+  const deleteCategory = useDeleteCategory();
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle image upload
+  const handleImageUploaded = (data) => {
+    // Assuming the API returns an imageUrl field
+    if (data && data.FileDetails) {
+      setFormData((prev) => ({
+        ...prev,
+        imageUrl: data.FileDetails[0].FileUrl,
+      }));
+    }
+  };
+
+  // Open modal for adding new category
+  const handleAddCategory = () => {
+    setIsEditing(false);
+    setCurrentCategory(null);
+    setFormData({ name: "", description: "", imageUrl: "" });
+    setIsModalOpen(true);
+  };
+
+  // Open modal for editing category
+  const handleEditCategory = (category) => {
+    setIsEditing(true);
+    setCurrentCategory(category);
+    setFormData({
+      name: category.Name,
+      description: category.CategoryDescription,
+      imageUrl: category.ImageUrl,
+      parentId: category.ParentCategoryId,
+    });
+    setIsModalOpen(true);
+  };
+
+  // Close modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Submit form (create or update)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (isEditing && currentCategory) {
+        await putCategory.mutateAsync({
+          category: formData,
+          categoryId: currentCategory.CategoryId,
+        });
+      } else {
+        await postCategory.mutateAsync(formData);
+      }
+
+      // Close modal and refresh data
+      setIsModalOpen(false);
+      refetch();
+    } catch (error) {
+      console.error("Error saving category:", error);
+    }
+  };
+
+  // Delete selected categories
+  const handleDeleteSelected = async () => {
+    try {
+      setDeleteError(null);
+      // Create an array of promises for each delete operation
+      const deletePromises = selectedCategories.map((categoryId) =>
+        deleteCategory.mutateAsync(categoryId)
+      );
+
+      // Wait for all delete operations to complete
+      await Promise.all(deletePromises);
+
+      // Refresh data and clear selection
+      refetch();
+      setSelectedCategories([]);
+      setIsDeleteModalVisible(false);
+    } catch (error) {
+      setDeleteError(error);
+
+      console.error("Error deleting categories:", error);
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalVisible(false);
+    setDeleteError(null);
+  };
+  // Filter categories based on search query
+  const filteredCategories = categories
+    ? categories.filter((category) =>
+        category.Name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+  // Track grid veiw
+  useEffect(() => {
+    localStorage.setItem("gridView", gridView);
+  }, [gridView]);
+  return (
+    <div className="w-full h-screen overflow-hidden gap-y-4 flex flex-col p-5">
+      <h1 className="text-2xl font-semibold text-gray-800">Categories</h1>
+      <PageHeader
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchPlaceholder="Search here by brand name"
+        viewToggle={{
+          isGridView: gridView,
+          setViewMode: setGridView,
+          gridIcon: (
+            <Table className="text-gray-500 group-hover:text-[#005C53]" />
+          ),
+          alternateIcon: (
+            <LayoutGrid className="text-gray-500 group-hover:text-[#005C53]" />
+          ),
+        }}
+        actionButton={{
+          onClick: handleAddCategory,
+          label: "Add Brand",
+          icon: <PlusCircle size={16} />,
+        }}
+      />
+
+      <CategoryList
+        filteredCategories={filteredCategories}
+        gridView={gridView}
+        handleEditCategory={handleEditCategory}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
+
+      {/* Category Modal - appears at the right */}
+      <CategoryModal
+        isOpen={isModalOpen}
+        handleSubmit={handleSubmit}
+        onClose={handleCloseModal}
+        isEditing={isEditing}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleImageUploaded={handleImageUploaded}
+        isLoading={postCategory.isLoading || putCategory.isLoading}
+      />
+
+      {/* Delete Confirmation Modal - appears at the bottom right */}
+      <DeleteModal
+        isVisible={isDeleteModalVisible}
+        selected={selectedCategories}
+        setVisible={handleCloseDeleteModal}
+        isOpen={selectedCategories.length > 0}
+        handleDelete={handleDeleteSelected}
+        isError={!!deletedError}
+        error={deletedError}
+        title={"Delete Categories"}
+      />
+
+      {/* Floating Action Button to trigger delete modal */}
+      {selectedCategories.length > 0 && (
+        <button
+          onClick={() => setIsDeleteModalVisible(true)}
+          className="fixed bottom-6 right-6 bg-red-600 text-white rounded-full p-3 shadow-lg hover:bg-red-700 transition-colors"
+          style={{ zIndex: 30 }}
+        >
+          <Trash2 size={20} />
+        </button>
+      )}
+    </div>
+  );
 };
 
 export default Categories;
