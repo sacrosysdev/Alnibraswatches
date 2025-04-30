@@ -34,3 +34,8 @@ export const PUT_SIZE_ACTIVE = "putSizeActive";
 export const POST_BANNER = "postEcommerceConfig";
 export const PUT_BANNER = "putEcommerceConfig";
 export const GET_BANNER = "getEcommerceConfig";
+
+// product
+export const GET_PRODUCTS = "getProductMaster";
+export const POST_PRODUCT = "postProductMaster";
+export const EDIT_PRODUCT = "putProductMaster";

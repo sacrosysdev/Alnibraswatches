@@ -79,10 +79,17 @@ const Sizes = () => {
     {
       key: "SizeId",
       header: "ID",
+      className: "w-4",
     },
     {
       key: "SizeLabel",
       header: "Name",
+      className: "w-full",
+      render: (size) => (
+        <span className="bg-gray-100 text-gray-500 px-5 text-xs font-medium  py-1 rounded-full">
+          {size.SizeLabel}
+        </span>
+      ),
     },
 
     {
@@ -102,7 +109,6 @@ const Sizes = () => {
   ];
   return (
     <div className="w-full h-full overflow-hidden gap-y-4 flex flex-col p-5">
-      <h1 className="text-2xl font-semibold text-gray-800">Sizes</h1>
       <PageHeader
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -117,13 +123,13 @@ const Sizes = () => {
       <DynamicTable
         isLoading={isLoading}
         isError={isError}
-        isSelectable={false}
+        // isSelectable={false}
         columns={SIZE_COLUMNS}
         idField="SizeId"
         data={filteredColor}
         emptyMessage="No size found"
       />
-      {/* Category Modal - appears at the right */}
+      {/* Size Modal - appears at the right */}
       <SizeModal
         formData={formData}
         handleCloseModal={handleCloseModal}

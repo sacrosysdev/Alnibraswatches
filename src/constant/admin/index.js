@@ -40,6 +40,11 @@ export const SIDE_MENU = {
       path: "size",
       icon: "lucide:cuboid",
     },
+    {
+      title: "Payment Integration",
+      path: "payment",
+      icon: "bxl:stripe",
+    },
   ],
   Products: [
     {
@@ -197,4 +202,17 @@ export const BANNER_DEV_CONFIG = {
     previewWidth: "768px",
     displayName: "Tablet",
   },
+};
+
+export const INITIAL_PRODUCT_DETAILS = {
+  productName: "",
+  description: "",
+  categoryId: 0,
+  taxCode: "",
+  images: [],
+  brandID: 0,
+  price: null,
+  stockQty: null,
+  discountPrice: null,
+  variants: [],
 };

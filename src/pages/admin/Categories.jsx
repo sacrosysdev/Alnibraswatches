@@ -143,7 +143,6 @@ const Categories = () => {
   }, [gridView]);
   return (
     <div className="w-full h-screen overflow-hidden gap-y-4 flex flex-col p-5">
-      <h1 className="text-2xl font-semibold text-gray-800">Categories</h1>
       <PageHeader
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

@@ -81,14 +81,12 @@ const Colors = () => {
     {
       key: "ColorId",
       header: "ID",
-    },
-    {
-      key: "ColorName",
-      header: "Name",
+      className: "w-2 text-xs text-gray",
     },
     {
       key: "HexCode",
       header: "Color",
+      className: "w-5",
       render: (color) => (
         <div
           className="h-10 w-10 rounded-md border border-gray-300 shadow-sm"
@@ -96,6 +94,12 @@ const Colors = () => {
         />
       ),
     },
+    {
+      key: "ColorName",
+      header: "Name",
+      className: "w-full",
+    },
+
     {
       key: "actions",
       header: "Actions",
@@ -113,7 +117,6 @@ const Colors = () => {
   ];
   return (
     <div className="w-full h-full overflow-hidden gap-y-4 flex flex-col p-5">
-      <h1 className="text-2xl font-semibold text-gray-800">Colors</h1>
       <PageHeader
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

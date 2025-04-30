@@ -15,6 +15,7 @@ import Colors from "../../pages/admin/Colors";
 import Sizes from "../../pages/admin/Sizes";
 import Banner from "../../pages/admin/Banner";
 import BannerManagement from "../../pages/admin/Banner";
+import Payment from "../../pages/admin/Payment";
 
 const AdminRoute = () => {
   const isAuthenticated = () => {
@@ -44,6 +45,7 @@ const AdminRoute = () => {
         <Route path="size" element={<Sizes />} />
         <Route path="addProduct" element={<AddProduct />} />
         <Route path="productList" element={<ProductList />} />
+        <Route path="payment" element={<Payment />} />
         <Route path="admin" element={<Admin />} />
         <Route path="settings" element={<Settings />} />
       </Route>

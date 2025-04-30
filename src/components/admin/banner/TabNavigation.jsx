@@ -61,7 +61,7 @@ const TabNavigation = ({
       <button
         onClick={() => setShowPreview(true)}
         className="flex items-center gap-2 text-sm text-[#005C53]
-      cursor-pointer hover:bg-[#00897B] hover:text-white px-3 py-1 rounded border border-[#005C53]"
+      cursor-pointer hover:bg-[#00897B] hover:text-white px-3 py-1 rounded border border-[#005C53]/40"
       >
         <Eye size={16} />
         <span>Preview {activeTab} banners</span>

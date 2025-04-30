@@ -1,5 +1,5 @@
-import { PlusCircle } from "lucide-react";
-import React from "react";
+import { PlusCircle, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
 
 /**
  * A reusable header component for pages with search and action buttons
@@ -27,9 +27,30 @@ const PageHeader = ({
   actionButton,
   children,
 }) => {
+  // State for tooltip visibility
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  // Use localStorage to track if tooltip has been shown before
+  useEffect(() => {
+    // Check if tooltip has been shown before
+    const hasSeenTooltip = localStorage.getItem("hasSeenGridTooltip");
+
+    if (!hasSeenTooltip) {
+      // If not shown before, show it and set the flag
+      setShowTooltip(true);
+      localStorage.setItem("hasSeenGridTooltip", "true");
+    }
+  }, []);
+
   // Default button styling
   const defaultButtonClass =
-    "flex items-center gap-2 bg-[#005C53] text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-[#005C53]/80 transition-colors";
+    "flex items-center gap-2 bg-green-700 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-800 transition-colors";
+
+  // Function to close tooltip
+  const closeTooltip = (e) => {
+    e.stopPropagation();
+    setShowTooltip(false);
+  };
 
   return (
     <div className="flex items-center justify-between">
@@ -42,16 +63,41 @@ const PageHeader = ({
       />
 
       <div className="flex items-center gap-x-3 justify-end">
-        {/* Optional view toggle button */}
+        {/* View toggle button with tooltip */}
         {viewToggle && (
-          <button
-            onClick={() => viewToggle.setViewMode((prev) => !prev)}
-            className="group cursor-pointer"
-          >
-            {viewToggle.isGridView
-              ? viewToggle.gridIcon
-              : viewToggle.alternateIcon}
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => viewToggle.setViewMode((prev) => !prev)}
+              className="group cursor-pointer p-2 rounded-full hover:bg-gray-100"
+            >
+              {viewToggle.isGridView
+                ? viewToggle.gridIcon
+                : viewToggle.alternateIcon}
+            </button>
+
+            {/* Professional tooltip with close button - only shows first time */}
+            {showTooltip && (
+              <div
+                className="absolute right-0 top-12 w-64
+               bg-white rounded-lg shadow-lg border border-gray-200 z-[1000] p-3 text-sm"
+              >
+                <div className="absolute -top-2 right-4 w-4 h-4 bg-white rotate-45 border-t border-l border-gray-200"></div>
+                <div className="flex justify-between items-start mb-2">
+                  <div className="font-semibold text-gray-800">Layout tip</div>
+                  <button
+                    onClick={closeTooltip}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+                <p className="text-gray-600">
+                  You can rearrange items by drag and drop to customize your
+                  view
+                </p>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Optional action button */}

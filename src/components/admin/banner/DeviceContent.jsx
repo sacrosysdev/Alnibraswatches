@@ -16,7 +16,7 @@ const DeviceContent = ({
           <div key={index} className="bg-gray-50 rounded-lg p-3 shadow-sm">
             <h3 className="text-sm font-medium text-gray-700 mb-2">
               {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Banner{" "}
-              {index}
+              {index + 1}
             </h3>
             <ImageUploader
               aspectRatio={BANNER_DEV_CONFIG[activeTab].aspectRatio}
@@ -31,9 +31,9 @@ const DeviceContent = ({
               recommendedWidth={BANNER_DEV_CONFIG[activeTab].recommendedWidth}
               recommendedHeight={BANNER_DEV_CONFIG[activeTab].recommendedHeight}
               onImageUpload={(data) =>
-                handleImageUpload(activeTab, index, data)
+                handleImageUpload(activeTab, index + 1, data)
               }
-              onImageDelete={() => handleImageDelete(activeTab, index)}
+              onImageDelete={() => handleImageDelete(activeTab, index + 1)}
               containerClassName="mb-2"
             />
             <p className="text-xs text-gray-500 mt-2">
