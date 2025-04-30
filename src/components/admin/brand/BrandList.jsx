@@ -19,10 +19,12 @@ const BrandList = ({
     {
       key: "Id",
       header: "ID",
+      className: "w-4",
     },
     {
       key: "ImageUrl",
       header: "Image",
+      className: "w-10",
       render: (brand) => (
         <div className="h-12 w-12 rounded-md overflow-hidden bg-gray-100">
           {brand.ImageUrl ? (
@@ -41,6 +43,7 @@ const BrandList = ({
     },
     {
       key: "Name",
+      className: "w-full",
       header: "Name",
     },
 

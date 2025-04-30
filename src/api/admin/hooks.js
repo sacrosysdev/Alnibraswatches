@@ -1,352 +1,183 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import API from "../httpService";
-import {
-  ADMIN_LOGIN,
-  DELETE_BRAND,
-  DELETE_CATEGORY,
-  GET_BANNER,
-  GET_BRAND,
-  GET_CATEGORY,
-  GET_COLOR,
-  GET_SIZE,
-  IMAGE_DELETE_ENDPOINT,
-  IMAGE_UPLOAD_ENDPOINT,
-  POST_BANNER,
-  POST_BRAND,
-  POST_CATEGORY,
-  POST_COLOR,
-  POST_SIZE,
-  PUT_BANNER,
-  PUT_BRAND,
-  PUT_CATEGORY,
-  PUT_COLOR,
-  PUT_COLOR_ACITVE,
-  PUT_SIZE,
-  PUT_SIZE_ACTIVE,
-} from "./endpoint";
-import axios from "axios";
 import { transformImageUrls } from "../../util/transformImageUrls";
 import { BANNER_INITIAL_VALUE } from "../../constant/admin";
+import {
+  activeColor,
+  activeSize,
+  addBanner,
+  addBrand,
+  addCategory,
+  addColor,
+  addProduct,
+  addSize,
+  adminLogin,
+  deleteBrand,
+  deleteCategory,
+  deleteImage,
+  editBanner,
+  editBrand,
+  editBrandOrder,
+  editCategory,
+  editCategoryOrder,
+  editColor,
+  editProduct,
+  editSizee,
+  getBanner,
+  getBrand,
+  getCategory,
+  getColors,
+  getProducts,
+  getSizes,
+  uploadImage,
+} from "./service";
 
 //////////////////////   IMAGEG UPLOAD AND DELETE ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// Image upload hook
+// IMAGE UPLOAD
 export const useImageUpload = () =>
   useMutation({
     mutationKey: ["uploadImage"],
-    mutationFn: async (file) => {
-      const formData = new FormData();
-      formData.append("imageFiles", file);
-      const response = await axios.post(IMAGE_UPLOAD_ENDPOINT, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          clientID: import.meta.env.VITE_CLIENT_ID,
-          Token: import.meta.env.VITE_UPLOAD_TOKNE,
-          imageClassification: "dtac",
-        },
-      });
-      return response.data;
-    },
+    mutationFn: uploadImage,
   });
-// Image DELETE hook
+// IMAGE DELETE
 export const useImageDelete = () =>
   useMutation({
     mutationKey: ["deleteImage"],
-    mutationFn: async (url) => {
-      // Extract the filename from the URL
-      const urlParts = url.split("/");
-      const filename = urlParts[urlParts.length - 1];
-      const thumbFilename = `thumb_${filename}`;
-      // Create the request payload
-      const payload = {
-        fileNames: [filename, thumbFilename],
-      };
-      const response = await axios.delete(IMAGE_DELETE_ENDPOINT, {
-        headers: {
-          Token: import.meta.env.VITE_UPLOAD_TOKNE,
-          clientID: import.meta.env.VITE_CLIENT_ID,
-          imageClassification: "dtac",
-          "Content-Type": "application/json",
-        },
-        data: payload,
-      });
-
-      return response.data;
-    },
+    mutationFn: deleteImage,
   });
-
-// Admin login
+// ADMIN LOGIN
 export const useAdminLogin = () =>
   useMutation({
     mutationKey: ["adminLogin"],
-    mutationFn: (credential) =>
-      API.get(ADMIN_LOGIN, {
-        headers: {
-          email: credential.username,
-          Password: credential.password,
-        },
-      }).then((res) => res.data),
+    mutationFn: adminLogin,
   });
 //////////////////////   CATEGORY SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// Get all category
+// GET ALL CATEGORY
 export const useGetAllCategory = () =>
   useQuery({
     queryKey: ["allCategory"],
-    queryFn: () => API.get(GET_CATEGORY).then((res) => res.data.data),
+    queryFn: getCategory,
   });
-// post category
+// ADD CATEGORY
 export const usePostCategory = () =>
   useMutation({
     mutationKey: ["postCategory"],
-    mutationFn: (category) =>
-      API.post(POST_CATEGORY, {
-        categoryName: category.name,
-        categoryDescription: category.description,
-        parentCategoryId: 0,
-        imageUrl: category.imageUrl,
-      }).then((res) => res.data),
+    mutationFn: addCategory,
   });
-// put category
+// EDIT CATEGORY
 export const usePutCategory = () =>
   useMutation({
     mutationKey: ["putCategory"],
-    mutationFn: ({ category, categoryId }) =>
-      API.put(
-        PUT_CATEGORY,
-        [
-          {
-            categoryName: category.name,
-            categoryDescription: category.description,
-            parentCategoryId: category.parentId,
-            imageUrl: category.imageUrl,
-          },
-        ],
-        {
-          headers: {
-            categoryID: categoryId,
-            bulkUpdate: false,
-          },
-        }
-      ),
+    mutationFn: editCategory,
   });
-// put category order
+// EDIT CATEGORY ORDER
 export const usePutCategoryOrder = () =>
   useMutation({
     mutationKey: ["categoryOrder"],
-    mutationFn: (category) =>
-      API.put(PUT_CATEGORY, category, {
-        headers: {
-          bulkUpdate: true,
-        },
-      }),
+    mutationFn: editCategoryOrder,
   });
-// delete category
+// DELETE CATEGORY
 export const useDeleteCategory = () =>
   useMutation({
     mutationKey: ["deleteCategory"],
-    mutationFn: async (categoryId) => {
-      try {
-        const response = await API.delete(DELETE_CATEGORY, {
-          headers: {
-            categoryID: categoryId,
-          },
-        });
-        return response.data;
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.message ||
-          error.message ||
-          "Failed to delete category";
-
-        const enhancedError = new Error(errorMessage);
-        enhancedError.originalError = error;
-        throw enhancedError;
-      }
-    },
+    mutationFn: deleteCategory,
   });
 
 //////////////////////   BRAND SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// get brand
+// GET BRAND
 export const useGetBrand = () =>
   useQuery({
     queryKey: ["getBrand"],
-    queryFn: () => API.get(GET_BRAND).then((res) => res.data.data),
+    queryFn: getBrand,
   });
-// add BRAND
+// ADD BRAND
 export const usePostBrand = () =>
   useMutation({
     mutationKey: ["addBrand"],
-    mutationFn: (newBrand) =>
-      API.post(POST_BRAND, newBrand).then((res) => res.data),
+    mutationFn: addBrand,
   });
-// edit BRAND
+// EDIT BRAND
 export const useEditBrand = () =>
   useMutation({
     mutationKey: ["editBrand"],
-    mutationFn: ({ updatedBrand, brandId }) =>
-      API.put(PUT_BRAND, updatedBrand, {
-        headers: {
-          brandID: brandId,
-        },
-      }).then((res) => res.data),
+    mutationFn: editBrand,
   });
 
-// change BRAND order
+// CHANGE BRAND ORDER
 export const useEditBrandOrder = () =>
   useMutation({
     mutationKey: ["brandOrder"],
-    mutationFn: (brand) =>
-      API.put(PUT_BRAND, brand, {
-        headers: {
-          bulkUpdate: true,
-        },
-      }),
+    mutationFn: editBrandOrder,
   });
-// delete brand
+// DELETE BRAND
 export const useDeleteBrand = () =>
   useMutation({
     mutationKey: ["deleteBrand"],
-    mutationFn: async (brandId) => {
-      try {
-        const response = await API.delete(DELETE_BRAND, {
-          headers: {
-            brandID: brandId,
-          },
-        });
-        return response.data;
-      } catch (error) {
-        const errorMessage =
-          error.response?.data?.message ||
-          error.message ||
-          "Failed to delete brand";
-
-        const enhancedError = new Error(errorMessage);
-        enhancedError.originalError = error;
-        throw enhancedError;
-      }
-    },
+    mutationFn: deleteBrand,
   });
 //////////////////////   COLOR SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// get color
+// GET COLOR
 export const useGetColor = () =>
   useQuery({
     queryKey: ["getColor"],
-    queryFn: () => API.get(GET_COLOR).then((res) => res.data.data),
+    queryFn: getColors,
   });
-// add color
+// ADD COLOR
 export const useAddColor = () =>
   useMutation({
     mutationKey: ["addColor"],
-    mutationFn: (color) =>
-      API.post(POST_COLOR, {
-        colors: [{ colorName: color.ColorName, hexCode: color.HexCode }],
-      }).then((res) => res.data),
+    mutationFn: addColor,
   });
-// edit color
+// EDIT COLOR
 export const useEditColor = () =>
   useMutation({
     mutationKey: ["editColor"],
-    mutationFn: ({ updatedColor, colorId }) =>
-      API.put(
-        PUT_COLOR,
-        {
-          colorName: updatedColor.ColorName,
-          hexCode: updatedColor.HexCode,
-        },
-        {
-          headers: {
-            ColorId: colorId,
-            isActive: String(updatedColor.isActive),
-          },
-        }
-      ).then((res) => res.data),
+    mutationFn: editColor,
   });
-// active color
+// ACTIVE COLOR
 export const useActiveColor = () =>
   useMutation({
     mutationKey: ["activeColor"],
-    mutationFn: (active, colorId) =>
-      API.put(
-        PUT_COLOR_ACITVE,
-        {},
-        {
-          headers: {
-            ColorId: colorId,
-            IsActive: active,
-          },
-        }
-      ).then((res) => res.data),
+    mutationFn: activeColor,
   });
 //////////////////////   SIZE SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// get size
+// GET SIZE
 export const useGetSizes = () =>
   useQuery({
     queryKey: ["getSizes"],
-    queryFn: () => API.get(GET_SIZE).then((res) => res.data.data),
+    queryFn: getSizes,
   });
-// add size
+// ADD SIZE
 export const useAddSize = () =>
   useMutation({
     mutationKey: ["addSize"],
-    mutationFn: (size) =>
-      API.post(
-        POST_SIZE,
-        {},
-        {
-          headers: {
-            sizeLabel: size.sizeLable,
-          },
-        }
-      ).then((res) => res.data),
+    mutationFn: addSize,
   });
-// edit size
+// EDIT SIZE
 export const useEditSize = () =>
   useMutation({
     mutationKey: ["editSize"],
-    mutationFn: ({ updatedSize, sizeId }) =>
-      API.put(
-        PUT_SIZE,
-        {},
-        {
-          headers: {
-            SizeId: sizeId,
-            sizeLabel: updatedSize.sizeLable,
-            isActive: updatedSize.isActive,
-          },
-        }
-      ).then((res) => res.data),
+    mutationFn: editSizee,
   });
-// active size
+
+// ACTIVE SIZE
 export const useActiveSize = () =>
   useMutation({
     mutationKey: ["activeSize"],
-    mutationFn: (active, sizeId) =>
-      API.put(
-        PUT_SIZE_ACTIVE,
-        {},
-        {
-          headers: {
-            SizeId: sizeId,
-            IsActive: active,
-          },
-        }
-      ).then((res) => res.data),
+    mutationFn: activeSize,
   });
 
 //////////////////////   BANNER SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-// add BANNER
+// ADD BANNER
 export const useAddBanner = () =>
   useMutation({
     mutationKey: ["addBanner"],
-    mutationFn: (bannerDetails) =>
-      API.post(POST_BANNER, { ...bannerDetails, settings: "" }).then(
-        (res) => res.data
-      ),
+    mutationFn: addBanner,
   });
-// get BANNER
+// GET BANNER
 export const useGetBanner = () =>
   useQuery({
     queryKey: ["getBanners"],
-    queryFn: () => API.get(GET_BANNER).then((res) => res.data.data),
+    queryFn: getBanner,
     select: (data) => {
       if (data.length === 0) return BANNER_INITIAL_VALUE;
       const response = data[0];
@@ -368,10 +199,31 @@ export const useGetBanner = () =>
       return { desktop, tab, mobile };
     },
   });
-// put BANNER
+// EDIT BANNER
 export const useEditBanner = () =>
   useMutation({
     mutationKey: ["editBanner"],
-    mutationFn: (updatedBanners) =>
-      API.put(PUT_BANNER, updatedBanners).then((res) => res.data),
+    mutationFn: editBanner,
+  });
+
+//////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+// GET PRODUCTS
+export const useGetProducts = () =>
+  useQuery({
+    queryKey: ["getProducts"],
+    queryFn: getProducts,
+    select: (data) =>
+      data.map((item) => ({ ...item, images: JSON.parse(item.images) })),
+  });
+// ADD PRODUCT
+export const useAddProducts = () =>
+  useMutation({
+    mutationKey: ["addProduct"],
+    mutationFn: addProduct,
+  });
+// EDIT PRODUCT
+export const useEditProduct = () =>
+  useMutation({
+    mutationKey: ["editProduct"],
+    mutationFn: editProduct,
   });

@@ -16,10 +16,12 @@ const CategoryList = ({
     {
       key: "Id",
       header: "ID",
+      className: "w-4",
     },
     {
       key: "ImageUrl",
       header: "Image",
+      className: "w-10",
       render: (category) => (
         <div className="h-12 w-12 rounded-md overflow-hidden bg-gray-100">
           {category.ImageUrl && category.ImageUrl !== "" ? (
@@ -38,11 +40,13 @@ const CategoryList = ({
     },
     {
       key: "Name",
+      className: "w-20",
       header: "Name",
     },
     {
       key: "CategoryDescription",
       header: "Description",
+      className: "w-full",
     },
     {
       key: "actions",
