@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { useBrandList } from '../../../api/user/hooks';
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom';
 
 const Brands = () => {
   const { data: brands, isLoading: loadingBrands } = useBrandList();
   const scrollRef = useRef();
-
+  const navigate = useNavigate();
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
@@ -13,10 +14,14 @@ const Brands = () => {
   const scrollRight = () => {
     scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
   };
+  const goToProductList = (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    navigate(`/trending?${params}`);
+  };
 
   return (
     <div>
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center '>
         <div>
           <h1 className='font-bodoni text-[#0D1217] font-bold md:text-[34px] text-[25px]'>Shop by Brands</h1>
           {/* <p className='text-[#031C2C] py-1'>234 New items added</p> */}
@@ -39,7 +44,9 @@ const Brands = () => {
             key={index}
             src={item.ImageUrl}
             alt=""
-            className="w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[150px] sm:h-[200px] md:h-[250px] lg:h-[300px] object-cover rounded-md"
+            onClick={()=>goToProductList({brand:item.Id})}
+            className="w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[150px] 
+                sm:h-[200px] md:h-[250px] lg:h-[300px] object-cover rounded-md cursor-pointer"
           />
           ))}
         </div>

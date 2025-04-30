@@ -5,8 +5,21 @@ import PaymentSection from "./PaymentSection";
 import PlaceOrder from "./PlaceOrder";
 import { Formik, Form } from "formik";
 import { checkOutValidation } from "../../../constant/schema";
+import Address from "./Address";
+import { useGetSelectedAddress } from '../../../api/user/hooks'
 
 const Checkout = () => {
+  const { data: address, isLoading: loadingAddress } = useGetSelectedAddress();
+  if (loadingAddress || !address) {
+     return <div>Loading...</div>;
+   }
+   let parsedDetails = {};
+   try {
+     parsedDetails = JSON.parse(address.AddressDetails);
+   } catch (err) {
+     console.error("Error parsing address:", err);
+     return <div>Invalid address format</div>;
+   }
   const initialValues = {
     fullName: "",
     phone: "",
@@ -38,8 +51,14 @@ const Checkout = () => {
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start mx-auto px-5 md:w-[80%]">
             <div className="col-span-1 xl:col-span-2">
               <Header />
-              <CheckOutForm />
-              <PaymentSection />
+              <Address label={parsedDetails.AddressLabel} 
+                        phone={parsedDetails.PhoneNumber} 
+                        address={parsedDetails.Address}
+                        district={parsedDetails.District}
+                        userName={parsedDetails.UserName}
+                        city={parsedDetails.City}/>
+              {/* <CheckOutForm /> */}
+              <PaymentSection /> 
             </div>
             <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
               <PlaceOrder />

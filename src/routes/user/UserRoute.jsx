@@ -11,11 +11,17 @@ const OrderHistoryPage = lazy(() =>
 const AboutUsPage = lazy(() => import("../../pages/user/AboutUs/AboutUs"));
 const CartPage = lazy(() => import("../../pages/user/Cart/Cart"));
 const WishlistPage = lazy(() => import("../../pages/user/Wishlist/Wishlist"));
+const SignupPage = lazy(()=> import('../../pages/user/Signup/Signup'))
+const LoginPage = lazy(()=> import('../../pages/user/Login/Login'))
+const ResetPasswordPage = lazy(()=> import('../../pages/user/Resetpassword/Reset'))
 const UserRoute = () => {
   return (
     <Routes>
       <Route path="/" element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path='/register' element={<SignupPage/>}></Route>
+        <Route path='/login' element={<LoginPage/>}></Route>
+        <Route path='/reset-password' element={<ResetPasswordPage/>}></Route>
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />

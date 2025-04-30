@@ -2,14 +2,37 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import SummaryBox from './SummaryBox'
 import Ratings from '../Product/Ratings'
-import RecentSearch from '../Product/RecentSearch'
+// import RecentSearch from '../Product/RecentSearch'
 import Nodata from '../../../assets/images/wishlist/Nodata.webp'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../../contexts/user/CartContext'
 
 const Cart = () => {
-    const {cart} = useCart()
-    console.log(cart)
+     const { cart, updateCartItem, removeFromCart } = useCart()
+        const subtotal = cart.reduce((acc, item) => {
+            return acc + (item.Quantity * (item?.DiscountPrice || item?.Price));
+        }, 0);
+        const decreaseFromCart = () => {
+            if(item.Quantity>1){
+                const updatedItem = {
+                    ...item,
+                    Quantity: item.Quantity - 1
+                };
+                updateCartItem(updatedItem)
+            }
+          
+        }
+        const increaseFromCart = (item) => {
+            const updatedItem = {
+                ...item,
+                Quantity: item.Quantity + 1
+            };
+            updateCartItem(updatedItem)
+        }
+        const removeItemFromCart = (cartId) => {
+            removeFromCart(cartId)
+        }
+   
     const isEmpty = cart.length === 0 
     return (
         <div className='p-5 xl:p-16'>
@@ -23,12 +46,15 @@ const Cart = () => {
                             {cart.map((item, index) =>
                                 <div key={item.id} className={`${index !== cart.length - 1 ? 'border-b border-[#A3A3A3]' : ''}`}>
                                 <ProductCard 
-                                id={item.id} 
-                                image={item.image} 
-                                title={item.title} 
-                                brand={item.brand} 
-                                price={item.price} 
-                                quantity={item.quantity}/>
+                                id={item.ProductId} 
+                                image={item.PrimaryImageUrl} 
+                                title={item.ProductName} 
+                                brand={item.BrandName} 
+                                price={item?.DiscountPrice || item?.Price} 
+                                quantity={item.Quantity}
+                                increaseFromCart={() => increaseFromCart(item)}
+                                decreaseFromCart={() => decreaseFromCart(item)}
+                                removeItemFromCart={() => removeItemFromCart(item.CartId)}/>
                             </div>)}
                         </div>) : (
                             <div className="h-full flex flex-col gap-3 justify-center items-center  ">
@@ -55,9 +81,9 @@ const Cart = () => {
                 <div className='py-5'>
                     <Ratings />
                 </div>
-                <div className='py-5'>
+                {/* <div className='py-5'>
                     <RecentSearch />
-                </div>
+                </div> */}
             </div>
         </div>
     )

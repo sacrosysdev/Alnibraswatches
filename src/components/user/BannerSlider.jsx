@@ -1,13 +1,12 @@
 import React from "react";
 import Slider from "react-slick";
-import Banner from "../../pages/user/Home/Banner";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { sliderData } from "../../constants";
-import { motion, AnimatePresence } from "framer-motion";
-
+import { motion } from "framer-motion";
+import { useBannerList } from "../../api/user/hooks";
+import { useNavigate } from "react-router-dom";
 const BannerSlider = () => {
+  const { data: banners, isLoading: loadingBanner } = useBannerList();
   var settings = {
     dots: false,
     infinite: true,
@@ -19,48 +18,145 @@ const BannerSlider = () => {
     autoplaySpeed: 5000,
     fade: true,
   };
+  const navigate = useNavigate()
+  const bannerItem = banners?.[0];
+  const mobileImages = bannerItem?.MobileBrandingData ? JSON.parse(bannerItem.MobileBrandingData)[0] : {};
+  const tabImages = bannerItem?.TabBrandingData ? JSON.parse(bannerItem.TabBrandingData)[0] : {};
+  const webImages = bannerItem?.WebBrandingData ? JSON.parse(bannerItem.WebBrandingData)[0] : {};
+
+  const extractUrls = (dataObj) => {
+      return Object.values(dataObj || {}).filter((url) => typeof url === "string" && url.trim() !== "");
+  };
+
+  const mobileSlides = extractUrls(mobileImages);
+  const tabSlides = extractUrls(tabImages);
+  const webSlides = extractUrls(webImages);
+  const shopNowHandler = () =>{
+    navigate(`/trending`)
+  }
   return (
     <div className="">
-      <AnimatePresence>
+      {/* Mobile View (commented out in original code) */}
+      <div className="block md:hidden">
         <Slider {...settings}>
-          <div>
-            <Banner />
-          </div>
-          {sliderData.map((item) => (
-            <div key={item.id}>
-              <div className="relative h-[110vh] md:h-[70vh] xl:min-h-[130vh] overflow-hidden">
-                <img
-                  src={item.img}
-                  alt="bannerimg"
-                  className="object-cover h-full w-full"
-                />
-                <div className="absolute left-2 xl:left-16 top-5 xl:top-16 w-full">
-                  <motion.h1
-                    key={item.id + "-title"}
-                    className="md:w-1/2 font-unlock text-3xl xl:text-[60px] xl:leading-16 text-white"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                  >
-                    {item.title}
-                  </motion.h1>
-
-                  <motion.p
-                    key={item.id + "-desc"}
-                    className="w-11/12 md:w-1/3 pt-5 font-extralight leading-5 text-white"
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                  >
-                    {item.desc}
-                  </motion.p>
-                </div>
+          {mobileSlides.map((img, idx) => (
+            <div key={`mobile-${idx}`}>
+              <img src={img} alt={`mobile-banner-${idx}`} className="w-full h-[80vh] object-cover" />
+              <div className="absolute left-4 top-6 w-11/12">
+                <motion.h1
+                  className="text-5xl font-bold text-white leading-tight"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  Welcome to <br /> AL NIBRAZ Watches
+                </motion.h1>
+                <motion.p
+                  className="text-xl text-white mt-2"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                >
+                  {"Step into a world where tradition meets innovation "}
+                </motion.p>
+                <motion.button
+                  className="mt-6 px-6 py-3 border border-white text-white
+                             bg-transparent rounded-md cursor-pointer
+                           hover:bg-white hover:text-black transition-all duration-300"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                  onClick={shopNowHandler}
+                >
+                  Shop Now
+                </motion.button>
               </div>
             </div>
           ))}
         </Slider>
-      </AnimatePresence>
+      </div>
+
+      {/* Tablet View */}
+      <div className="hidden md:block xl:hidden">
+        <Slider {...settings}>
+          {tabSlides.map((img, idx) => (
+            <div key={`tab-${idx}`}>
+              <img src={img} alt={`tab-banner-${idx}`} className="w-full h-[70vh] object-cover" />
+              <div className="absolute left-4 top-6 w-11/12">
+                <motion.h1
+                  className="text-5xl font-bold text-white leading-tight"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  
+                >
+                  Welcome to <br /> AL NIBRAZ Watches
+                </motion.h1>
+                <motion.p
+                  className="text-xl text-white mt-2"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                >
+                  {"Step into a world where tradition meets innovation "}
+                </motion.p>
+                <motion.button
+                  className="mt-6 px-6 py-3 border border-white
+                           text-white bg-transparent rounded-md hover:bg-white hover:text-black 
+                            transition-all duration-300 cursor-pointer"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                  onClick={shopNowHandler}
+                >
+                  Shop Now
+                </motion.button>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden xl:block">
+        <Slider {...settings}>
+          {webSlides.map((img, idx) => (
+            <div key={`web-${idx}`}>
+              <img src={img} alt={`web-banner-${idx}`} className="w-full h-[80vh] object-cover" />
+              <div className="absolute left-17 top-24 ">
+                <motion.h1
+                  className="text-5xl font-bold text-white leading-tight"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  Welcome to <br /> AL NIBRAZ Watches
+                </motion.h1>
+                <motion.p
+                  className="text-xl text-white mt-2"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                >
+                  {"Step into a world where tradition meets innovation "}
+                </motion.p>
+                <motion.button
+                  className="mt-6 px-6 py-3 border border-white text-white bg-transparent rounded-md
+                           hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                  onClick={shopNowHandler}
+                >
+                  Shop Now
+                </motion.button>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };
+
 export default BannerSlider;

@@ -2,11 +2,11 @@ import React,{useState} from 'react'
 import Sidebar from './Sidebar'
 import Header from './Header'
 import ProductListing from './ProductListing'
+
 const Trending = () => {
     const [filtBrandList, setFiltBrandList] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const handleSelectCategory = (category) => {
-        console.log("Selected Category in Trending:", category);
         setSelectedCategory(category);
       };
     const handleRemoveBrand = (brandName) => {
