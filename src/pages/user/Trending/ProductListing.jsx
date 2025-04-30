@@ -3,16 +3,20 @@ import ShopCard from './ShopCard';
 import { useProductList } from '../../../api/user/hooks';
 import { FadeLoader } from 'react-spinners';
 import { normalizeProductData } from '../../../api/user/service';
-
+import { useLocation } from 'react-router-dom';
 const ProductListing = () => {
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const brand = query.get('brand');
+  const category = query.get('category');
+  const filters = { brand, category };
   const {
     data,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading
-  } = useProductList();
-
+  } = useProductList(filters);
   const observer = useRef();
 
   const loadMoreRef = useCallback(

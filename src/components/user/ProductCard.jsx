@@ -4,14 +4,35 @@ import { useWishlist } from '../../contexts/user/WishListContext'
 import FillHeart from '../../assets/svg/product/heartfill.svg'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-const ProductCard = ({ id, image, title, brand, price }) => {
-  const { wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
-  const isInWishList = wishlist.some((item) => item.id === id)
-  const navigate = useNavigate()
-  const goToProductDetailPage = () => {
-    navigate(`/product/${id}`)
 
+const ProductCard = ({ id, image, title, brand, price, variantId }) => {
+  const { wishlist, addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
+  const navigate = useNavigate()
+  const goToProductDetailPage = (e) => {
+    navigate(`/product/${id}`)
   }
+
+  const handleWishlistToggle = (e) => {
+    e.stopPropagation(); 
+    e.preventDefault();
+    
+    if (isInWishlist(id)) {
+      removeFromWishlist({
+        id, 
+        variantId
+      });
+    } else {
+      addToWishlist({ 
+        id, 
+        image, 
+        title, 
+        brand, 
+        price, 
+        variantId 
+      });
+    }
+  };
+
   return (
     <div className='relative flex flex-col items-center gap-4 pb-5 
                   bg-[#F1F1F1] border border-[#A3C4C1] shadow-xl 
@@ -24,9 +45,17 @@ const ProductCard = ({ id, image, title, brand, price }) => {
         <h1 className='font-medium text-lg md:text-xl text-[#010F17]'>{title} </h1>
         <h3 className='text-sm text-[#757C81]'> <span>{brand}</span></h3>
       </div>
-      <h1 className='font-bold text-sm md:text-xl text-[#003F38]'>AED : <span>{price}</span></h1>
-      <div className='absolute top-4 right-4 '>
-        <motion.img src={isInWishList ? FillHeart : Heart} whileTap={{ scale: 0.8 }} alt="wishlist" className='cursor-pointer hover:text-black' onClick={() => { isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price }) }} />
+      <div className='flex justify-items-end'>
+        <h1 className='font-bold text-sm md:text-xl text-[#003F38]'>AED : <span>{price}</span></h1>
+      </div>
+      <div className='absolute top-4 right-4'>
+        <motion.img 
+          src={isInWishlist(id) ? FillHeart : Heart} 
+          whileTap={{ scale: 0.8 }} 
+          alt="wishlist" 
+          className='cursor-pointer hover:text-black' 
+          onClick={handleWishlistToggle} 
+        />
       </div>
     </div>
   )

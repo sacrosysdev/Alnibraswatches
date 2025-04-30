@@ -11,26 +11,22 @@ import { Link } from "react-router-dom";
 import { FaCaretRight } from "react-icons/fa6";
 import { FaCaretLeft } from "react-icons/fa6";
 import { useCategoryList } from "../../api/user/hooks";
-
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/user/CartContext";
 const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
-  const [mobileCartOpen, setMobileCartOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [navSticky, setNavSticky] = useState(false);
-
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(false);
   const { data: categories, isLoading: loadingCategories } = useCategoryList()
+  const { cart } = useCart()
+  const navigate = useNavigate()
   const handleNav = () => {
     setNavOpen(!navOpen);
   };
   const handleCart = () => {
-    // if (window.innerWidth >=768) {
     setCartOpen(!cartOpen);
-    // } else {
-    //   setMobileCartOpen(!mobileCartOpen)
-
-    // }
   };
   useEffect(() => {
     const handleScroll = () => {
@@ -41,9 +37,7 @@ const Navbar = () => {
       }
     };
     window.addEventListener("scroll", handleScroll);
-
     handleScroll();
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -60,6 +54,10 @@ const Navbar = () => {
       scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
     }
   };
+  const goToProductList = (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    navigate(`/trending?${params}`);
+  };
 
   // Check if scroll buttons should be visible
   const checkScrollPosition = () => {
@@ -73,7 +71,7 @@ const Navbar = () => {
     const canScrollRight =
       scrollContainer.scrollWidth > scrollContainer.clientWidth &&
       scrollContainer.scrollLeft <
-        scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      scrollContainer.scrollWidth - scrollContainer.clientWidth;
 
     setShowRightButton(canScrollRight);
   };
@@ -93,15 +91,15 @@ const Navbar = () => {
       }
     };
   }, []);
+
   return (
     <>
       <motion.div
         initial={{ width: "100%" }}
         animate={{ width: cartOpen ? "75%" : "100%" }}
         transition={{ type: "tween", duration: 0.3, ease: "easeInOut" }}
-        className={`   bg-[#005C53] px-5 xl:px-16 py-1 z-50 ${
-          navSticky ? "fixed top-0 left-0 right-0 shadow-md " : "relative"
-        }`}
+        className={`   bg-[#005C53] px-5 xl:px-16 py-1 z-50 ${navSticky ? "fixed top-0 left-0 right-0 shadow-md " : "relative"
+          }`}
       >
         <div className="flex justify-between items-center">
           <div className="w-1/3 ">
@@ -120,24 +118,43 @@ const Navbar = () => {
                 <Searchbox />
               </div>
               <div className="flex gap-3 xl:gap-4">
-                {navIcons.map((item, index) => (
-                  <div key={index}>
-                    <Link to={item.path}>
-                      <img
-                        src={item.icon}
-                        alt={item.name}
-                        className="cursor-pointer"
-                      />
-                    </Link>
-                  </div>
-                ))}
-                <div>
+                {navIcons.map((item, index) => {
+                  const handleClick = () => {
+                    if (item.name === "profile") {
+                      const userId = localStorage.getItem("alNibrazUserId");
+                      if (userId) {
+                        return "/account";
+                      } else {
+                        return "/login";
+                      }
+                    }
+                    return item.path;
+                  };
+                  return (
+                    <div key={index}>
+                      <Link to={handleClick()}>
+                        <img
+                          src={item.icon}
+                          alt={item.name}
+                          className="cursor-pointer"
+                        />
+                      </Link>
+                    </div>
+                  );
+                })}
+                <div className="relative">
                   <img
                     src={Cart}
                     alt="cart"
                     className="cursor-pointer"
                     onClick={handleCart}
                   />
+                  {cart.length > 0 && (
+                    <span className="absolute -top-3 -right-2 bg-red-500 text-white
+                                   text-xs px-1.5 py-0.5 rounded-full">
+                      {cart.length}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex xl:hidden">
@@ -165,16 +182,16 @@ const Navbar = () => {
             className="xl:flex overflow-x-auto scrollbar-hide whitespace-nowrap  pt-1 px-2 text-[#F0F0D6] hidden  "
           >
             <div className="flex gap-5 ">
-                {!loadingCategories && categories?.length > 0 && categories.map((item, index) => (
-                  <div key={index} className="relative uppercase group">
-                    <h1 className="text-[15px] transition-transform duration-200 ease-in-out 
-                                    cursor-pointer group-hover:-translate-y-3">
-                      {item.Name}
-                    </h1>
-                    <hr className="absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none" />
-                  </div>
-                ))}
-              </div>
+              {!loadingCategories && categories?.length > 0 && categories.map((item, index) => (
+                <div key={index} className="relative uppercase group">
+                  <h1 className="text-[15px] transition-transform duration-200 ease-in-out 
+                                    cursor-pointer group-hover:-translate-y-3" onClick={() => goToProductList({ category: item.Id })}>
+                    {item.Name}
+                  </h1>
+                  <hr className="absolute text-[#F0F0D6] bottom-0 left-0 w-full opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100 pointer-events-none" />
+                </div>
+              ))}
+            </div>
           </div>
           {showRightButton && (
             <div

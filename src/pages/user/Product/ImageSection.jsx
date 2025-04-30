@@ -17,7 +17,7 @@ const ImageSection = ({ images }) => {
             <div key={index}>
               <div className='h-24 w-24 border border-[#E6E6E6] rounded-sm' onClick={() => setMainImage(item.imageUrl)}>
                 {item.imageUrl && (
-                  <img src={item.imageUrl} alt="product" className='h-full w-full object-contain' />
+                  <img src={item.imageUrl} alt="product" className='h-full w-full object-contain cursor-pointer' />
                 )}
               </div>
             </div>

@@ -9,10 +9,9 @@ import { useCart } from '../../../contexts/user/CartContext';
 const ProductCard = ({id,image, title, brand, price, quantity}) => {
   const {wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
   const isInWishList= wishlist.some((item) => item.id === id)
-  console.log(wishlist)
   const {cart, addToCart, decreaseFromCart, removeFromCart, clearCart } = useCart()
   const isInCart = cart.some((item)=>item.id === id)
-  console.log(cart)
+ 
   return (
     <div className='relative flex flex-col items-center gap-4 p-6 bg-[#F1F1F1]  rounded-2xl'>
 

@@ -4,13 +4,30 @@ import DoubleTick from '../../../assets/svg/product/doubletick.svg'
 import ProductInfo from './ProductInfo';
 import Ratings from './Ratings';
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useCart } from '../../../contexts/user/CartContext';
 
 
-const ProductDetails = ({ details, selectedVariant, setSelectedVariant }) => {
+const ProductDetails = ({ details, selectedVariant, setSelectedVariant,images }) => {
     const [quantity, setQuantity] = useState(1);
-    const [selectedVariants, setSelectedVariants] = useState(null);
+    const { cart,addToCartlist } = useCart()
     const increaseQty = () => setQuantity((prev) => prev + 1);
     const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+    const discountPrice = selectedVariant?.price?.discountPrice || details?.discountPrice;
+    const normalPrice = selectedVariant?.price?.price || details?.price;
+    const currency = selectedVariant?.price?.currency;
+    const hasDiscount = discountPrice !== null && discountPrice !== undefined && discountPrice !== 0;
+    const handleAddToCart = () => {
+        addToCartlist({
+            productId: details.productId,
+            variantId: selectedVariant?.variantId||-1,
+            quantity: quantity,
+            ProductName:details?.productName,
+            Price: normalPrice,
+            DiscountPrice:discountPrice,
+            PrimaryImageUrl:images[0]?.imageUrl,
+           
+          });
+    };
     useEffect(() => {
         if (details?.variants?.length > 0) {
             const variantsWithParsedImages = details.variants.map(variant => ({
@@ -32,6 +49,7 @@ const ProductDetails = ({ details, selectedVariant, setSelectedVariant }) => {
             });
         }
     }, [details]);
+  
     return (
         <section className='flex flex-col gap-4 '>
             <h2 className='font-bold font-bodoni text-4xl text-[#0D1217]'>{details?.productName}</h2>
@@ -40,15 +58,16 @@ const ProductDetails = ({ details, selectedVariant, setSelectedVariant }) => {
             <div className='flex flex-col gap-2'>
                 <div className='flex gap-3'>
                     <h1 className='font-bold text-2xl text-[#0D1217]'>
-                        {selectedVariant?.price?.currency} {selectedVariant?.price?.price}
+                        {currency} {hasDiscount ? discountPrice : normalPrice}
                     </h1>
-                    <h1 className='font-bold text-2xl text-[#A5B2BA] line-through'>
-                        {selectedVariant?.price?.currency} {selectedVariant?.price?.discountPrice}
-                    </h1>
+                    {hasDiscount && (
+                        <h1 className='font-bold text-2xl text-[#A5B2BA] line-through'>
+                            {currency} {normalPrice}
+                        </h1>
+                    )}
                 </div>
             </div>
             <div className='flex flex-col gap-2'>
-                {details?.variants?.[0]?.colorName && (<h1 className='font-gilroy text-base'>Available Colors</h1>)}
                 {details?.variants?.length > 0 && details.variants[0]?.colorName && (
                     <div className='flex flex-col gap-2'>
                         <h1 className='font-gilroy text-base'>Available Colors</h1>
@@ -93,7 +112,9 @@ const ProductDetails = ({ details, selectedVariant, setSelectedVariant }) => {
 
             <div className='grid grid-cols-2 gap-6'>
                 <button className='bg-[#00211E] text-white rounded-lg py-3 px-6'>Buy Now</button>
-                <button className='bg-white text-[#010F17] border border-[#010F17] rounded-lg py-3 px-6'>Add to Cart</button>
+                <button className='bg-white text-[#010F17] border cursor-pointer
+                                     border-[#010F17] rounded-lg py-3 px-6'
+                                     onClick={handleAddToCart}>Add to Cart</button>
             </div>
             <div className='flex flex-col gap-2 pb-3'>
                 {/* <h1 className='font-gilroy text-base'>Select Size</h1> */}

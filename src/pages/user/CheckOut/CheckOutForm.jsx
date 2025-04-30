@@ -5,13 +5,11 @@ import SelectField from '../../../components/user/SelectField';
 const CheckOutForm = () => {
     const states = ["Kerala", "US"]
     return (
-        <div className='p-5 pt-10'>
+        <div className=' pt-10'>
             <div className='py-8 flex flex-col gap-1'>
                 <h1 className='font-semibold text-lg'>Delivery Details</h1>
                 <h2 className='text-base text-[#8C9296]'>We will delivery your order to the below address</h2>
             </div>
-
-
             <div className='border-t border-b border-[#E8E9EA] pt-5 pb-10 space-y-4'>
                 <div className='grid grid-cols-1'>
                     <InputField
@@ -64,7 +62,6 @@ const CheckOutForm = () => {
                     </label>
                 </div>
             </div>
-
         </div>
     )
 }

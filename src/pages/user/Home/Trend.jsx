@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import Blob1 from '../../../assets/blobs/blobs1.svg';
 import { useCategoryList } from '../../../api/user/hooks';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
+import { useNavigate } from 'react-router-dom';
 const Trend = () => {
   const { data: categories, isLoading: loadingCategories } = useCategoryList();
   const scrollRef = useRef();
-
+  const navigate = useNavigate();
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -350, behavior: 'smooth' });
   };
@@ -14,7 +14,10 @@ const Trend = () => {
   const scrollRight = () => {
     scrollRef.current.scrollBy({ left: 350, behavior: 'smooth' });
   };
-
+  const goToProductList = (filters) => {
+    const params = new URLSearchParams(filters).toString();
+    navigate(`/trending?${params}`);
+  };
   return (
     <div className="relative">
       <div>
@@ -42,6 +45,7 @@ const Trend = () => {
             categories.map((item, index) => (
               <div
                 key={index}
+                onClick={()=>goToProductList({category:item.Id})}
                 className="relative shadow-2xl rounded-2xl overflow-hidden py-5 min-w-[200px] sm:min-w-[250px] md:min-w-[300px] 
                            lg:min-w-[300px] h-[350px] hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer bg-white"
               >

@@ -15,7 +15,7 @@ const PaymentSection = () => {
   const [selectedMethod, setSelectedMethod] = useState("gpay");
 
   return (
-    <div className="p-4 bg-white">
+    <div className="pt-10 bg-white">
       <h1 className="font-semibold text-lg">Payment Method</h1>
       <h2 className="text-base text-[#8C9296]">Choose your payment method</h2>
 

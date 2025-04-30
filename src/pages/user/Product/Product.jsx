@@ -49,6 +49,7 @@ const Product = () => {
             details={data}
             selectedVariant={hasVariants ? selectedVariant : null}
             setSelectedVariant={setSelectedVariant}
+            images={images}
           />
         </div>
       </div>
