@@ -48,11 +48,6 @@ export const SIDE_MENU = {
   ],
   Products: [
     {
-      title: "add product",
-      path: "addProduct",
-      icon: "formkit:add",
-    },
-    {
       title: "product list",
       path: "productList",
       icon: "lucide:box",
@@ -216,3 +211,25 @@ export const INITIAL_PRODUCT_DETAILS = {
   discountPrice: null,
   variants: [],
 };
+
+export const STATUS_OPTIONS = [
+  { value: "", label: "All Statuses" },
+  { value: "ordered", label: "Ordered" },
+  { value: "processing", label: "Processing" },
+  { value: "shipped", label: "Shipped" },
+  { value: "delivered", label: "Delivered" },
+  { value: "cancelled", label: "Cancelled" },
+];
+// Date preset options
+export const DATE_PRESET = [
+  { value: "all", label: "All Time" },
+  { value: "custom", label: "Custom Range" },
+  { value: "last30days", label: "Last 30 Days" },
+  { value: "thisMonth", label: "This Month" },
+  { value: "lastMonth", label: "Last Month" },
+  { value: "thisQuarter", label: "This Quarter" },
+  { value: "lastQuarter", label: "Last Quarter" },
+  { value: "twoQuartersAgo", label: "2 Quarters Ago" },
+  { value: "thisYear", label: "This Year" },
+  { value: "lastYear", label: "Last Year" },
+];

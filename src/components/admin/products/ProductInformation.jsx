@@ -156,19 +156,6 @@ const ProductInformation = ({
         />
       </div>
 
-      {/* <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Description
-        </label>
-        <textarea
-          name="description"
-          value={formData.description || ""}
-          onChange={handleInputChange}
-          className="w-full border border-gray-300 rounded-md p-2 text-sm"
-          placeholder="Enter product description"
-          rows={3}
-        />
-      </div> */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Description

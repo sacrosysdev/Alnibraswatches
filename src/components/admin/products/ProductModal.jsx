@@ -3,6 +3,21 @@ import FormModal from "../shared/FormModal";
 import Variants from "./Variants";
 import ProductInformation from "./ProductInformation";
 
+/**
+ * Modal component for adding or editing product information
+ * @param {boolean} isLoading - Whether the form submission is in progress
+ * @param {boolean} isModalOpen - Whether the modal is visible
+ * @param {Function} handleCloseModal - Function to close the modal
+ * @param {boolean} isEditing - Whether we're editing an existing product
+ * @param {Function} handleSubmit - Form submission handler
+ * @param {Object} formData - Current product form data
+ * @param {Function} setFormData - Function to update form data
+ * @param {Array} categories - List of available categories
+ * @param {Array} brands - List of available brands
+ * @param {Array} colors - List of available colors
+ * @param {Array} sizes - List of available sizes
+ */
+
 const ProductModal = ({
   isLoading,
   isModalOpen,

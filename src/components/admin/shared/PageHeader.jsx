@@ -1,5 +1,6 @@
 import { PlusCircle, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { IoSearch } from "react-icons/io5";
 
 /**
  * A reusable header component for pages with search and action buttons
@@ -23,7 +24,7 @@ const PageHeader = ({
   searchQuery = "",
   setSearchQuery = () => {},
   searchPlaceholder = "Search...",
-  viewToggle,
+  viewToggle = true,
   actionButton,
   children,
 }) => {
@@ -44,7 +45,7 @@ const PageHeader = ({
 
   // Default button styling
   const defaultButtonClass =
-    "flex items-center gap-2 bg-green-700 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-800 transition-colors";
+    "flex items-center gap-2 bg-[#005C53] text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-[#67807d] transition-colors";
 
   // Function to close tooltip
   const closeTooltip = (e) => {
@@ -53,14 +54,21 @@ const PageHeader = ({
   };
 
   return (
-    <div className="flex items-center justify-between">
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full max-w-sm border bg-white border-gray-200 outline-none rounded-lg text-sm p-3"
-        placeholder={searchPlaceholder}
-      />
+    <div className="flex flex-1 items-center justify-between">
+      <div className="max-w-sm relative  w-full">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full border bg-white/50 border-gray-200 outline-none
+           rounded-lg text-sm p-3 pl-10"
+          placeholder={searchPlaceholder}
+        />
+        <IoSearch
+          className="absolute text-gray-500 top-0 bottom-0 my-auto
+        text-lg left-3"
+        />
+      </div>
 
       <div className="flex items-center gap-x-3 justify-end">
         {/* View toggle button with tooltip */}

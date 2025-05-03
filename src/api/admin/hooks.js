@@ -3,6 +3,7 @@ import { transformImageUrls } from "../../util/transformImageUrls";
 import { BANNER_INITIAL_VALUE } from "../../constant/admin";
 import {
   activeColor,
+  activeProduct,
   activeSize,
   addBanner,
   addBrand,
@@ -20,16 +21,19 @@ import {
   editCategory,
   editCategoryOrder,
   editColor,
+  editOrderStatus,
   editProduct,
   editSizee,
   getBanner,
   getBrand,
   getCategory,
   getColors,
+  getOrderes,
   getProducts,
   getSizes,
   uploadImage,
 } from "./service";
+import { useState } from "react";
 
 //////////////////////   IMAGEG UPLOAD AND DELETE ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 // IMAGE UPLOAD
@@ -208,13 +212,20 @@ export const useEditBanner = () =>
 
 //////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 // GET PRODUCTS
-export const useGetProducts = () =>
-  useQuery({
-    queryKey: ["getProducts"],
-    queryFn: getProducts,
-    select: (data) =>
-      data.map((item) => ({ ...item, images: JSON.parse(item.images) })),
+export const useGetProducts = (paginationParams = {}) => {
+  return useQuery({
+    queryKey: ["getProducts", paginationParams],
+    queryFn: () => getProducts(paginationParams),
+    select: (data) => ({
+      products: data.data.map((item) => ({
+        ...item,
+        images: JSON.parse(item.images),
+      })),
+      totalCount: data.totalCount || data.data.length,
+      totalPages: Math.ceil(data?.totalCount / paginationParams.pageSize),
+    }),
   });
+};
 // ADD PRODUCT
 export const useAddProducts = () =>
   useMutation({
@@ -226,4 +237,32 @@ export const useEditProduct = () =>
   useMutation({
     mutationKey: ["editProduct"],
     mutationFn: editProduct,
+  });
+// ACTIVE PRODUCT
+export const useActiveProduct = () =>
+  useMutation({
+    mutationKey: ["activeProduct"],
+    mutationFn: (productId) => activeProduct({ productId }),
+  });
+
+//////////////////////   ORDER SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+// GET ORDERES
+export const useGetOrders = (paginationParams = {}) => {
+  return useQuery({
+    queryKey: ["getOrderes", paginationParams],
+    queryFn: () => getOrderes(paginationParams),
+    select: (data) => ({
+      orders: data.data,
+      totalCount: data.totalCount,
+      totalPages: Math.ceil(data?.totalCount / paginationParams.pageSize),
+    }),
+  });
+};
+
+// EIDT ORDER STATUS
+export const useEditOrderStatus = () =>
+  useMutation({
+    mutationKey: ["editOrderStatus"],
+    mutationFn: (product) => editOrderStatus(product),
   });

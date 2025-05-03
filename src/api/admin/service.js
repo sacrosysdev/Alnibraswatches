@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  ACTIVE_PRODUCT,
   ADMIN_LOGIN,
   DELETE_BRAND,
   DELETE_CATEGORY,
@@ -8,6 +9,7 @@ import {
   GET_BRAND,
   GET_CATEGORY,
   GET_COLOR,
+  GET_ORDERS,
   GET_PRODUCTS,
   GET_SIZE,
   IMAGE_DELETE_ENDPOINT,
@@ -23,6 +25,7 @@ import {
   PUT_CATEGORY,
   PUT_COLOR,
   PUT_COLOR_ACITVE,
+  PUT_ORDER_STATUS,
   PUT_SIZE,
   PUT_SIZE_ACTIVE,
 } from "./endpoint";
@@ -264,10 +267,30 @@ export const editBanner = (updatedBanners) =>
 
 //////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
-export const getProducts = ({ page = 1, pageSize = 10 }) =>
-  API.get(GET_PRODUCTS, {
-    headers: { page: page, pageSize: pageSize },
-  }).then((res) => res.data.data);
+export const getProducts = async ({
+  page = 1,
+  pageSize = 5,
+  productID = null,
+  productName = null,
+  categoryID = null,
+  brandID = null,
+}) => {
+  // Create headers object with only the non-null parameters
+  const headers = {};
+
+  // Add pagination parameters
+  headers.page = page;
+  headers.pageSize = pageSize;
+
+  // Add optional filter parameters if they exist
+  if (productID) headers.productID = productID;
+  if (productName) headers.productName = productName;
+  if (categoryID) headers.categoryID = categoryID;
+  if (brandID) headers.brandID = brandID;
+
+  const response = await API.get(GET_PRODUCTS, { headers });
+  return response.data;
+};
 
 export const addProduct = (productDetails) =>
   API.post(POST_PRODUCT, productDetails).then((res) => res.data);
@@ -278,3 +301,53 @@ export const editProduct = ({ updatedProduct, productId }) =>
       productID: productId,
     },
   });
+export const activeProduct = ({ productId }) =>
+  API.put(
+    ACTIVE_PRODUCT,
+    {},
+    {
+      headers: {
+        productID: productId,
+      },
+    }
+  );
+
+//////////////////////   ORDER SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+export const getOrderes = async ({
+  pageNo = 1,
+  pageSize = 10,
+  email = null,
+  orderID = null,
+  fromdate = null,
+  todate = null,
+  orderStatus = null,
+}) => {
+  const headers = {};
+
+  // Add pagination parameters
+  headers.pageNo = pageNo;
+  headers.pageSize = pageSize;
+
+  // Add optional filter parameters if they exist
+  if (email) headers.email = email;
+  if (orderID) headers.orderID = orderID;
+  if (fromdate) headers.fromdate = fromdate;
+  if (todate) headers.todate = todate;
+  if (orderStatus) headers.orderStatus = orderStatus;
+
+  const response = await API.get(GET_ORDERS, {
+    headers,
+  });
+  return response.data;
+};
+export const editOrderStatus = ({ OrderId, OrderStatus }) =>
+  API.put(
+    PUT_ORDER_STATUS,
+    {},
+    {
+      headers: {
+        OrderId,
+        OrderStatus,
+      },
+    }
+  );
