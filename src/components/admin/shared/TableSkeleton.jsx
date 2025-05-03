@@ -5,7 +5,7 @@ const TableSkeleton = () => {
   const skeletonRows = Array(5).fill(0);
 
   return (
-    <div className="w-full overflow-hidden bg-white rounded-lg   border-gray-200">
+    <div className="w-full overflow-hidden bg-white rounded-lg h-full   border-gray-200">
       <div className="animate-pulse">
         {/* Table header skeleton */}
         <div className="bg-gray-50 border-b border-gray-200">

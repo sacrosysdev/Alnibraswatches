@@ -89,7 +89,7 @@ const Categories = () => {
       if (isEditing && currentCategory) {
         await putCategory.mutateAsync({
           category: formData,
-          categoryId: currentCategory.CategoryId,
+          categoryId: currentCategory.Id,
         });
       } else {
         await postCategory.mutateAsync(formData);

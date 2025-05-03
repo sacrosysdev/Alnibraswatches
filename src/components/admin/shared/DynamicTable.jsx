@@ -58,7 +58,7 @@ const DynamicTable = ({
   }
 
   return (
-    <div className="w-full overflow-y-auto h-full bg-white rounded-lg shadow border border-gray-200">
+    <div className="w-full overflow-y-auto h-full bg-white rounded-lg  border border-gray-200">
       <table className="min-w-full  divide-y divide-gray-200">
         <thead className="bg-gray-50 sticky top-0 z-50">
           <tr>
@@ -116,9 +116,9 @@ const DynamicTable = ({
                 )}
 
                 {/* Dynamic cell rendering based on column configuration */}
-                {columns.map((column) => (
+                {columns.map((column, index) => (
                   <td
-                    key={column.key}
+                    key={index}
                     className="px-6 py-4  text-sm font-medium text-gray-800 whitespace-nowrap"
                   >
                     {column.render ? column.render(item) : item[column.key]}

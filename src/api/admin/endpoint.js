@@ -39,3 +39,8 @@ export const GET_BANNER = "getEcommerceConfig";
 export const GET_PRODUCTS = "getProductMaster";
 export const POST_PRODUCT = "postProductMaster";
 export const EDIT_PRODUCT = "putProductMaster";
+export const ACTIVE_PRODUCT = "ProductMasterInactive";
+
+// order
+export const GET_ORDERS = "getOrders";
+export const PUT_ORDER_STATUS = "putOrderStatus";

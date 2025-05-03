@@ -10,6 +10,7 @@ import BrandList from "../../components/admin/brand/BrandList";
 import BrandModal from "../../components/admin/brand/BrandModal";
 import DeleteModal from "../../components/admin/shared/DeleteModal";
 import PageHeader from "../../components/admin/shared/PageHeader";
+import { useProductData } from "../../hooks/admin/useProductData";
 
 const Brands = () => {
   const [searchQuery, setSearchQuery] = useState("");
