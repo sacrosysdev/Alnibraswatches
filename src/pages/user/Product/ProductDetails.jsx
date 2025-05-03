@@ -147,7 +147,7 @@ const ProductDetails = ({ details, selectedVariant, setSelectedVariant,images })
             <hr className='text-[#E5E5E5]' />
             <ProductInfo description={details?.description ?? []} />
             <hr className='text-[#E5E5E5]' />
-            <Ratings />
+            <Ratings product={details} />
         </section>
     )
 }

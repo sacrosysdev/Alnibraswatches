@@ -36,7 +36,7 @@ const BannerSlider = () => {
   }
   return (
     <div className="">
-      {/* Mobile View (commented out in original code) */}
+      {/* Mobile View  */}
       <div className="block md:hidden">
         <Slider {...settings}>
           {mobileSlides.map((img, idx) => (
@@ -44,7 +44,7 @@ const BannerSlider = () => {
               <img src={img} alt={`mobile-banner-${idx}`} className="w-full h-[80vh] object-cover" />
               <div className="absolute left-4 top-6 w-11/12">
                 <motion.h1
-                  className="text-5xl font-bold text-white leading-tight"
+                  className="text-3xl font-bold text-white leading-tight pt-5"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}

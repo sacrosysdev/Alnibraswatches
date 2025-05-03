@@ -10,17 +10,17 @@ const TopNav = () => {
                 <div>
                     <img src={Call} alt="callicon" />
                 </div>
-                <h1 className='text-[#F0F0D6] text-sm'>1800 257 8600</h1>
+                <h1 className='text-[#F0F0D6] text-sm'>+971 504297791</h1>
             </div>
             <div className='flex items-center  gap-2 '>
                 <div>
                     <img src={Mail} alt="mailicon" />
                 </div>
-                <h1 className='text-[#F0F0D6] text-sm'>info@goldDiomonds.com</h1>
+                <h1 className='text-[#F0F0D6] text-sm'>sales@alnibraswatches.com</h1>
             </div>
         </div>
         <div className='hidden md:flex'>
-            <h1 className='text-[#F0F0D6] text-sm'>IST  (Mon - Sat) 10:00 AM to 6:00 PM</h1>
+            <h1 className='text-[#F0F0D6] text-sm'>GST  (Mon - Sun) 10:00 AM to 10:00 PM</h1>
         </div>
     </div>
   )

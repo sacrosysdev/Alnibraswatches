@@ -47,7 +47,7 @@ const Trend = () => {
                 key={index}
                 onClick={()=>goToProductList({category:item.Id})}
                 className="relative shadow-2xl rounded-2xl overflow-hidden py-5 min-w-[200px] sm:min-w-[250px] md:min-w-[300px] 
-                           lg:min-w-[300px] h-[350px] hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer bg-white"
+                           lg:min-w-[300px] h-[250px] md:h-[350px] hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer bg-white"
               >
                 {/* Decorative blob */}
                 <div className="absolute left-0 top-0 z-0">

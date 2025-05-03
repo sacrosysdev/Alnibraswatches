@@ -3,7 +3,7 @@ import Trend from './Trend'
 import Brands from './Brands'
 import DemandItems from './DemandItems'
 import OfferBanner from './OfferBanner'
-import RecentSearched from './RecentSearched'
+// import RecentSearched from './RecentSearched'
 // import AppDownload from './AppDownload'
 import BannerSlider from '../../../components/user/BannerSlider'
 
@@ -17,7 +17,7 @@ const Home = () => {
         <Brands/>
         <DemandItems/>
         <OfferBanner/>
-        <RecentSearched/>
+        {/* <RecentSearched/> */}
         {/* <AppDownload/> */}
       </div>
     </div>

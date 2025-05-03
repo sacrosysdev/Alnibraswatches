@@ -5,11 +5,17 @@ import { useNavigate } from 'react-router-dom'
 const SummaryBox = () => {
    const { cart } = useCart()
    const navigate = useNavigate()
+   const userId = localStorage.getItem("alNibrazUserId");
    const subtotal = cart.reduce((acc, item) => {
                return acc + (item.Quantity * (item?.DiscountPrice || item?.Price));
     }, 0);
     const goToCheckout = () =>{
-        navigate('/checkout')
+        if (userId) {
+            navigate('/checkout')
+        }else{
+            localStorage.setItem("redirectAfterLogin", "/checkout");
+            navigate('/login')
+        }
     }
     return (
         <div className='py-10'>

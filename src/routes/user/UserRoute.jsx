@@ -14,6 +14,14 @@ const WishlistPage = lazy(() => import("../../pages/user/Wishlist/Wishlist"));
 const SignupPage = lazy(()=> import('../../pages/user/Signup/Signup'))
 const LoginPage = lazy(()=> import('../../pages/user/Login/Login'))
 const ResetPasswordPage = lazy(()=> import('../../pages/user/Resetpassword/Reset'))
+
+//Profile
+const ProfilePage = lazy(() => import('../../pages/user/Profile/Profile'))
+const PersonalInfoPage =  lazy(()=> import('../../pages/user/Profile/PersonalInfo'))
+const MyOrdersPage = lazy(()=> import('../../pages/user/Profile/MyOrders'))
+const ManageAddressPage = lazy(()=> import('../../pages/user/Profile/ManageAddress'))
+const PaymentMethodsPage = lazy(()=>import('../../pages/user/Profile/PaymentMethods'))
+const HelpCenterPage = lazy(()=>import('../../pages/user/Profile/HelpCenter'))
 const UserRoute = () => {
   return (
     <Routes>
@@ -29,6 +37,13 @@ const UserRoute = () => {
         <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path='/profile' element={<ProfilePage/>}>
+                <Route index element={<PersonalInfoPage/>}></Route>
+                <Route path='my-orders' element={<MyOrdersPage/>}></Route>
+                <Route path='manage-address' element={<ManageAddressPage/>}></Route>
+                <Route path='payment-methods' element={<PaymentMethodsPage/>}></Route>
+                <Route path='help-center' element={<HelpCenterPage/>}></Route>
+        </Route>
       </Route>
     </Routes>
   );

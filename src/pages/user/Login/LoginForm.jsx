@@ -23,8 +23,13 @@ const LoginForm = () => {
         const { repeatPassword, agree, ...payload } = values; 
         mutate(payload, {
           onSuccess: (data) => {
+            console.log(data[0]);
+            const userDet = [{name:data[0].FullName,email:data[0].Email,phone:data[0].PhoneNumber}]
+            localStorage.setItem('alNibrazuserDet',JSON.stringify(userDet))
             localStorage.setItem('alNibrazUserId',data[0].UserId)
-            navigate("/");
+            const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+            localStorage.removeItem("redirectAfterLogin");
+            navigate(redirectPath);
           },
           onError: (error) => {
             setError(error.response.data.message)
@@ -37,9 +42,10 @@ const LoginForm = () => {
             <Form>
                 <div className='py-5 xl:py-8 flex justify-between items-center'>
                     <h1 className='font-semibold text-xl'>Login</h1>
-                    <p className='text-red-500'>{error}</p>
+                    
                     <Link to="/register"><p className='text-[#005C53] text-base font-medium'>Create an account</p></Link>
                 </div>
+                <p className='text-red-500 text-center'>{error}</p>
                 <div className=' space-y-4'>
                     <div className='grid grid-cols-1'>
                         <InputFieldAuth

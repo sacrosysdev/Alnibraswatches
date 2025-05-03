@@ -1,6 +1,10 @@
 import Notification from './assets/svg/navbar/notification.svg'
 import Profile from './assets/svg/navbar/profile.svg'
 import Wishlist from './assets/svg/navbar/wishlist.svg'
+import ad1 from './assets/images/home/ad1.jpeg'
+import ad2 from './assets/images/home/ad2.jpeg'
+import ad3 from './assets/images/home/ad3.jpeg'
+import ad4 from './assets/images/home/ad4.jpeg'
 
 
 export const navIcons = [
@@ -79,13 +83,7 @@ import Youtube from './assets/svg/footer/youtube.svg'
 import LinkedIn from './assets/svg/footer/linkedin.svg'
 
 export const footerData = [
-    {
-        title:"Company",
-        subtitles :  [
-            { name: "Products", link: "/" },
-            { name: "About", link: "/" }
-        ]
-    },
+    
     {
         title:"Legal",
         subtitles :  [
@@ -154,24 +152,12 @@ export const productDetails = [
         path:"/"
     },
     {
-        title:"Trending",
+        title:"Products",
         path:"/trending"
     },
     {
-        title:"Product",
-        path:"/product"
-    },
-    {
-        title:"Checkout",
-        path:"/checkout"
-    },
-    {
-        title:"Order History",
-        path:"/order-history"
-    },
-    {
-        title:"About Us",
-        path:"/aboutus"
+        title:"My Orders",
+        path:"/profile/my-orders"
     },
     {
         title:"Cart",
@@ -200,12 +186,52 @@ export const sliderData = [
 export const offerSliderData = [
     {
         id:1,
+        image:ad1,
         title:"Make Time Stylish with Timeluxe!",
         desc:"Get 25% Off + Free Shipping on all orders this week only."
     },
     {
         id:2,
+        image:ad2,
         title:"Timeless Elegance, Just a Click Away!",
         desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
+    },
+    {
+        id:3,
+        image:ad3,
+        title:"Timeless Elegance, Just a Click Away!",
+        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
+    },
+    {
+        id:3,
+        image:ad4,
+        title:"Timeless Elegance, Just a Click Away!",
+        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
+    }
+]
+export const SIDELINKS_DATA = [
+    {
+        name:"Profile Information",
+        path:"/profile"
+    },
+    {
+        name:"My Orders",
+        path:"/profile/my-orders"
+    },
+    {
+        name:"Manage Address",
+        path:"/profile/manage-address"
+    },
+    // {
+    //     name:"Payment Methods",
+    //     path:"/profile/payment-methods"
+    // },
+    {
+        name:"Help Center",
+        path:"/profile/help-center"
+    },
+    {
+        name:"Logout",
+        path:"/logout"
     },
 ]

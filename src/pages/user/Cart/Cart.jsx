@@ -44,7 +44,7 @@ const Cart = () => {
 
                         {!isEmpty ? (<div>
                             {cart.map((item, index) =>
-                                <div key={item.id} className={`${index !== cart.length - 1 ? 'border-b border-[#A3A3A3]' : ''}`}>
+                                <div key={item.ProductId} className={`${index !== cart.length - 1 ? 'border-b border-[#A3A3A3]' : ''}`}>
                                 <ProductCard 
                                 id={item.ProductId} 
                                 image={item.PrimaryImageUrl} 
