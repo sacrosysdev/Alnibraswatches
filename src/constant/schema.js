@@ -8,10 +8,9 @@ export const LoginValidation = Yup.object({
 export const checkOutValidation = Yup.object({
   fullName: Yup.string().required("Full Name is required"),
   phone: Yup.string().required("Phone number is Required"),
-  pincode: Yup.string().required("Pincode is required"),
-  houseNo: Yup.string().required("House Number is required"),
-  roadName: Yup.string().required("Road Name is required"),
-  city: Yup.string().required("city is required"),
+  // pincode: Yup.string().required("Pincode is required"),
+  addres: Yup.string().required("Address is required"),
+  street: Yup.string().required("Street is required"),
   state: Yup.string().required("state is required"),
   landmark: Yup.string().required("Landmark is required"),
 });

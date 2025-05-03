@@ -119,26 +119,28 @@ const Navbar = () => {
               </div>
               <div className="flex gap-3 xl:gap-4">
                 {navIcons.map((item, index) => {
-                  const handleClick = () => {
+                  const handleIconClick = () => {
                     if (item.name === "profile") {
                       const userId = localStorage.getItem("alNibrazUserId");
-                      if (userId) {
-                        return "/account";
+                      if (!userId) {
+                        localStorage.setItem("redirectAfterLogin", "/profile");
+                        navigate("/login");
                       } else {
-                        return "/login";
+                        navigate("/profile");
                       }
+                    } else {
+                      navigate(item.path);
                     }
-                    return item.path;
                   };
+
                   return (
                     <div key={index}>
-                      <Link to={handleClick()}>
-                        <img
-                          src={item.icon}
-                          alt={item.name}
-                          className="cursor-pointer"
-                        />
-                      </Link>
+                      <img
+                        src={item.icon}
+                        alt={item.name}
+                        className="cursor-pointer"
+                        onClick={handleIconClick}
+                      />
                     </div>
                   );
                 })}

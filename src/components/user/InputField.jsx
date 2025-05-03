@@ -20,7 +20,7 @@ export const InputField = ({ ...props }) => {
 
       </div>
       <div className="h-5">
-        <ErrorMessage name={field.name} component="div" className="text-red-500 text-sm" />
+        <ErrorMessage name={field.name} component="div" className="text-red-500 text-xs mt-1" />
       </div>
 
     </div>

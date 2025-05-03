@@ -13,7 +13,6 @@ const ProductInfo = ({ description }) => {
         <div className="flex flex-col gap-2 col-span-2">
           {listItems.map((li, index) => {
             const parts = li.textContent.split(",");
-
             return (
               <div key={index} className="flex flex-col gap-1">
                 {parts.map((part, idx) => {

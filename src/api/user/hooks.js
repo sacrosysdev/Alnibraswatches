@@ -3,8 +3,9 @@ import { fetchCategoryList,fetchBrandList,
          fetchProducts,fetchSingleProduct,fetchProductsWithCategory,fetchBannerList,
          searchProducts,userSignUp,userSignIn,addWishlistItem,getWishlist,
          removeWishlistItem,addToCart,getCart,updateCart, 
-         deleteCart,getAddress,getSelectedAddress} from './service';
-import { useInfiniteQuery,useMutation } from '@tanstack/react-query';
+         deleteCart,getAddress,getSelectedAddress,updateDefaultAddress,
+         addAddress,updateAddress,userLogout,filterProducts,addReview,getReview} from './service';
+import { useInfiniteQuery,useMutation,useQueryClient } from '@tanstack/react-query';
 
 //Category Listing
 export const useCategoryList = () => {
@@ -27,8 +28,8 @@ export const useBrandList = () =>{
     refetchOnWindowFocus: false,
   });
 }
+//////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
-//product listing
 export const useProductList = (filters) => {
   return useInfiniteQuery({
     queryKey: ['productList', filters],
@@ -44,6 +45,7 @@ export const useProductList = (filters) => {
     refetchOnWindowFocus: false,
   });
 };
+
 //display single product with product id
 export const useSingleProduct = (productId) => {
   return useQuery({
@@ -87,19 +89,36 @@ export const useSearchProduct = (searchText) => {
   });
 };
 
-//sign up
+  export const useFilterProducts = () =>{
+    return useMutation({
+      mutationFn: (payload) =>filterProducts(payload),
+    });
+
+  }
+
+//////////////////////   USER AUTHENTICATION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
 export const useSignup = () =>
   useMutation({
     mutationKey: ["userSignup"],
     mutationFn: (payload) => userSignUp(payload),
 });
 
-//login
+
 export const useSignIn = () =>
   useMutation({
     mutationKey: ["userSignin"],
     mutationFn: (payload) => userSignIn(payload),
 });
+
+ 
+export const useLogout = () =>
+  useMutation({
+    mutationKey: ["userLogout"],
+    mutationFn: () => userLogout(),
+});
+
+//////////////////////   WISHLIST ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
 export const useAddWishlist = () => 
   useMutation({
@@ -118,42 +137,89 @@ export const useRemoveWishlist = () =>
       mutationKey: ["removeWishlist"],
       mutationFn: (payload) => removeWishlistItem(payload),
 });
+
+//////////////////////   CART SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
 export const useAddToCart = () => {
   return useMutation({
     mutationKey: ["addCart"],
     mutationFn: (payload) => addToCart(payload),
   });
 }
+
 export const useGetCart = () => {
   return useQuery({
     queryKey: ["getCart"],
     queryFn: getCart,
   });
 };
+
 export const useUpdateCartItem = () => {
   return useMutation({
     mutationKey: ["updateCart"],
     mutationFn: (payload) => updateCart(payload),
   });
 };
+
 export const useDeleteCartItem = () => {
   return useMutation({
     mutationKey: ["deleteCart"],
     mutationFn: (payload) => deleteCart(payload),
   });
 };
+
+//////////////////////   USER ADDRESS ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
 export const useGetUserAddress = () =>
   useQuery({
     queryKey: ["getAddress"],
     queryFn: getAddress,
 });
 
-export const useGetSelectedAddress = () =>
+export const useGetSelectedAddress = (status) =>
   useQuery({
     queryKey: ["getAddress"],
-    queryFn: getSelectedAddress,
+    queryFn: ()=> getSelectedAddress(status),
 });
   
+export const useUpdateDefaultAddress = () => {
+  return useMutation({
+    mutationFn: updateDefaultAddress,
+  });
+};
+
+export const useAddAddress = () => {
+  return useMutation({
+    mutationFn: (payload) =>addAddress(payload),
+  });
+};
+
+export const useUpdateAddress = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: (values) => updateAddress(values),
+    onSuccess: () => {
+      // Invalidate and refetch the user addresses query to update the UI
+      queryClient.invalidateQueries(['userAddresses']);
+    },
+  });
+};
+
+//////////////////////   REVIEW ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const useAddReview = () => {
+  return useMutation({
+    mutationFn: (payload) =>addReview(payload),
+  });
+};
+
+export const useGetReviews = (productId) =>
+  useQuery({
+    queryKey: ["getReview", productId], 
+    queryFn: () => getReview(productId),
+    enabled: !!productId, 
+  });
 
 
 

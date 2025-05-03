@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import Tags from './Tags';
 import SortIcon from '../../../assets/svg/trending/sortIcon.svg';
-import { VscSettings } from "react-icons/vsc";
 import MobileFilter from './MobileFilter';
 
-const Header = ({ selectedBrands, onRemoveBrand }) => {
+const Header = ({ selectedBrands, onRemoveBrand, sorting }) => {
   const [filterMobile, setFilterMobile] = useState(false);
-
+  const [sortBy, setSortBy] = useState(true)
   const handleFilterMobile = () => {
     setFilterMobile(!filterMobile);
   };
@@ -24,7 +23,7 @@ const Header = ({ selectedBrands, onRemoveBrand }) => {
       </div>
 
       {/* Filter bar */}
-      <div className='flex justify-between items-center'>
+      <div className='flex justify-between items-center mb-3'>
         <div className='hidden xl:flex gap-5 items-center'>
           <h1 className='text-base'>Filter By :</h1>
           <div className='flex gap-3'>
@@ -36,20 +35,16 @@ const Header = ({ selectedBrands, onRemoveBrand }) => {
           </div>
         </div>
 
-        {/* Mobile filter toggle */}
-        <div className='flex xl:hidden gap-2 items-center' onClick={handleFilterMobile}>
-          <h1 className='text-base'>Filter</h1>
-          <VscSettings />
-        </div>
-
         {/* Sort option */}
-        <div className='flex items-center gap-3'>
-          <h1>Sort by :</h1>
-          <div className='flex gap-3 items-center'>
-            <h1 className='text-base font-normal'>Low to High</h1>
-            <img src={SortIcon} alt="icon" className='cursor-pointer' />
-          </div>
-        </div>
+        <button
+          onClick={() => {
+            setSortBy(!sortBy);
+            sorting(!sortBy); // pass new state to parent
+          }}
+          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 cursor-pointer"
+        >
+          {sortBy ? "🔼 Price: Low to High" : "🔽 Price: High to Low"}
+        </button>
       </div>
 
       {/* Mobile Sidebar */}

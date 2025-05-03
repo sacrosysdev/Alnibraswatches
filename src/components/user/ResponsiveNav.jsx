@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Searchbox from './Searchbox'
 
 const ResponsiveNav = ({open, handleClose}) => {
+  
     useEffect(() => {
         if (open) {
           document.body.classList.add("overflow-hidden");
