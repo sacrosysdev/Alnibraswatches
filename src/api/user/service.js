@@ -53,38 +53,53 @@ export const fetchSingleProduct = async (productId) => {
 };
 
 export const normalizeProductData = (item) => {
-
+  // Check if item has variants
   const hasVariants = item.variants && item.variants.length > 0;
   const firstVariant = hasVariants ? item.variants[0] : null;
 
-  const imagesArray = Array.isArray(item.images)
-    ? item.images
-    : typeof item.images === 'string'
-      ? JSON.parse(item.images || '[]')
-      : [];
+  // Parse images if needed
+  let imagesArray = [];
+  try {
+    imagesArray = Array.isArray(item.images)
+      ? item.images
+      : typeof item.images === 'string'
+        ? JSON.parse(item.images || '[]')
+        : [];
+  } catch (error) {
+    console.error('Error parsing images:', error);
+    imagesArray = [];
+  }
 
-  const image = hasVariants
-    ? firstVariant?.images?.find(img => img.isPrimary)?.imageUrl
+  // Get primary image URL
+  const image = hasVariants && firstVariant?.images?.length > 0
+    ? firstVariant.images.find(img => img.isPrimary)?.imageUrl
     : imagesArray.find(img => img.isPrimary)?.imageUrl;
 
-  const price = hasVariants
-    ? firstVariant?.price?.discountPrice ?? firstVariant?.price?.price
-    : item.discountPrice ?? item.price;
+  // Calculate price - ensure we're getting a number value
+  let price;
+  if (hasVariants) {
+    // For variants, use discount price if available, otherwise regular price
+    price = firstVariant?.price?.discountPrice > 0 
+      ? firstVariant.price.discountPrice 
+      : firstVariant?.price?.price;
+  } else {
+    // For products without variants, use discount price if available, otherwise regular price
+    price = item.discountPrice > 0 ? item.discountPrice : item.price;
+  }
 
- 
-  const brand = hasVariants
-    ? firstVariant?.brandName
-    : item.brandName;
-  const variantId = hasVariants ? firstVariant?.variantId:-1
-    
+  // Get brand name
+  const brand = hasVariants ? firstVariant?.brandName : item.brandName;
+  
+  // Get variant ID if available
+  const variantId = hasVariants ? firstVariant?.variantId : -1;
 
   return {
     id: item.productId,
     image: image || null,
     title: item.productName,
     brand: brand || '',
-    price: price || '',
-    variantId:variantId
+    price: price || 0,  // Ensure price is never undefined
+    variantId: variantId
   };
 };
 
@@ -264,9 +279,6 @@ export const addReview = async (payload) =>{
 }
 
 export const getReview = async (proId) =>{
-  console.log('====================================');
-  console.log(proId);
-  console.log('====================================');
   const headers = {
     ProductId:proId
   };

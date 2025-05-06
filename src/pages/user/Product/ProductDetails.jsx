@@ -14,7 +14,7 @@ const ProductDetails = ({ details, selectedVariant, setSelectedVariant,images })
     const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
     const discountPrice = selectedVariant?.price?.discountPrice || details?.discountPrice;
     const normalPrice = selectedVariant?.price?.price || details?.price;
-    const currency = selectedVariant?.price?.currency;
+    const currency = 'AED';
     const hasDiscount = discountPrice !== null && discountPrice !== undefined && discountPrice !== 0;
     const handleAddToCart = () => {
         addToCartlist({
