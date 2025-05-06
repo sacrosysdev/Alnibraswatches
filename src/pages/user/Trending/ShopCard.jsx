@@ -45,8 +45,8 @@ const ShopCard = ({ id, image, title, brand, price, offerprice, variantId }) => 
         <h3 className='text-base text-[#757C81]'><span>{brand}</span></h3>
       </div>
       <div className='flex gap-5 items-center'>
-        <h1 className='font-bold text-xl text-[#010F17]'>{price}</h1>
-        {offerprice && <h1 className='font-bold text-xl text-[#B0B0B0]'>{offerprice}</h1>}
+        <h1 className='font-bold text-xl text-[#010F17]'>AED: {price}</h1>
+        {offerprice && <h1 className='font-bold text-xl text-[#B0B0B0]'>AED {offerprice}</h1>}
       </div>
       <div className='absolute top-4 right-1 bg-white rounded-full p-2'>
         <motion.img

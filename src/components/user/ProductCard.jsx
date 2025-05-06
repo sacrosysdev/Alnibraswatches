@@ -8,10 +8,11 @@ import { useNavigate } from 'react-router-dom'
 const ProductCard = ({ id, image, title, brand, price, variantId }) => {
   const { wishlist, addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
   const navigate = useNavigate()
+  
   const goToProductDetailPage = (e) => {
     navigate(`/product/${id}`)
   }
-
+  
   const handleWishlistToggle = (e) => {
     e.stopPropagation(); 
     e.preventDefault();
@@ -33,20 +34,25 @@ const ProductCard = ({ id, image, title, brand, price, variantId }) => {
     }
   };
 
+  // Format price for display
+  const displayPrice = price !== undefined && price !== null 
+    ? price 
+    : 'Price not available';
+
   return (
     <div className='relative flex flex-col items-center gap-4 pb-5 
                   bg-[#F1F1F1] border border-[#A3C4C1] shadow-xl 
                     rounded-2xl h-[400px] md:h-[450px] cursor-pointer'
       onClick={goToProductDetailPage}>
       <div className='w-full h-[200px] md:h-[250px] overflow-hidden'>
-        <img src={image} alt="" className='h-full w-full object-cover' />
+        <img src={image} alt={title} className='h-full w-full object-cover' />
       </div>
       <div className='text-center flex flex-col gap-1'>
-        <h1 className='font-medium text-lg md:text-xl text-[#010F17]'>{title} </h1>
-        <h3 className='text-sm text-[#757C81]'> <span>{brand}</span></h3>
+        <h1 className='font-medium text-lg md:text-xl text-[#010F17]'>{title}</h1>
+        <h3 className='text-sm text-[#757C81]'><span>{brand}</span></h3>
       </div>
       <div className='flex justify-items-end'>
-        <h1 className='font-bold text-sm md:text-xl text-[#003F38]'>AED : <span>{price}</span></h1>
+        <h1 className='font-bold text-sm md:text-xl text-[#003F38]'>AED : <span>{displayPrice}</span></h1>
       </div>
       <div className='absolute top-4 right-4'>
         <motion.img 
