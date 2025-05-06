@@ -1,10 +1,12 @@
 import React from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { FaBan } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const CurrentVariants = ({
   variants,
   removeVariant,
+  handleStockEmpty,
   editVariant,
   variantsListRef,
 }) => {
@@ -67,11 +69,19 @@ const CurrentVariants = ({
               </button>
               <button
                 type="button"
-                onClick={() => removeVariant(index)}
+                onClick={() => handleStockEmpty(index)}
                 className="text-gray-500 cursor-pointer hover:text-red-700 p-1 rounded-full hover:bg-red-50"
                 title="Out of Stock"
               >
                 <FaBan size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => removeVariant(index)}
+                className="text-gray-500 cursor-pointer hover:text-red-700 p-1 rounded-full hover:bg-red-50"
+                title="Out of Stock"
+              >
+                <MdDeleteOutline size={18} />
               </button>
             </div>
           </div>
