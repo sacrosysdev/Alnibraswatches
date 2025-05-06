@@ -55,16 +55,20 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
     setEditingVariantIndex(index);
     setFormData((prev) => ({
       ...prev,
+      variants: prev.variants.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleStockEmpty = () => {
+    setEditingVariantIndex(index);
+    setFormData((prev) => ({
+      ...prev,
       variants: prev.variants.map((variant, i) =>
         i === index
           ? { ...variant, stock: { onhand: 0, stockId: variant.stock.stockId } }
           : variant
       ),
     }));
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   variants: prev.variants.filter((_, i) => i !== index),
-    // }));
   };
   // Add a variant to the list
   const addVariant = () => {
@@ -160,6 +164,7 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
         variantsListRef={variantsListRef}
         variants={formData.variants}
         removeVariant={removeVariant}
+        handleStockEmpty={handleStockEmpty}
         editVariant={editVariant}
       />
       {/* Add New Variant Form */}
