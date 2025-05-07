@@ -21,3 +21,5 @@ export const PRODUCT_FILTER = "getProductFilter";
 export const ADD_REVIEW = "postReview";
 export const GET_REVIEW = "getReview";
 export const GET_PAYMENT_INTENT = "Payment/create-checkout-session";
+
+export const POST_ORDER = "postOrders";

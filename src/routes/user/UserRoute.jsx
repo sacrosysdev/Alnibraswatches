@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserLayout from "../../layouts/user/Layout";
+import Payment from "../../components/admin/Payment";
 const HomePage = lazy(() => import("../../pages/user/Home/Home"));
 const TrendingPage = lazy(() => import("../../pages/user/Trending/Trending"));
 const ProductPage = lazy(() => import("../../pages/user/Product/Product"));
@@ -42,7 +43,8 @@ const UserRoute = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />}></Route>
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
+        <Route path="/checkout" element={<Payment />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/cart" element={<CartPage />} />

@@ -9,20 +9,29 @@ const ProductInformation = ({
   enableVariants,
   categories,
   brands,
+  formik,
 }) => {
   // Handle input change for main product
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Update formik values as well
+    formik.setFieldValue(name, value);
   };
   // Handle number input specifically for price fields
   const handleNumberInput = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
+
+    // Update formik values as well
+    formik.setFieldValue(name, value);
   };
   // Handle rich text editor change
   const handleDescriptionChange = (content) => {
     setFormData((prev) => ({ ...prev, description: content }));
+    // Update formik values as well
+    formik.setFieldValue("description", content);
   };
   // Handle toggle for variants
   const handleToggleVariants = () => {
@@ -106,7 +115,7 @@ const ProductInformation = ({
     if (!formData.images || formData.images.length <= slotIndex) {
       return "";
     }
-    return formData.images[slotIndex]?.ImageUrl || "";
+    return formData.images[slotIndex]?.imageUrl || "";
   };
 
   // Check if an image is primary
@@ -138,7 +147,6 @@ const ProductInformation = ({
     const nextAvailableSlot = getNextAvailableSlot();
     return slotIndex <= nextAvailableSlot;
   };
-
   return (
     <div className="space-y-4">
       <div>
@@ -148,12 +156,21 @@ const ProductInformation = ({
         <input
           type="text"
           name="productName"
-          value={formData.productName || ""}
+          value={formik.values.productName || ""}
           onChange={handleInputChange}
-          className="w-full border border-gray-300 rounded-md p-2 text-sm"
+          onBlur={formik.handleBlur}
+          className={`w-full border-2 rounded-md p-2 text-sm ${
+            formik.touched.productName && formik.errors.productName
+              ? "border-red-400"
+              : "border-gray-300"
+          }`}
           placeholder="Enter product name"
-          required
         />
+        {formik.touched.productName && formik.errors.productName && (
+          <div className="text-[10px] text-red-500 mt-1">
+            {formik.errors.productName}
+          </div>
+        )}
       </div>
 
       <div>
@@ -165,6 +182,11 @@ const ProductInformation = ({
           onChange={handleDescriptionChange}
           placeholder="Enter product description"
         />
+        {formik.touched.description && formik.errors.description && (
+          <div className="text-[10px] text-red-500 -translate-y-2">
+            {formik.errors.description}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -176,8 +198,11 @@ const ProductInformation = ({
             name="categoryId"
             value={formData.categoryId || ""}
             onChange={handleInputChange}
-            className="w-full border border-gray-300 rounded-md p-2 text-sm"
-            required
+            className={`w-full border-2 rounded-md p-2 text-sm ${
+              formik.touched.categoryId && formik.errors.categoryId
+                ? "border-red-400"
+                : "border-gray-300"
+            }`}
           >
             <option value="">Select Category</option>
             {categories &&
@@ -187,6 +212,11 @@ const ProductInformation = ({
                 </option>
               ))}
           </select>
+          {formik.touched.categoryId && formik.errors.categoryId && (
+            <div className="text-[10px] text-red-500 mt-1">
+              {formik.errors.categoryId}
+            </div>
+          )}
         </div>
 
         <div>
@@ -197,8 +227,11 @@ const ProductInformation = ({
             name="brandID"
             value={formData.brandID || ""}
             onChange={handleInputChange}
-            className="w-full border border-gray-300 rounded-md p-2 text-sm"
-            required
+            className={`w-full border-2 rounded-md p-2 text-sm ${
+              formik.touched.brandID && formik.errors.brandID
+                ? "border-red-400"
+                : "border-gray-300"
+            }`}
           >
             <option value="">Select Brand</option>
             {brands &&
@@ -208,6 +241,11 @@ const ProductInformation = ({
                 </option>
               ))}
           </select>
+          {formik.touched.brandID && formik.errors.brandID && (
+            <div className="text-[10px] text-red-500 mt-1">
+              {formik.errors.brandID}
+            </div>
+          )}
         </div>
       </div>
 
@@ -268,9 +306,18 @@ const ProductInformation = ({
                 name="price"
                 value={formData.price || ""}
                 onChange={handleNumberInput}
-                className="w-full border border-gray-300 rounded-md p-2 text-sm"
+                className={`w-full border-2 rounded-md p-2 text-sm ${
+                  formik.touched.price && formik.errors.price
+                    ? "border-red-400"
+                    : "border-gray-300"
+                }`}
                 step="0.01"
               />
+              {formik.touched.price && formik.errors.price && (
+                <div className="text-xs text-red-500 mt-1">
+                  {formik.errors.price}
+                </div>
+              )}
             </div>
 
             <div>
@@ -367,6 +414,8 @@ const ProductInformation = ({
                     <ImageUploader
                       maxHeight={3000}
                       max_Width={3000}
+                      minHeight={300}
+                      minWidth={300}
                       aspectRatio="aspect-auto"
                       maxWidth="max-w-full"
                       onImageUpload={(data) =>

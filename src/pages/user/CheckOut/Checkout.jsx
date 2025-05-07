@@ -18,14 +18,12 @@ import Address from "./Address";
 import Header from "./Header";
 import PaymentSection from "./PaymentSection";
 import PlaceOrder from "./PlaceOrder";
+import { INITIAL_ADDRESS_VALUE } from "../../../constant/user";
 
-const stripePromise = loadStripe(
-  "pk_test_51RIpm44QyHuHLsUrz8OfDVYufTleM4pNbNDxcZ1gjTTA5dztxIEhNvEPYgLVUurraY3Cu79Vc1c1AVFBAcT4CrWJ009Vx1XU13"
-);
+const stripePromise = loadStripe(process.env.VITE_STRIP_PRIVATE_KEY);
 const CheckoutPage = () => {
   const [showModal, setShowModal] = useState(false);
   const addAddressMutation = useAddAddress();
-  const { cart, clearCart } = useCart();
   const handleAddAddressClick = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
   const location = useLocation();
@@ -37,43 +35,13 @@ const CheckoutPage = () => {
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
 
-  const [clientSecret, setClientSecret] = useState(null);
   const paymentMutation = useGetPaymentIntent();
-
-  useEffect(() => {
-    const fetchClientSecret = async () => {
-      try {
-        const response = await paymentMutation.mutateAsync();
-        setClientSecret(response.data.clientSecret);
-      } catch (error) {
-        console.error("Failed to get client secret", error);
-      }
-    };
-
-    fetchClientSecret();
-  }, []);
-  const initialValues = {
-    fullName: "",
-    phone: "+971 ",
-    pincode: "",
-    addres: "",
-    street: "",
-    state: "",
-    landmark: "",
-    addressType: "Home",
-    makeDefault: false,
-  };
 
   const {
     data: address,
     isLoading: loadingAddress,
     refetch: refetchAddress,
   } = useGetSelectedAddress(location.state);
-
-  const subtotal = cart.reduce(
-    (acc, item) => acc + item.Quantity * (item?.DiscountPrice || item?.Price),
-    0
-  );
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
@@ -172,15 +140,11 @@ const CheckoutPage = () => {
             </>
           )}
 
-          {clientSecret && (
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <PaymentSection
-                CardElement={CardElement}
-                onPaymentMethodChange={handlePaymentMethodChange}
-                selectedAddress={address}
-              />
-            </Elements>
-          )}
+          <PaymentSection
+            CardElement={CardElement}
+            onPaymentMethodChange={handlePaymentMethodChange}
+            selectedAddress={address}
+          />
         </div>
         <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
           <PlaceOrder
@@ -198,7 +162,7 @@ const CheckoutPage = () => {
       {/* Address Modal */}
       {showModal && (
         <AddressModal
-          initialValues={initialValues}
+          initialValues={INITIAL_ADDRESS_VALUE}
           onSubmit={handleAddAddress}
           handleCloseModal={handleCloseModal}
         />
@@ -209,11 +173,13 @@ const CheckoutPage = () => {
 
 const Checkout = () => {
   const [clientSecret, setClientSecret] = useState(null);
+  const paymentMutation = useGetPaymentIntent();
 
   useEffect(() => {
     const fetchClientSecret = async () => {
+      console.log("adgasd");
       try {
-        const response = await paymentMutation.mutateAsync();
+        const response = await paymentMutation.mutateAsync(200);
         setClientSecret(response.data.clientSecret);
       } catch (error) {
         console.error("Failed to get client secret", error);

@@ -9,3 +9,15 @@ export const PAYMENT_METHODS = [
   { id: "netbanking", name: "Net Banking", icon: paytm },
   { id: "wallet", name: "Wallet", icon: gpay },
 ];
+
+export const INITIAL_ADDRESS_VALUE = {
+  fullName: "",
+  phone: "+971 ",
+  pincode: "",
+  addres: "",
+  street: "",
+  state: "",
+  landmark: "",
+  addressType: "Home",
+  makeDefault: false,
+};

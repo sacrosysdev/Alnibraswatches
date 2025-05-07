@@ -68,7 +68,7 @@ const ProductList = () => {
     [setProductToEdit]
   );
 
-  const PRODUCT_COLUMNS = useMemo(
+  const PRODUCT_TABLE_COLUMNS = useMemo(
     () => [
       {
         key: "images",
@@ -204,28 +204,25 @@ const ProductList = () => {
   // Close modal
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
+    setFormData(INITIAL_PRODUCT_DETAILS);
   }, []);
 
   // Update handleSubmit function to better handle loading state
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      try {
-        if (isEditing) {
-          // For editing a product
-          await updateProduct(formData);
-        } else {
-          // For adding a new product
-          await createProduct(formData);
-        }
-        setIsModalOpen(false);
-      } catch (error) {
-        console.error("Error saving product:", error);
-        // Consider showing error message to the user here
+  const handleSubmit = useCallback(async () => {
+    try {
+      if (isEditing) {
+        // For editing a product
+        await updateProduct(formData);
+      } else {
+        // For adding a new product
+        await createProduct(formData);
       }
-    },
-    [isEditing, formData, updateProduct, createProduct]
-  );
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error saving product:", error);
+      // Consider showing error message to the user here
+    }
+  }, [isEditing, formData, updateProduct, createProduct]);
 
   // Delete selected products
   const handleDeleteSelected = async () => {
@@ -282,7 +279,7 @@ const ProductList = () => {
       <DynamicTable
         isLoading={isLoading}
         isError={isError}
-        columns={PRODUCT_COLUMNS}
+        columns={PRODUCT_TABLE_COLUMNS}
         selectedItems={selectedProducts}
         setSelectedItems={setSelectedProducts}
         idField="productId"

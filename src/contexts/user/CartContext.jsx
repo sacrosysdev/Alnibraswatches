@@ -1,5 +1,10 @@
 import { useContext, createContext, useState, useEffect } from "react";
-import { useAddToCart, useGetCart, useUpdateCartItem, useDeleteCartItem } from "../../api/user/hooks";
+import {
+  useAddToCart,
+  useGetCart,
+  useUpdateCartItem,
+  useDeleteCartItem,
+} from "../../api/user/hooks";
 
 const CartContext = createContext();
 
@@ -16,13 +21,13 @@ export const CartProvider = ({ children }) => {
 
   const [previousLoginState, setPreviousLoginState] = useState(null);
   const userId = localStorage.getItem("alNibrazUserId");
-  
-  const { 
+
+  const {
     data: serverCart = [],
-    refetch, 
-    isLoading: isLoadingCart 
+    refetch,
+    isLoading: isLoadingCart,
   } = useGetCart() || {};
-  
+
   const addMutation = useAddToCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useDeleteCartItem();
@@ -30,12 +35,12 @@ export const CartProvider = ({ children }) => {
   // Track login status changes
   useEffect(() => {
     const currentLoginState = !!userId;
-    
+
     // Detect login (previous state was no userId, current state has userId)
     if (currentLoginState && previousLoginState === false) {
       syncLocalCartToServer();
     }
-    
+
     setPreviousLoginState(currentLoginState);
   }, [userId]);
 
@@ -49,37 +54,38 @@ export const CartProvider = ({ children }) => {
   // Function to sync local cart to server when user logs in
   const syncLocalCartToServer = async () => {
     if (!userId || localCartlist.length === 0) return;
-    
+
     try {
       // Get the latest server cart first
       await refetch();
-      
+
       // Add local cart items to server one by one
       for (const item of localCartlist) {
         const serverItem = serverCart.find(
-          si => si.ProductId === item.ProductId && si.VariantId === item.VariantId
+          (si) =>
+            si.ProductId === item.ProductId && si.VariantId === item.VariantId
         );
-        
+
         if (serverItem) {
           // Item exists in server cart, update quantity
           await updateMutation.mutateAsync({
             cartId: serverItem.id,
-            quantity: serverItem.quantity + item.Quantity
+            quantity: serverItem.quantity + item.Quantity,
           });
         } else {
           // Item doesn't exist in server cart, add it
           await addMutation.mutateAsync({
             productId: item.ProductId,
             variantId: item.VariantId,
-            quantity: item.Quantity
+            quantity: item.Quantity,
           });
         }
       }
-      
+
       // Clear local cart after successful sync
       setLocalCartlist([]);
       localStorage.removeItem("cartlist");
-      
+
       // Refresh server cart to get updated data
       await refetch();
     } catch (error) {
@@ -104,25 +110,27 @@ export const CartProvider = ({ children }) => {
         PrimaryImageUrl: item.PrimaryImageUrl,
         Price: item.Price,
         ProductName: item.ProductName,
-        DiscountPrice: item.DiscountPrice
+        DiscountPrice: item.DiscountPrice,
       };
 
       setLocalCartlist((prev) => {
         const existingItemIndex = prev.findIndex(
-          (i) => i.ProductId === normalizedItem.ProductId && 
-                 i.VariantId === normalizedItem.VariantId
+          (i) =>
+            i.ProductId === normalizedItem.ProductId &&
+            i.VariantId === normalizedItem.VariantId
         );
-        
+
         if (existingItemIndex !== -1) {
           // Item exists, update quantity
           const updatedCart = [...prev];
           updatedCart[existingItemIndex] = {
             ...updatedCart[existingItemIndex],
-            Quantity: updatedCart[existingItemIndex].Quantity + normalizedItem.Quantity
+            Quantity:
+              updatedCart[existingItemIndex].Quantity + normalizedItem.Quantity,
           };
           return updatedCart;
         }
-        
+
         // Item doesn't exist, add it
         return [...prev, normalizedItem];
       });
@@ -138,10 +146,10 @@ export const CartProvider = ({ children }) => {
         console.error("Failed to update cart item:", error);
       }
     } else {
-      setLocalCartlist((prev) => 
-        prev.map(cartItem => 
-          (cartItem.ProductId === item.ProductId) 
-            ? { ...cartItem, ...item } 
+      setLocalCartlist((prev) =>
+        prev.map((cartItem) =>
+          cartItem.ProductId === item.ProductId
+            ? { ...cartItem, ...item }
             : cartItem
         )
       );
@@ -157,8 +165,8 @@ export const CartProvider = ({ children }) => {
         console.error("Failed to remove item from cart:", error);
       }
     } else {
-      setLocalCartlist((prev) => 
-        prev.filter(item => item.ProductId !== cartId && item.id !== cartId)
+      setLocalCartlist((prev) =>
+        prev.filter((item) => item.ProductId !== cartId && item.id !== cartId)
       );
     }
   };
@@ -179,7 +187,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const cartItemsCount = (userId ? serverCart : localCartlist).reduce(
-    (total, item) => total + (parseInt(item.Quantity || item.quantity) || 1), 
+    (total, item) => total + (parseInt(item.Quantity || item.quantity) || 1),
     0
   );
 
@@ -187,8 +195,8 @@ export const CartProvider = ({ children }) => {
     (total, item) => {
       const price = item.Price || item.price || 0;
       const quantity = parseInt(item.Quantity || item.quantity) || 1;
-      return total + (price * quantity);
-    }, 
+      return total + price * quantity;
+    },
     0
   );
 
@@ -196,8 +204,8 @@ export const CartProvider = ({ children }) => {
   const isLoading = userId ? isLoadingCart : false;
 
   return (
-    <CartContext.Provider 
-      value={{ 
+    <CartContext.Provider
+      value={{
         cart: activeCartList,
         isLoading,
         cartItemsCount,
@@ -206,7 +214,7 @@ export const CartProvider = ({ children }) => {
         updateCartItem,
         removeFromCart,
         clearCart,
-        syncLocalCartToServer  // Expose sync function if you need to trigger it manually
+        syncLocalCartToServer, // Expose sync function if you need to trigger it manually
       }}
     >
       {children}

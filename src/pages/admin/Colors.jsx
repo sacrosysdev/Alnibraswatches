@@ -77,7 +77,7 @@ const Colors = () => {
     setIsModalOpen(true);
   };
 
-  const colorColumns = [
+  const COLOR_TABLE_COLUMNS = [
     {
       key: "ColorId",
       header: "ID",
@@ -132,7 +132,7 @@ const Colors = () => {
         isLoading={isLoading}
         isError={isError}
         isSelectable={false}
-        columns={colorColumns}
+        columns={COLOR_TABLE_COLUMNS}
         idField="ColorId"
         data={filteredColor}
         emptyMessage="No colors found"

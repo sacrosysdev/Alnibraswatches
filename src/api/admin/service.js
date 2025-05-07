@@ -99,6 +99,7 @@ export const editCategory = ({ category, categoryId }) =>
         categoryDescription: category.description,
         parentCategoryId: category.parentId,
         imageUrl: category.imageUrl,
+        isActive: category.IsActive,
       },
     ],
     {
@@ -144,11 +145,9 @@ export const addBrand = (newBrand) =>
   API.post(POST_BRAND, newBrand).then((res) => res.data);
 
 export const editBrand = ({ updatedBrand, brandId }) =>
-  API.put(PUT_BRAND, updatedBrand, {
-    headers: {
-      brandID: brandId,
-    },
-  }).then((res) => res.data);
+  API.put(PUT_BRAND, { brandID: brandId, ...updatedBrand }).then(
+    (res) => res.data
+  );
 
 export const editBrandOrder = (brand) =>
   API.put(PUT_BRAND, brand, {

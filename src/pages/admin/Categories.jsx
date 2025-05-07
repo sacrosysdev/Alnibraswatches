@@ -10,6 +10,7 @@ import CategoryList from "../../components/admin/category/CategoryList";
 import CategoryModal from "../../components/admin/category/CategoryModal";
 import DeleteModal from "../../components/admin/shared/DeleteModal";
 import PageHeader from "../../components/admin/shared/PageHeader";
+import FloatingDeleteButton from "../../components/admin/shared/FloatingDeleteButton";
 
 const Categories = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +25,7 @@ const Categories = () => {
     name: "",
     description: "",
     imageUrl: "",
+    IsActive: true,
   });
 
   // State for selected categories
@@ -60,7 +62,7 @@ const Categories = () => {
   const handleAddCategory = () => {
     setIsEditing(false);
     setCurrentCategory(null);
-    setFormData({ name: "", description: "", imageUrl: "" });
+    setFormData({ name: "", description: "", imageUrl: "", IsActive: true });
     setIsModalOpen(true);
   };
 
@@ -73,6 +75,7 @@ const Categories = () => {
       description: category.CategoryDescription,
       imageUrl: category.ImageUrl,
       parentId: category.ParentCategoryId,
+      IsActive: category.IsActive,
     });
     setIsModalOpen(true);
   };
@@ -146,7 +149,7 @@ const Categories = () => {
       <PageHeader
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        searchPlaceholder="Search here by brand name"
+        searchPlaceholder="Search here by category name"
         viewToggle={{
           isGridView: gridView,
           setViewMode: setGridView,
@@ -159,7 +162,7 @@ const Categories = () => {
         }}
         actionButton={{
           onClick: handleAddCategory,
-          label: "Add Brand",
+          label: "Add Category",
           icon: <PlusCircle size={16} />,
         }}
       />
@@ -198,13 +201,7 @@ const Categories = () => {
 
       {/* Floating Action Button to trigger delete modal */}
       {selectedCategories.length > 0 && (
-        <button
-          onClick={() => setIsDeleteModalVisible(true)}
-          className="fixed bottom-6 right-6 bg-red-600 text-white rounded-full p-3 shadow-lg hover:bg-red-700 transition-colors"
-          style={{ zIndex: 30 }}
-        >
-          <Trash2 size={20} />
-        </button>
+        <FloatingDeleteButton onClick={() => setIsDeleteModalVisible(true)} />
       )}
     </div>
   );

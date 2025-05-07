@@ -32,7 +32,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import API from "../httpService";
-import { GET_PAYMENT_INTENT } from "./endpoint";
+import { GET_PAYMENT_INTENT, POST_ORDER } from "./endpoint";
+import convertToSubCurrency from "../../util/convertToSubCurrency";
 
 //Category Listing
 export const useCategoryList = () => {
@@ -254,12 +255,21 @@ export const useGetReviews = (productId) =>
 export const useGetPaymentIntent = () => {
   return useMutation({
     mutationKey: ["getPaymentIntent"],
-    mutationFn: (amount) =>
-      API.post(GET_PAYMENT_INTENT, {
-        amount: 2500,
+    mutationFn: (amount) => {
+      return API.post(GET_PAYMENT_INTENT, {
+        amount: convertToSubCurrency(amount),
         currency: "usd",
         orderID: "123",
         customerName: "string",
-      }),
+      });
+    },
   });
 };
+
+//////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const usePostOrder = () =>
+  useMutation({
+    mutationKey: ["postOrder"],
+    mutationFn: ({ orderDetails }) => API.post(POST_ORDER, orderDetails),
+  });

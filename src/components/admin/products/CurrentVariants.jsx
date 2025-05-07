@@ -41,7 +41,8 @@ const CurrentVariants = ({
               <div>
                 <p className="text-sm font-medium">SKU: {variant.sku}</p>
                 <p className="text-xs text-gray-500">
-                  Price: ${variant.price.price} | Stock: {variant.stock.onhand}
+                  Price: AED {variant.price.price} | Stock:{" "}
+                  {variant.stock.onhand}
                 </p>
                 <div className="flex gap-x-2 mt-1">
                   {variant.colorId && (

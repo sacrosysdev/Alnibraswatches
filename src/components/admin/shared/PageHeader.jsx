@@ -53,9 +53,14 @@ const PageHeader = ({
     setShowTooltip(false);
   };
 
+  // Function to reset search query
+  const handleResetSearch = () => {
+    setSearchQuery("");
+  };
+
   return (
     <div className="flex flex-1 items-center justify-between">
-      <div className="max-w-sm relative  w-full">
+      <div className="max-w-sm relative w-full">
         <input
           type="text"
           value={searchQuery}
@@ -68,6 +73,17 @@ const PageHeader = ({
           className="absolute text-gray-500 top-0 bottom-0 my-auto
         text-lg left-3"
         />
+
+        {/* Reset search button - only visible when searchQuery has content */}
+        {searchQuery && (
+          <button
+            onClick={handleResetSearch}
+            className="absolute right-3 top-0 bottom-0 my-auto p-1 text-gray-400 hover:text-gray-600 transition-colors"
+            aria-label="Clear search"
+          >
+            <X size={16} />
+          </button>
+        )}
       </div>
 
       <div className="flex items-center gap-x-3 justify-end">
