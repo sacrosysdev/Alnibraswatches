@@ -37,8 +37,8 @@ const ShopCard = ({ id, image, title, brand, price, offerprice, variantId }) => 
     <div className='relative flex flex-col items-center gap-4 pb-5 cursor-pointer
                   bg-[#FFFFFF] shadow-[10px_4px_10px_rgba(0,0,0,0.1)] rounded-2xl'
          onClick={goToProductDetailPage}>
-      <div className='w-[172px] h-[172px] overflow-hidden'>
-        <img src={image} alt="" className='h-full w-full object-cover' />
+      <div className='h-full w-full overflow-hidden rounded-lg'>
+        <img src={image} alt="" className='h-[250px] md:h-[200px] w-full object-cover' />
       </div>
       <div className='text-center flex flex-col gap-1'>
         <h1 className='font-medium text-lg md:text-lg text-[#010F17]'>{title}</h1>

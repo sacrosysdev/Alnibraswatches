@@ -106,7 +106,6 @@ export const CartProvider = ({ children }) => {
         ProductName: item.ProductName,
         DiscountPrice: item.DiscountPrice
       };
-
       setLocalCartlist((prev) => {
         const existingItemIndex = prev.findIndex(
           (i) => i.ProductId === normalizedItem.ProductId && 
@@ -148,7 +147,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (cartId) => {
+  const removeFromCart = async (cartId,productId) => {
     if (userId) {
       try {
         await removeMutation.mutateAsync(cartId);
@@ -158,7 +157,7 @@ export const CartProvider = ({ children }) => {
       }
     } else {
       setLocalCartlist((prev) => 
-        prev.filter(item => item.ProductId !== cartId && item.id !== cartId)
+        prev.filter(item => item.ProductId !== productId && item.id !== productId)
       );
     }
   };
