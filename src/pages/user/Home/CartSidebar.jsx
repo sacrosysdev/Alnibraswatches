@@ -29,8 +29,8 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
         };
         updateCartItem(updatedItem)
     }
-    const removeItemFromCart = (cartId) => {
-        removeFromCart(cartId)
+    const removeItemFromCart = (cartId,productId) => {
+        removeFromCart(cartId,productId)
     }
     return (
         <AnimatePresence>
@@ -100,15 +100,15 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                             {/* Price and Delete */}
                                             <div className="w-1/4 flex items-center justify-end gap-4 text-sm font-semibold">
                                                 <div
-                                                    onClick={() => removeItemFromCart(item.CartId)}
-                                                    className=" h-8 w-8 cursor-pointer rounded-lg flex items-center justify-center"
+                                                    className=" h-8 w-8  rounded-lg flex items-center justify-center"
                                                 >
                                                     <div>{item?.DiscountPrice || item?.Price}</div>
-                                                   
                                                 </div>
                                             </div><br/>
+
                                             <img src={Delete} alt="delete"
-                                                        className="h-4 w-6  border-[#ffffff]"
+                                                        onClick={() => removeItemFromCart(item.CartId,item.ProductId)}
+                                                        className="h-4 w-6  border-[#ffffff] cursor-pointer"
                                                     />
                                         </div>
                                     ))

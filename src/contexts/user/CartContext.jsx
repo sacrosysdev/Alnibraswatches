@@ -112,7 +112,6 @@ export const CartProvider = ({ children }) => {
         ProductName: item.ProductName,
         DiscountPrice: item.DiscountPrice,
       };
-
       setLocalCartlist((prev) => {
         const existingItemIndex = prev.findIndex(
           (i) =>
@@ -156,7 +155,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (cartId) => {
+  const removeFromCart = async (cartId,productId) => {
     if (userId) {
       try {
         await removeMutation.mutateAsync(cartId);
@@ -165,8 +164,8 @@ export const CartProvider = ({ children }) => {
         console.error("Failed to remove item from cart:", error);
       }
     } else {
-      setLocalCartlist((prev) =>
-        prev.filter((item) => item.ProductId !== cartId && item.id !== cartId)
+      setLocalCartlist((prev) => 
+        prev.filter(item => item.ProductId !== productId && item.id !== productId)
       );
     }
   };

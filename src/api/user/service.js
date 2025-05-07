@@ -9,13 +9,17 @@ import { CATEGORY_LIST,BRAND_LIST,PRODUCT_LIST,
 
 export const fetchCategoryList = async () => {
   const response = await API.get(CATEGORY_LIST);
-  return response?.data?.data ?? [];
+  const allCategories = response?.data?.data ?? [];
+  const activeCategories = allCategories.filter(category => category.IsActive === true);
+  return activeCategories;
 };
 
-export const fetchBrandList = async () =>{
+export const fetchBrandList = async () => {
   const response = await API.get(BRAND_LIST);
-   return response?.data?.data ?? [];
-}
+  const allBrands = response?.data?.data ?? [];
+  const activeBrands = allBrands.filter(brand => brand.IsActive === true);
+  return activeBrands;
+};
 
 export const fetchBannerList = async () =>{
   const response = await API.get(GET_BANNER);
@@ -34,11 +38,15 @@ export const fetchProducts = async ({ pageParam = 1, brand, category }) => {
 
   if (brand) headers['brandID'] = brand;
   if (category) headers['categoryID'] = category;
+
   const response = await API.get(PRODUCT_LIST, { headers });
-  return {
-    data: response?.data?.data ?? [],
+  const allProducts = response?.data?.data ?? [];
+  const activeProducts = allProducts.filter(product => product.isActive === true);
+   return {
+    data: activeProducts,
   };
 };
+
 
 export const fetchSingleProduct = async (productId) => {
   const response = await API.get(PRODUCT_LIST, {
@@ -123,13 +131,16 @@ export const searchProducts = async (searchKey) => {
     productName: searchKey,
   };
   const response = await API.get(PRODUCT_LIST, { headers });
-  return response?.data?.data ?? [];
+  const allProducts = response?.data?.data ?? [];
+  const activeProducts = allProducts.filter(product => product.isActive === true);
+  return activeProducts
 };
 
 export const filterProducts = async (payload) =>{
-  
    const response = await API.post(PRODUCT_FILTER, payload);
-   return response?.data?.data ?? [];
+   const allProducts = response?.data?.data ?? [];
+   const activeProducts = allProducts.filter(product => product.isActive === true);
+   return activeProducts
 
 }
 
