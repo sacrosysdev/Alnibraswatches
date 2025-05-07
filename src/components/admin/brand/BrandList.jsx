@@ -15,7 +15,7 @@ const BrandList = ({
 }) => {
   const { isLoading, isError, refetch } = useGetBrand();
 
-  const brandColumns = [
+  const BRAND_TABLE_COLUMNS = [
     {
       key: "Id",
       header: "ID",
@@ -95,7 +95,7 @@ const BrandList = ({
       isError={isError}
       selectedItems={selectedBrand}
       setSelectedItems={setSelectedBrand}
-      columns={brandColumns}
+      columns={BRAND_TABLE_COLUMNS}
       idField="Id"
       data={filteredBrand}
       emptyMessage="No Brand found"

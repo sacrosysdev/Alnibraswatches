@@ -114,6 +114,14 @@ const ImageUploader = ({
       deleteImage(imageUrl, {
         onSuccess: () => {
           onImageDelete && onImageDelete(imageUrl);
+          onImageUpload &&
+            onImageUpload({
+              FileDetails: [
+                {
+                  FileUrl: null,
+                },
+              ],
+            });
           resolve();
         },
         onError: (error) => {
@@ -157,9 +165,9 @@ const ImageUploader = ({
               }
 
               // Set the image from the server response
-              if (data.url) {
-                setImage(data.url);
-                setPreviewImage(data.url);
+              if (data.FileDetails) {
+                setImage(data.FileDetails[0].FileUrl);
+                setPreviewImage(data.FileDetails[0].FileUrl);
               } else {
                 // If no URL is returned, use the local file as fallback
                 const reader = new FileReader();

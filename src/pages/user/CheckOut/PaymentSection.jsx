@@ -19,7 +19,49 @@ const PAYMENT_METHODS = [
   { id: "wallet", name: "Wallet", icon: gpay },
 ];
 
-const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
+// Payment method shimmer component
+const PaymentMethodShimmer = () => {
+  return (
+    <div className="mt-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="flex items-center py-3 gap-3 border-t border-[#E8E9EA] animate-pulse"
+        >
+          <div className="w-4 h-4 bg-gray-200 rounded-full ml-2"></div>
+          <div className="flex gap-2 items-center">
+            <div className="w-5 h-5 bg-gray-200 rounded-md"></div>
+            <div className="h-5 w-32 bg-gray-200 rounded-md"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Payment element shimmer component
+const PaymentElementShimmer = () => {
+  return (
+    <div className="mt-4 space-y-4 animate-pulse">
+      <div>
+        <div className="h-5 w-32 bg-gray-200 rounded-md"></div>
+        <div className="mt-2 p-4 border border-gray-200 rounded-md">
+          <div className="space-y-4">
+            <div className="h-10 bg-gray-200 rounded-md w-full"></div>
+            <div className="h-10 bg-gray-200 rounded-md w-full"></div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="h-10 bg-gray-200 rounded-md"></div>
+              <div className="h-10 bg-gray-200 rounded-md"></div>
+            </div>
+            <div className="h-10 bg-gray-200 rounded-md w-2/3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -27,6 +69,7 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
   const [availableMethods, setAvailableMethods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentElementLoading, setPaymentElementLoading] = useState(false);
 
   // Fetch available payment methods based on the user's region
   useEffect(() => {
@@ -41,7 +84,7 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
           currency: "aed",
           total: {
             label: "Demo total",
-            amount: 1000,
+            amount: amount,
           },
         });
 
@@ -100,6 +143,8 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
 
   const handleMethodChange = (methodId) => {
     setSelectedMethod(methodId);
+    setPaymentElementLoading(true);
+
     if (onPaymentMethodChange) {
       onPaymentMethodChange(methodId);
     }
@@ -120,14 +165,17 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
         });
       }
     }
+
+    // Simulate payment element loading time
+    setTimeout(() => {
+      setPaymentElementLoading(false);
+    }, 1500);
   };
 
   // Render custom payment method selection UI
   const renderPaymentMethodSelector = () => {
     if (isLoading) {
-      return (
-        <div className="py-4 text-gray-500">Loading payment methods...</div>
-      );
+      return <PaymentMethodShimmer />;
     }
 
     if (errorMessage) {
@@ -173,6 +221,10 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
   const renderPaymentForm = () => {
     if (!selectedMethod) return null;
 
+    if (paymentElementLoading) {
+      return <PaymentElementShimmer />;
+    }
+
     // Use Stripe's PaymentElement, but configured based on the selected method
     return (
       <div className="mt-4 space-y-4">
@@ -204,6 +256,12 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress }) => {
                 terms: {
                   card: "never", // Hide terms text for cleaner UI
                 },
+              }}
+              onReady={() => {
+                setPaymentElementLoading(false);
+              }}
+              onChange={() => {
+                // Handle any payment element changes here
               }}
             />
           </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CurrentVariants from "./CurrentVariants";
 import AddNewVariant from "./AddNewVariant";
 
@@ -17,13 +17,25 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
       price: 0,
       discountPercentage: 0,
       discountPrice: 0,
-      currency: "USD",
+      currency: "AED",
     },
     stock: {
       onhand: 0,
     },
     images: [],
   });
+  // Used store the change directly to the formData instead of click the update varaint button
+  useEffect(() => {
+    const updatedVariants = [currentVariant];
+    updatedVariants[editingVariantIndex] = currentVariant;
+
+    setFormData((prev) => ({
+      ...prev,
+      variants: prev.variants.map((item, index) =>
+        index === editingVariantIndex ? updatedVariants[0] : item
+      ),
+    }));
+  }, [currentVariant]);
 
   // Handle variant input change
   const handleVariantChange = (e) => {

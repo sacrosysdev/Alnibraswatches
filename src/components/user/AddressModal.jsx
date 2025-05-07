@@ -1,4 +1,6 @@
+import { Form, Formik } from "formik";
 import { checkOutValidation } from "../../constant/schema";
+import CheckOutForm from "../../pages/user/CheckOut/CheckOutForm";
 
 const AddressModal = ({ initialValues, onSubmit, handleCloseModal }) => {
   return (
@@ -12,7 +14,7 @@ const AddressModal = ({ initialValues, onSubmit, handleCloseModal }) => {
       >
         <button
           onClick={handleCloseModal}
-          className="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl"
+          className="absolute top-2   right-2 text-gray-600 hover:text-black text-2xl"
           aria-label="Close modal"
         >
           &times;

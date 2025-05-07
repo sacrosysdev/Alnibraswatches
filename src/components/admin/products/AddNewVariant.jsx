@@ -185,7 +185,7 @@ const AddNewVariant = ({
           </label>
           <select
             name="sizeId"
-            value={currentVariant.sizeId}
+            value={currentVariant.sizeId || ""}
             onChange={handleVariantChange}
             className="w-full border border-gray-300 rounded-md p-2 text-sm"
           >
@@ -207,7 +207,7 @@ const AddNewVariant = ({
         <input
           type="text"
           name="sku"
-          value={currentVariant?.sku}
+          value={currentVariant?.sku || ""}
           onChange={handleVariantChange}
           className="w-full border border-gray-300 rounded-md p-2 text-sm"
           placeholder="Enter SKU code"
@@ -222,7 +222,7 @@ const AddNewVariant = ({
           <input
             type="number"
             name="price.price"
-            value={currentVariant?.price?.price}
+            value={currentVariant?.price?.price || ""}
             onChange={handleVariantChange}
             className="w-full border border-gray-300 rounded-md p-2 text-sm"
             min="0"
@@ -237,7 +237,7 @@ const AddNewVariant = ({
           <input
             type="number"
             name="stock.onhand"
-            value={currentVariant?.stock?.onhand}
+            value={currentVariant?.stock?.onhand || ""}
             onChange={handleVariantChange}
             className="w-full border border-gray-300 rounded-md p-2 text-sm"
             min="0"
@@ -253,7 +253,7 @@ const AddNewVariant = ({
           <input
             type="number"
             name="price.discountPercentage"
-            value={currentVariant?.price?.discountPercentage}
+            value={currentVariant?.price?.discountPercentage || ""}
             onChange={handleVariantChange}
             className="w-full border border-gray-300 rounded-md p-2 text-sm"
             min="0"
@@ -268,7 +268,7 @@ const AddNewVariant = ({
           <input
             type="number"
             name="price.discountPrice"
-            value={currentVariant?.price?.discountPrice}
+            value={currentVariant?.price?.discountPrice || ""}
             onChange={handleVariantChange}
             className="w-full border border-gray-300 rounded-md p-2 text-sm"
             min="0"

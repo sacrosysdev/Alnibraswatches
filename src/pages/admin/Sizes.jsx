@@ -75,7 +75,7 @@ const Sizes = () => {
     setIsModalOpen(true);
   };
 
-  const SIZE_COLUMNS = [
+  const SIZE_TABLE_COLUMNS = [
     {
       key: "SizeId",
       header: "ID",
@@ -123,8 +123,7 @@ const Sizes = () => {
       <DynamicTable
         isLoading={isLoading}
         isError={isError}
-        // isSelectable={false}
-        columns={SIZE_COLUMNS}
+        columns={SIZE_TABLE_COLUMNS}
         idField="SizeId"
         data={filteredColor}
         emptyMessage="No size found"

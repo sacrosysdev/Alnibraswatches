@@ -11,6 +11,7 @@ import BrandModal from "../../components/admin/brand/BrandModal";
 import DeleteModal from "../../components/admin/shared/DeleteModal";
 import PageHeader from "../../components/admin/shared/PageHeader";
 import { useProductData } from "../../hooks/admin/useProductData";
+import FloatingDeleteButton from "../../components/admin/shared/FloatingDeleteButton";
 
 const Brands = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -204,14 +205,7 @@ const Brands = () => {
 
       {/* Floating Action Button to trigger delete modal */}
       {selectedBrand.length > 0 && (
-        <button
-          onClick={() => setIsDeleteModalVisible(true)}
-          className="fixed bottom-6 right-6 bg-red-600 
-          cursor-pointer text-white rounded-full p-3 shadow-lg hover:bg-red-700 transition-colors"
-          style={{ zIndex: 30 }}
-        >
-          <Trash2 size={20} />
-        </button>
+        <FloatingDeleteButton onClick={() => setIsDeleteModalVisible(true)} />
       )}
     </div>
   );
