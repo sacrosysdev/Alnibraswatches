@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import FormModal from "../shared/FormModal";
 import Variants from "./Variants";
 import ProductInformation from "./ProductInformation";
+import { useFormik } from "formik";
+import { PRODUCT_VALIDATION } from "../../../constant/schema";
 
 /**
  * Modal component for adding or editing product information
@@ -40,19 +42,33 @@ const ProductModal = ({
       setEnableVariants(false);
     }
   }, [isModalOpen]);
+  const formik = useFormik({
+    initialValues: formData,
+    validationSchema: PRODUCT_VALIDATION(enableVariants),
+    onSubmit: () => {
+      handleSubmit();
+    },
+    enableReinitialize: true,
+  });
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      formik.resetForm();
+    }
+  }, [isModalOpen]);
   return (
     <FormModal
       isLoading={isLoading}
       isOpen={isModalOpen}
       onClose={handleCloseModal}
       title={isEditing ? "Edit Product" : "Add New Product"}
-      handleSubmit={handleSubmit}
+      handleSubmit={formik.handleSubmit}
     >
       {/* Basic Product Information */}
       <ProductInformation
         categories={categories}
         brands={brands}
+        formik={formik}
         formData={formData}
         enableVariants={enableVariants}
         setEnableVariants={setEnableVariants}

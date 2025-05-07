@@ -21,7 +21,6 @@ const BrandModal = ({
       },
     });
   };
-
   return (
     <FormModal
       isLoading={isLoading}

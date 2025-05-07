@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CurrentVariants from "./CurrentVariants";
 import AddNewVariant from "./AddNewVariant";
 
@@ -17,13 +17,25 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
       price: 0,
       discountPercentage: 0,
       discountPrice: 0,
-      currency: "USD",
+      currency: "AED",
     },
     stock: {
       onhand: 0,
     },
     images: [],
   });
+  // Used store the change directly to the formData instead of click the update varaint button
+  useEffect(() => {
+    const updatedVariants = [currentVariant];
+    updatedVariants[editingVariantIndex] = currentVariant;
+
+    setFormData((prev) => ({
+      ...prev,
+      variants: prev.variants.map((item, index) =>
+        index === editingVariantIndex ? updatedVariants[0] : item
+      ),
+    }));
+  }, [currentVariant]);
 
   // Handle variant input change
   const handleVariantChange = (e) => {
@@ -55,16 +67,20 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
     setEditingVariantIndex(index);
     setFormData((prev) => ({
       ...prev,
+      variants: prev.variants.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleStockEmpty = () => {
+    setEditingVariantIndex(index);
+    setFormData((prev) => ({
+      ...prev,
       variants: prev.variants.map((variant, i) =>
         i === index
           ? { ...variant, stock: { onhand: 0, stockId: variant.stock.stockId } }
           : variant
       ),
     }));
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   variants: prev.variants.filter((_, i) => i !== index),
-    // }));
   };
   // Add a variant to the list
   const addVariant = () => {
@@ -160,6 +176,7 @@ const Variants = ({ isOpen, setFormData, formData, sizes, colors }) => {
         variantsListRef={variantsListRef}
         variants={formData.variants}
         removeVariant={removeVariant}
+        handleStockEmpty={handleStockEmpty}
         editVariant={editVariant}
       />
       {/* Add New Variant Form */}

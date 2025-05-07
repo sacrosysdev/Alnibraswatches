@@ -12,7 +12,7 @@ const CategoryList = ({
   setSelectedCategories,
 }) => {
   const { isLoading, isError, refetch } = useGetAllCategory();
-  const CATEGORY_COLUMNS = [
+  const CATEGORY_TABLE_COLUMNS = [
     {
       key: "Id",
       header: "ID",
@@ -84,7 +84,7 @@ const CategoryList = ({
       isError={isError}
       selectedItems={selectedCategories}
       setSelectedItems={setSelectedCategories}
-      columns={CATEGORY_COLUMNS}
+      columns={CATEGORY_TABLE_COLUMNS}
       idField="Id"
       data={filteredCategories}
       emptyMessage="No Category found"

@@ -200,15 +200,15 @@ export const BANNER_DEV_CONFIG = {
 };
 
 export const INITIAL_PRODUCT_DETAILS = {
-  productName: "",
-  description: "",
-  categoryId: 0,
+  productName: undefined,
+  description: undefined,
+  categoryId: undefined,
   taxCode: "",
   images: [],
-  brandID: 0,
-  price: null,
-  stockQty: null,
-  discountPrice: null,
+  brandID: undefined,
+  price: undefined,
+  stockQty: undefined,
+  discountPrice: undefined,
   variants: [],
 };
 
