@@ -1,11 +1,10 @@
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserLayout from "../../layouts/user/Layout";
-import Payment from "../../components/admin/Payment";
+const CheckoutPage = lazy(() => import("../../pages/user/CheckOut/Checkout"));
 const HomePage = lazy(() => import("../../pages/user/Home/Home"));
 const TrendingPage = lazy(() => import("../../pages/user/Trending/Trending"));
 const ProductPage = lazy(() => import("../../pages/user/Product/Product"));
-const CheckoutPage = lazy(() => import("../../pages/user/CheckOut/Checkout"));
 const OrderHistoryPage = lazy(() =>
   import("../../pages/user/OrderHistory/OrderHistory")
 );
@@ -38,26 +37,22 @@ const UserRoute = () => {
     <Routes>
       <Route path="/" element={<UserLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<SignupPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/reset-password" element={<ResetPasswordPage />}></Route>
+        <Route path="/register" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
-        <Route path="/checkout" element={<Payment />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/order-history" element={<OrderHistoryPage />} />
         <Route path="/aboutus" element={<AboutUsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/profile" element={<ProfilePage />}>
-          <Route index element={<PersonalInfoPage />}></Route>
-          <Route path="my-orders" element={<MyOrdersPage />}></Route>
-          <Route path="manage-address" element={<ManageAddressPage />}></Route>
-          <Route
-            path="payment-methods"
-            element={<PaymentMethodsPage />}
-          ></Route>
-          <Route path="help-center" element={<HelpCenterPage />}></Route>
+          <Route index element={<PersonalInfoPage />} />
+          <Route path="my-orders" element={<MyOrdersPage />} />
+          <Route path="manage-address" element={<ManageAddressPage />} />
+          <Route path="payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="help-center" element={<HelpCenterPage />} />
         </Route>
       </Route>
     </Routes>

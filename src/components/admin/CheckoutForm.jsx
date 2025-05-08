@@ -1,20 +1,21 @@
 import {
-  PaymentElement,
   LinkAuthenticationElement,
+  useElements,
+  useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import PaymentSection from "../../pages/user/CheckOut/PaymentSection";
-import PlaceOrder from "../../pages/user/CheckOut/PlaceOrder";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   useAddAddress,
   useGetSelectedAddress,
   usePostOrder,
 } from "../../api/user/hooks";
-import { useLocation, useNavigate } from "react-router-dom";
+import { INITIAL_ADDRESS_VALUE } from "../../constant/user";
 import { useCart } from "../../contexts/user/CartContext";
-import Header from "../../pages/user/CheckOut/Header";
 import Address from "../../pages/user/CheckOut/Address";
+import Header from "../../pages/user/CheckOut/Header";
+import PaymentSection from "../../pages/user/CheckOut/PaymentSection";
+import PlaceOrder from "../../pages/user/CheckOut/PlaceOrder";
 import AddressModal from "../user/AddressModal";
 
 export default function CheckoutForm() {
@@ -34,18 +35,6 @@ export default function CheckoutForm() {
   const addAddressMutation = useAddAddress();
   const createOrderMutation = usePostOrder();
 
-  const initialValues = {
-    fullName: "",
-    phone: "+971 ",
-    pincode: "",
-    addres: "",
-    street: "",
-    state: "",
-    landmark: "",
-    addressType: "Home",
-    makeDefault: false,
-  };
-
   const handleAddAddress = async (values, { setSubmitting, resetForm }) => {
     try {
       await addAddressMutation.mutateAsync(values);
@@ -58,14 +47,16 @@ export default function CheckoutForm() {
       setSubmitting(false);
     }
   };
-
-  const handleCloseModal = () => setShowModal(false);
-
   const {
     data: address,
     isLoading: loadingAddress,
     refetch: refetchAddress,
   } = useGetSelectedAddress(location.state);
+
+  // Function to close Address Modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   // Function to create order after payment success
   const createOrder = async (paymentIntent) => {
@@ -82,8 +73,8 @@ export default function CheckoutForm() {
         paymentMode: `${paymentMode}`,
         paymentReference: "string",
         addressId: 0,
-        orderDetails: cart.map((item) => ({
-          sI_No: 0,
+        orderDetails: cart.map((item, index) => ({
+          sI_No: index + 1,
           productId: item?.ProductId,
           varientID: item?.VariantId,
           productName: item?.ProductName,
@@ -119,7 +110,7 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(true);
-
+    // here confirm the paymment with the payment intent that we create in the while cerate element  <Payment/>
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       redirect: "if_required", // Change this to handle the response here instead of automatic redirect
@@ -149,11 +140,13 @@ export default function CheckoutForm() {
 
   const handlePaymentMode = (mode) => {
     setPaymentMode(mode);
+    setPaymentError(null);
   };
-
+  // Calculate the total amount of the product
   const subtotal = cart.reduce((acc, item) => {
     return acc + item.Quantity * (item?.DiscountPrice || item?.Price);
   }, 0);
+
   return (
     <div className="w-full py-20">
       <form id="payment-form" onSubmit={handleSubmit}>
@@ -200,7 +193,10 @@ export default function CheckoutForm() {
               // Prefill the email field like so:
               // options={{defaultValues: {email: 'foo@bar.com'}}}
             />
-            <PaymentSection amount={subtotal} />
+            <PaymentSection
+              amount={subtotal + subtotal * (5 / 100)}
+              onPaymentMethodChange={handlePaymentMode}
+            />
           </div>
           <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
             <PlaceOrder
@@ -214,7 +210,7 @@ export default function CheckoutForm() {
       </form>
       {showModal && (
         <AddressModal
-          initialValues={initialValues}
+          initialValues={INITIAL_ADDRESS_VALUE}
           onSubmit={handleAddAddress}
           handleCloseModal={handleCloseModal}
         />

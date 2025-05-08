@@ -49,10 +49,15 @@ export function useProductData({ initialPage = 1, pageSize = 10 } = {}) {
 
   // Supporting data queries
   const { data: sizes, isLoading: sizesLoading } = useGetSizes();
-  const { data: categories, isLoading: categoriesLoading } =
-    useGetAllCategory();
-  const { data: colors, isLoading: colorsLoading } = useGetColor();
-  const { data: brands, isLoading: brandsLoading } = useGetBrand();
+  const { data: categories, isLoading: categoriesLoading } = useGetAllCategory({
+    select: (data) => data.filter((item) => item.IsActive),
+  });
+  const { data: colors, isLoading: colorsLoading } = useGetColor({
+    select: (data) => data.filter((item) => item.IsActive),
+  });
+  const { data: brands, isLoading: brandsLoading } = useGetBrand({
+    select: (data) => data.filter((item) => item.IsActive),
+  });
 
   // Mutations
   const addProduct = useAddProducts();

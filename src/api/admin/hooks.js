@@ -56,11 +56,13 @@ export const useAdminLogin = () =>
   });
 //////////////////////   CATEGORY SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 // GET ALL CATEGORY
-export const useGetAllCategory = () =>
+export const useGetAllCategory = (options = {}) =>
   useQuery({
     queryKey: ["allCategory"],
     queryFn: getCategory,
+    ...options, // spread options like select, enabled, etc.
   });
+
 // ADD CATEGORY
 export const usePostCategory = () =>
   useMutation({
@@ -88,10 +90,11 @@ export const useDeleteCategory = () =>
 
 //////////////////////   BRAND SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 // GET BRAND
-export const useGetBrand = () =>
+export const useGetBrand = (options = {}) =>
   useQuery({
     queryKey: ["getBrand"],
     queryFn: getBrand,
+    ...options,
   });
 // ADD BRAND
 export const usePostBrand = () =>
@@ -120,10 +123,11 @@ export const useDeleteBrand = () =>
   });
 //////////////////////   COLOR SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 // GET COLOR
-export const useGetColor = () =>
+export const useGetColor = (options = {}) =>
   useQuery({
     queryKey: ["getColor"],
     queryFn: getColors,
+    ...options,
   });
 // ADD COLOR
 export const useAddColor = () =>
@@ -221,8 +225,8 @@ export const useGetProducts = (paginationParams = {}) => {
         ...item,
         images: JSON.parse(item.images),
       })),
-      totalCount: data.totalCount || data.data.length,
-      totalPages: Math.ceil(data?.totalCount / paginationParams.pageSize),
+      totalCount: data.filterTotalCount || data.data.length,
+      totalPages: Math.ceil(data?.filterTotalCount / paginationParams.pageSize),
     }),
   });
 };

@@ -10,6 +10,10 @@ import gpay from "../../../assets/svg/checkout/gpay.svg";
 import phonepe from "../../../assets/svg/checkout/phonepe.svg";
 import paytm from "../../../assets/svg/checkout/paytm.svg";
 import mastercard from "../../../assets/svg/checkout/mastercard.svg";
+import {
+  PaymentElementShimmer,
+  PaymentMethodShimmer,
+} from "../../../components/user/checkout/PaymentElementShimmer";
 
 // Payment methods configuration
 const PAYMENT_METHODS = [
@@ -19,52 +23,12 @@ const PAYMENT_METHODS = [
   { id: "wallet", name: "Wallet", icon: gpay },
 ];
 
-// Payment method shimmer component
-const PaymentMethodShimmer = () => {
-  return (
-    <div className="mt-4">
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          className="flex items-center py-3 gap-3 border-t border-[#E8E9EA] animate-pulse"
-        >
-          <div className="w-4 h-4 bg-gray-200 rounded-full ml-2"></div>
-          <div className="flex gap-2 items-center">
-            <div className="w-5 h-5 bg-gray-200 rounded-md"></div>
-            <div className="h-5 w-32 bg-gray-200 rounded-md"></div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// Payment element shimmer component
-const PaymentElementShimmer = () => {
-  return (
-    <div className="mt-4 space-y-4 animate-pulse">
-      <div>
-        <div className="h-5 w-32 bg-gray-200 rounded-md"></div>
-        <div className="mt-2 p-4 border border-gray-200 rounded-md">
-          <div className="space-y-4">
-            <div className="h-10 bg-gray-200 rounded-md w-full"></div>
-            <div className="h-10 bg-gray-200 rounded-md w-full"></div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="h-10 bg-gray-200 rounded-md"></div>
-              <div className="h-10 bg-gray-200 rounded-md"></div>
-            </div>
-            <div className="h-10 bg-gray-200 rounded-md w-2/3"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
+  // hooks
   const stripe = useStripe();
   const elements = useElements();
 
+  // state for payment method
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [availableMethods, setAvailableMethods] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +47,7 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
           country: "AE", // This should be dynamic based on user location or selection
           currency: "aed",
           total: {
-            label: "Demo total",
+            label: "Checkout",
             amount: amount,
           },
         });
@@ -141,6 +105,7 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
     fetchPaymentMethods();
   }, [stripe, elements, selectedAddress]);
 
+  // Function to change the method
   const handleMethodChange = (methodId) => {
     setSelectedMethod(methodId);
     setPaymentElementLoading(true);
