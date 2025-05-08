@@ -267,7 +267,6 @@ export const useGetPaymentIntent = () => {
 };
 
 //////////////////////   PRODUCT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
-
 export const usePostOrder = () =>
   useMutation({
     mutationKey: ["postOrder"],
