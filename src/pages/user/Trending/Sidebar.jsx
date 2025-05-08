@@ -15,7 +15,7 @@ const Sidebar = ({
 }) => {
   const { data: brands, isLoading: loadingBrands } = useBrandList();
   const { data: categories, isLoading: loadingCategories } = useCategoryList();
-  
+
   const priceRanges = [
     { Id: 'price1', Name: 'Under AED 100 ', min: '0', max: '100' },
     { Id: 'price2', Name: 'AED 100 - AED 500', min: '100', max: '500' },

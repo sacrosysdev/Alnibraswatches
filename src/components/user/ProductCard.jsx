@@ -41,7 +41,7 @@ const ProductCard = ({ id, image, title, brand, price, variantId }) => {
 
   return (
     <div className='relative flex flex-col items-center gap-4 pb-5 
-                  bg-[#F1F1F1] border border-[#A3C4C1] shadow-xl 
+                  bg-[#F1F1F1]  shadow-xl 
                     rounded-2xl h-[400px] md:h-[450px] cursor-pointer'
       onClick={goToProductDetailPage}>
       <div className='w-full h-[200px] overflow-hidden'>

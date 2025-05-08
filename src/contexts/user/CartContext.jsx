@@ -4,6 +4,7 @@ import {
   useGetCart,
   useUpdateCartItem,
   useDeleteCartItem,
+  useDeleteUserCartItem
 } from "../../api/user/hooks";
 
 const CartContext = createContext();
@@ -31,6 +32,7 @@ export const CartProvider = ({ children }) => {
   const addMutation = useAddToCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useDeleteCartItem();
+  const removeUserMutation = useDeleteUserCartItem()
 
   // Track login status changes
   useEffect(() => {
@@ -40,7 +42,6 @@ export const CartProvider = ({ children }) => {
     if (currentLoginState && previousLoginState === false) {
       syncLocalCartToServer();
     }
-
     setPreviousLoginState(currentLoginState);
   }, [userId]);
 
@@ -173,8 +174,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = async () => {
     if (userId) {
       try {
-        // This should be implemented based on your backend API
-        // For example, a dedicated endpoint to clear the entire cart
+        await removeUserMutation.mutateAsync()
         await refetch();
       } catch (error) {
         console.error("Failed to clear cart:", error);
