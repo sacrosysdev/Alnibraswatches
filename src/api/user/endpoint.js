@@ -12,6 +12,7 @@ export const ADDTO_CART = "postCart";
 export const GET_CART = "getCart";
 export const UPDATE_CART = "putCart";
 export const DELETE_CART = "DeleteCart";
+export const DELETE_USER_CART = "DeleteUserCart"
 export const GET_ADDRESS = "getUserAddress";
 export const UPADTE_DEFAULT_ADDRESS = "putUserAddressDefault";
 export const POST_ADDRESS = "postUserAddress";

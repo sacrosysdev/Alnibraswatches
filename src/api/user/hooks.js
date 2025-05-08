@@ -16,6 +16,7 @@ import {
   getCart,
   updateCart,
   deleteCart,
+  deleteUserCart,
   getAddress,
   getSelectedAddress,
   updateDefaultAddress,
@@ -195,7 +196,13 @@ export const useDeleteCartItem = () => {
     mutationKey: ["deleteCart"],
     mutationFn: (payload) => deleteCart(payload),
   });
-};
+}; 
+export const useDeleteUserCartItem = () => {
+  return useMutation({
+    mutationKey: ["deleteUserCart"],
+    mutationFn: () => deleteUserCart(),
+  });
+}; 
 
 //////////////////////   USER ADDRESS ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 

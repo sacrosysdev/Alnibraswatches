@@ -2,7 +2,7 @@ import API from "../httpService";
 import { CATEGORY_LIST,BRAND_LIST,PRODUCT_LIST,
         GET_BANNER,USER_SIGNUP,USER_SIGNIN,ADD_WISHLIST,
         GET_WISHLIST,DELETE_WISHLIST,ADDTO_CART,GET_CART,
-        UPDATE_CART,DELETE_CART,GET_ADDRESS,UPADTE_DEFAULT_ADDRESS,
+        UPDATE_CART,DELETE_CART,DELETE_USER_CART,GET_ADDRESS,UPADTE_DEFAULT_ADDRESS,
         POST_ADDRESS,USER_LOGOUT,UPDATE_ADDRESS,PRODUCT_FILTER,
         ADD_REVIEW,GET_REVIEW } from "./endpoint";
 
@@ -214,6 +214,10 @@ export const deleteCart = async (cartId) => {
   return response?.data?.data ?? [];
 };
 
+export const deleteUserCart = async (cartId) => {
+  const response = await API.delete(DELETE_USER_CART,);
+  return response?.data?.data ?? [];
+};
 
 //////////////////////   USER ADDRESS ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
