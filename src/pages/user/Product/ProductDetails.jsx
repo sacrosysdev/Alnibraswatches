@@ -14,7 +14,21 @@ const ProductDetails = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const { cart, addToCartlist } = useCart();
-  const increaseQty = () => setQuantity((prev) => prev + 1);
+  
+  // Get current stock quantity
+  const currentStock = selectedVariant?.stock?.onhand !== undefined 
+    ? selectedVariant?.stock?.onhand 
+    : details?.stockQty;
+  
+  // Check if quantity exceeds available stock
+  const isMaxQuantity = currentStock !== undefined && quantity >= currentStock;
+  
+  const increaseQty = () => {
+    if (currentStock === undefined || quantity < currentStock) {
+      setQuantity((prev) => prev + 1);
+    }
+  };
+  
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
   const discountPrice =
     selectedVariant?.price?.discountPrice || details?.discountPrice;
@@ -24,17 +38,21 @@ const ProductDetails = ({
     discountPrice !== null &&
     discountPrice !== undefined &&
     discountPrice !== 0;
+  
   const handleAddToCart = () => {
+    if (isOutOfStock) return; 
+    const safeQuantity = currentStock !== undefined ? Math.min(quantity, currentStock) : quantity;
     addToCartlist({
       productId: details.productId,
       variantId: selectedVariant?.variantId || -1,
-      quantity: quantity,
+      quantity: safeQuantity,
       ProductName: details?.productName,
       Price: normalPrice,
       DiscountPrice: discountPrice,
       PrimaryImageUrl: images[0]?.imageUrl,
     });
   };
+  
   useEffect(() => {
     if (details?.variants?.length > 0) {
       const variantsWithParsedImages = details.variants.map((variant) => ({
@@ -59,7 +77,15 @@ const ProductDetails = ({
       });
     }
   }, [details]);
-
+ 
+  // Fix: Corrected the isOutOfStock logic to properly check if stock is zero
+  const isOutOfStock = (selectedVariant?.stock?.onhand === 0 || selectedVariant?.stock?.onhand === undefined) && 
+                      (details?.stockQty === 0 || details?.stockQty === undefined);
+  // Button states
+  const buttonDisabledClass = isOutOfStock 
+    ? "opacity-50 cursor-not-allowed" 
+    : "cursor-pointer";
+  
   return (
     <section className="flex flex-col gap-4 ">
       <h2 className="font-bold font-bodoni text-4xl text-[#0D1217]">
@@ -110,9 +136,10 @@ const ProductDetails = ({
       {/* Quantity Handling */}
       <div className="flex items-center gap-2">
         <button
-          className="w-10 h-10 border border-gray-300 text-xl 
-                              flex items-center justify-center cursor-pointer"
+          className={`w-10 h-10 border border-gray-300 text-xl 
+                     flex items-center justify-center ${isOutOfStock || quantity <= 1 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
           onClick={decreaseQty}
+          disabled={isOutOfStock || quantity <= 1}
         >
           <AiOutlineMinus />
         </button>
@@ -120,22 +147,41 @@ const ProductDetails = ({
           {quantity}
         </div>
         <button
-          className="w-10 h-10 border border-gray-300 text-xl flex items-center 
-                                justify-center cursor-pointer"
+          className={`w-10 h-10 border border-gray-300 text-xl flex items-center 
+                     justify-center ${isOutOfStock || isMaxQuantity ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
           onClick={increaseQty}
+          disabled={isOutOfStock || isMaxQuantity}
         >
           <AiOutlinePlus />
         </button>
       </div>
-
+      {currentStock !== undefined && currentStock > 0 && (
+        <div className="text-sm text-gray-600">
+          <span className={currentStock < 5 ? "text-amber-700 font-medium" : ""}>
+            {currentStock < 5 ? `Only ${currentStock} left in stock!` : `${currentStock} available`}
+          </span>
+        </div>
+      )}
+      {isOutOfStock && (
+        <div className="bg-red-100 w-full max-w-md border border-red-400 text-red-700 px-4 py-3 rounded-md text-sm font-medium flex items-center">
+          <svg className="w-5 h-5 mr-2" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          <span className="font-semibold">Out of Stock</span> - This item is currently unavailable
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-6">
-        <button className="bg-[#00211E] text-white rounded-lg py-3 px-6">
+        <button 
+          className={`bg-[#00211E] text-white rounded-lg py-3 px-6 ${buttonDisabledClass}`}
+          disabled={isOutOfStock}
+        >
           Buy Now
         </button>
         <button
-          className="bg-white text-[#010F17] border cursor-pointer
-                                     border-[#010F17] rounded-lg py-3 px-6"
+          className={`bg-white text-[#010F17] border 
+                     border-[#010F17] rounded-lg py-3 px-6 ${buttonDisabledClass}`}
           onClick={handleAddToCart}
+          disabled={isOutOfStock}
         >
           Add to Cart
         </button>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "../../../components/admin/CheckoutForm";
+import CheckoutForm from "../../../components/user/checkout/CheckoutForm";
 import CheckoutShimmer from "../../../components/user/checkout/CheckoutShimmer";
 import { useGetPaymentIntent } from "../../../api/user/hooks";
 import { useCart } from "../../../contexts/user/CartContext";
@@ -17,11 +17,11 @@ function CheckoutPage() {
   useEffect(() => {
     const fetchClientSecret = async () => {
       if (cart.length === 0) return;
-      
       try {
         const response = await paymentMutation.mutateAsync();
         setClientSecret(response.data.clientSecret);
         setPaymentData(response.data);
+       
       } catch (error) {
         console.error("Failed to get client secret", error);
       }

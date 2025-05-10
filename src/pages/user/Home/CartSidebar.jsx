@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdOutlineClose } from "react-icons/md";
 import Delete from '../../../assets/svg/home/delete.svg'
@@ -9,18 +8,19 @@ import { useCart } from '../../../contexts/user/CartContext'
 
 const CartSidebar = ({ cartOpen, handleCart }) => {
     const { cart, updateCartItem, removeFromCart } = useCart()
+
     const subtotal = cart.reduce((acc, item) => {
         return acc + (item.Quantity * (item?.DiscountPrice || item?.Price));
     }, 0);
     const decreaseFromCart = (item) => {
-        if(item.Quantity>1){
+        if (item.Quantity > 1) {
             const updatedItem = {
                 ...item,
                 Quantity: item.Quantity - 1
             };
             updateCartItem(updatedItem)
         }
-      
+
     }
     const increaseFromCart = (item) => {
         const updatedItem = {
@@ -29,9 +29,10 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
         };
         updateCartItem(updatedItem)
     }
-    const removeItemFromCart = (cartId,productId) => {
-        removeFromCart(cartId,productId)
+    const removeItemFromCart = (cartId, productId) => {
+        removeFromCart(cartId, productId)
     }
+    const isAnyItemOverStock = cart.some(item => item.Quantity > item.StockQty);
     return (
         <AnimatePresence>
             {cartOpen && (
@@ -69,47 +70,55 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                                 {/* Cart Items */}
                                 {cart.length > 0 ? (
                                     cart.map((item, index) => (
-                                        <div key={index} className="flex justify-between items-center py-5 border-b border-gray-300">
-                                            {/* Product Image and Name */}
-                                            <div className="flex items-center w-1/2 gap-3">
-                                                <div className="h-10 w-20 rounded-full bg-[#005C53] overflow-hidden">
-                                                    <img src={item.PrimaryImageUrl} alt="product" className="h-full w-full object-contain" />
+                                        <div className="border-b border-gray-300" key={index}>
+                                            <div className="flex justify-between items-center py-5  ">
+                                                {/* Product Image and Name */}
+                                                <div className="flex items-center w-1/2 gap-3">
+                                                    <div className="h-10 w-20 rounded-full bg-[#005C53] overflow-hidden">
+                                                        <img src={item.PrimaryImageUrl} alt="product" className="h-full w-full object-contain" />
+                                                    </div>
+                                                    <div className="flex flex-col text-xs gap-1">
+                                                        <p className="uppercase font-semibold">{item.ProductName}</p>
+                                                    </div>
+
                                                 </div>
-                                                <div className="flex flex-col text-xs gap-1">
-                                                    <p className="uppercase font-semibold">{item.ProductName}</p>
+
+                                                {/* Quantity */}
+                                                <div className="w-1/4 flex items-center justify-center gap-3 text-sm">
+                                                    <div
+                                                        className="cursor-pointer px-2 py-1 border rounded"
+                                                        onClick={() => decreaseFromCart(item)}
+                                                    >
+                                                        -
+                                                    </div>
+                                                    <div>{item.Quantity}</div>
+                                                    <div
+                                                        className="cursor-pointer px-2 py-1 border rounded"
+                                                        onClick={() => increaseFromCart(item)}
+                                                    >
+                                                        +
+                                                    </div>
                                                 </div>
+
+                                                {/* Price and Delete */}
+                                                <div className="w-1/4 flex items-center justify-end gap-4 text-sm font-semibold">
+                                                    <div
+                                                        className=" h-8 w-8  rounded-lg flex items-center justify-center"
+                                                    >
+                                                        <div>{item?.DiscountPrice || item?.Price}</div>
+                                                    </div>
+                                                </div><br />
+
+                                                <img src={Delete} alt="delete"
+                                                    onClick={() => removeItemFromCart(item.CartId, item.ProductId)}
+                                                    className="h-4 w-6  border-[#ffffff] cursor-pointer"
+                                                />
+
                                             </div>
-
-                                            {/* Quantity */}
-                                            <div className="w-1/4 flex items-center justify-center gap-3 text-sm">
-                                                <div
-                                                    className="cursor-pointer px-2 py-1 border rounded"
-                                                    onClick={() => decreaseFromCart(item)}
-                                                >
-                                                    -
-                                                </div>
-                                                <div>{item.Quantity}</div>
-                                                <div
-                                                    className="cursor-pointer px-2 py-1 border rounded"
-                                                    onClick={() => increaseFromCart(item)}
-                                                >
-                                                    +
-                                                </div>
+                                            <div>{item.Quantity > item.StockQty && (
+                                                <span className="text-red-500 ml-2 text-sm ">Only {5} left in stock</span>
+                                            )}
                                             </div>
-
-                                            {/* Price and Delete */}
-                                            <div className="w-1/4 flex items-center justify-end gap-4 text-sm font-semibold">
-                                                <div
-                                                    className=" h-8 w-8  rounded-lg flex items-center justify-center"
-                                                >
-                                                    <div>{item?.DiscountPrice || item?.Price}</div>
-                                                </div>
-                                            </div><br/>
-
-                                            <img src={Delete} alt="delete"
-                                                        onClick={() => removeItemFromCart(item.CartId,item.ProductId)}
-                                                        className="h-4 w-6  border-[#ffffff] cursor-pointer"
-                                                    />
                                         </div>
                                     ))
                                 ) : (
@@ -124,15 +133,16 @@ const CartSidebar = ({ cartOpen, handleCart }) => {
                         {/* Checkout Button */}
                         {cart.length > 0 ? (<div className="mt-auto pt-3 border-t">
                             <div className="flex flex-col gap-3">
-                                {/* <div className="flex justify-between">
-                                    <h1>Discount</h1>
-                                    <h1>AED 00.00</h1>
-                                </div> */}
                                 <div className="flex justify-between">
                                     <h1>Sub total</h1>
                                     <h1>AED <span>{subtotal}</span></h1>
                                 </div>
-                                <Link to="/cart"><button onClick={handleCart} className="w-full bg-[#005C53] cursor-pointer text-white py-2 rounded-md ">
+                                <Link to="/cart"><button onClick={handleCart}
+                                    disabled={isAnyItemOverStock}
+                                    className={`w-full py-2 rounded-md ${isAnyItemOverStock
+                                            ? 'bg-gray-400 cursor-not-allowed'
+                                            : 'bg-[#005C53] text-white'
+                                        }`}>
                                     Order Now
                                 </button></Link>
                             </div>

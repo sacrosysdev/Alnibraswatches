@@ -35,7 +35,7 @@ const SummaryBox = () => {
                         </div>
                         <div className="flex justify-between text-gray-600">
                             <span>Estimated VAT</span>
-                            <span>AED {subtotal*(5/100)}</span>
+                            <span>AED {(subtotal*(5/100)).toFixed(2)}</span>
                         </div>
                         {/* <div className="flex justify-between text-gray-600 ">
                             <span>Estimated shipping & Handling</span>

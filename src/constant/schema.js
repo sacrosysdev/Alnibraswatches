@@ -12,7 +12,7 @@ export const checkOutValidation = Yup.object({
   addres: Yup.string().required("Address is required"),
   street: Yup.string().required("Street is required"),
   state: Yup.string().required("state is required"),
-  landmark: Yup.string().required("Landmark is required"),
+ 
 });
 
 export const PRODUCT_VALIDATION = (enableVariants) =>
