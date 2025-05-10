@@ -262,13 +262,8 @@ export const useGetReviews = (productId) =>
 export const useGetPaymentIntent = () => {
   return useMutation({
     mutationKey: ["getPaymentIntent"],
-    mutationFn: (amount) => {
-      return API.post(GET_PAYMENT_INTENT, {
-        amount: convertToSubCurrency(amount),
-        currency: "usd",
-        orderID: "123",
-        customerName: "string",
-      });
+    mutationFn: () => {
+      return API.post(GET_PAYMENT_INTENT);
     },
   });
 };
