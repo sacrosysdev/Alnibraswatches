@@ -47,7 +47,6 @@ const MyOrders = () => {
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
-
   if (error)
     return (
       <div className="bg-red-50 p-4 rounded-md">
@@ -85,6 +84,7 @@ const MyOrders = () => {
       return 0;
     }
   });
+
   return (
     <div className="bg-white rounded-lg    p-6">
       {/* Order Header */}
@@ -270,6 +270,7 @@ const MyOrders = () => {
           </div>
         )}
       </div>
+      
     </div>
   );
 };

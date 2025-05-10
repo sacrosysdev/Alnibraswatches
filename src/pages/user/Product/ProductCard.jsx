@@ -6,12 +6,12 @@ import { useWishlist } from '../../../contexts/user/WishListContext';
 import { motion } from 'framer-motion';
 import { useCart } from '../../../contexts/user/CartContext';
 
-const ProductCard = ({id,image, title, brand, price, quantity}) => {
-  const {wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
-  const isInWishList= wishlist.some((item) => item.id === id)
-  const {cart, addToCart, decreaseFromCart, removeFromCart, clearCart } = useCart()
-  const isInCart = cart.some((item)=>item.id === id)
- 
+const ProductCard = ({ id, image, title, brand, price, quantity }) => {
+  const { wishlist, addToWishlist, removeFromWishlist, clearWishlist } = useWishlist()
+  const isInWishList = wishlist.some((item) => item.id === id)
+  const { cart, addToCart, decreaseFromCart, removeFromCart, clearCart } = useCart()
+  const isInCart = cart.some((item) => item.id === id)
+
   return (
     <div className='relative flex flex-col items-center gap-4 p-6 bg-[#F1F1F1]  rounded-2xl'>
 
@@ -30,18 +30,17 @@ const ProductCard = ({id,image, title, brand, price, quantity}) => {
             <FaAngleRight />
           </div>
         </div>
-
         <div className='grid grid-cols-3 gap-4'>
-          <button className='col-span-2 bg-[#003F38] px-6 py-3 rounded-lg text-white cursor-pointer' onClick={()=>{!isInCart ? addToCart({id, image, title, brand, price}):''}}>
-            {isInCart ? 'Added':'Add To Cart'}
+          <button className='col-span-2 bg-[#003F38] px-6 py-3 rounded-lg text-white cursor-pointer' onClick={() => { !isInCart ? addToCart({ id, image, title, brand, price }) : '' }}>
+            {isInCart ? 'Added' : 'Add To Cart'}
           </button>
           <div className='col-span-1 m-auto border border-[#A3C4C1] px-6 py-3 rounded-lg'>
-            <motion.img  src={isInWishList ? FillHeart : Heart} whileTap={{ scale:0.8}}  alt="wishlist" className='cursor-pointer hover:text-black' onClick={()=>{ isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price })}} />
+            <motion.img src={isInWishList ? FillHeart : Heart} whileTap={{ scale: 0.8 }} alt="wishlist" className='cursor-pointer hover:text-black' onClick={() => { isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price }) }} />
           </div>
         </div>
       </div>
       <div className='absolute   top-10 right-10 xl:top-5 xl:right-5'>
-      <motion.img  src={isInWishList ? FillHeart : Heart} whileTap={{ scale:0.8}}  alt="wishlist" className='cursor-pointer hover:text-black' onClick={()=>{ isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price })}} />
+        <motion.img src={isInWishList ? FillHeart : Heart} whileTap={{ scale: 0.8 }} alt="wishlist" className='cursor-pointer hover:text-black' onClick={() => { isInWishList ? removeFromWishlist(id) : addToWishlist({ id, image, title, brand, price }) }} />
       </div>
     </div>
   )

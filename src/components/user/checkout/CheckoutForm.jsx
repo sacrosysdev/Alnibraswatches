@@ -9,14 +9,14 @@ import {
   useAddAddress,
   useGetSelectedAddress,
   usePostOrder,
-} from "../../api/user/hooks";
-import { INITIAL_ADDRESS_VALUE } from "../../constant/user";
-import { useCart } from "../../contexts/user/CartContext";
-import Address from "../../pages/user/CheckOut/Address";
-import Header from "../../pages/user/CheckOut/Header";
-import PaymentSection from "../../pages/user/CheckOut/PaymentSection";
-import PlaceOrder from "../../pages/user/CheckOut/PlaceOrder";
-import AddressModal from "../user/AddressModal";
+} from "../../../api/user/hooks";
+import { INITIAL_ADDRESS_VALUE } from "../../../constant/user";
+import { useCart } from "../../../contexts/user/CartContext";
+import Address from "../../../pages/user/CheckOut/Address";
+import Header from "../../../pages/user/CheckOut/Header";
+import PaymentSection from "../../../pages/user/CheckOut/PaymentSection";
+import PlaceOrder from "../../../pages/user/CheckOut/PlaceOrder";
+import AddressModal from "../../user/AddressModal";
 
 export default function CheckoutForm({ paymentData }) {
   // Stripe hooks
@@ -82,6 +82,7 @@ export default function CheckoutForm({ paymentData }) {
         paymentReference: paymentIntent,
         addressId: 0,
         orderDetails: paymentData.cartItems.map((item, index) => ({
+          
           sI_No: index + 1,
           productId: item.productId,
           varientID: item.variantId,

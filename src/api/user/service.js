@@ -61,6 +61,7 @@ export const fetchSingleProduct = async (productId) => {
 };
 
 export const normalizeProductData = (item) => {
+
   // Check if item has variants
   const hasVariants = item.variants && item.variants.length > 0;
   const firstVariant = hasVariants ? item.variants[0] : null;
@@ -100,6 +101,7 @@ export const normalizeProductData = (item) => {
   
   // Get variant ID if available
   const variantId = hasVariants ? firstVariant?.variantId : -1;
+  const stockQty = hasVariants ? firstVariant?.stock?.onhand:item.stockQty
 
   return {
     id: item.productId,
@@ -107,7 +109,10 @@ export const normalizeProductData = (item) => {
     title: item.productName,
     brand: brand || '',
     price: price || 0,  // Ensure price is never undefined
-    variantId: variantId
+    variantId: variantId,
+    stockQty:stockQty
+
+
   };
 };
 

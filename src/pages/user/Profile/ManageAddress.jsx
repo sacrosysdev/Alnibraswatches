@@ -106,7 +106,6 @@ const ManageAddress = () => {
       
       setShowModal(false);
       resetForm();
-      
     } catch (error) {
       toast.error(isEditing ? 'Failed to update address' : 'Failed to add address');
       console.error(isEditing ? "Error updating address:" : "Error saving address:", error);
@@ -134,8 +133,8 @@ const ManageAddress = () => {
           makeDefault: addressToEdit.IsDefault || false
         };
       } catch (error) {
-        console.error('Error parsing address details:', error);
-        toast.error('Could not edit this address. Invalid format.');
+            console.error('Error parsing address details:', error);
+            toast.error('Could not edit this address. Invalid format.');
       }
     }
     return initialValues; 
@@ -159,7 +158,6 @@ const ManageAddress = () => {
         let parsedDetails = {}
         try {
           parsedDetails = JSON.parse(item.AddressDetails)
-        
         } catch (error) {
           console.error('Invalid AddressDetails JSON:', error)
           return null
@@ -212,7 +210,6 @@ const ManageAddress = () => {
     </div>
   )
 }
-
 // Extracted AddressModal component to avoid duplication
 const AddressModal = ({ initialValues, onSubmit, handleCloseModal, isEditing, addressId }) => {
 
