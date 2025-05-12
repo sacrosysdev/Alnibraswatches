@@ -190,7 +190,7 @@ const MyOrders = () => {
                               <img
                                 src={item?.primaryImageUrl}
                                 alt=""
-                                className="w-full h-full overscroll-contain"
+                                className="w-full h-full object-contain"
                               />
                             </div>
                           ) : (

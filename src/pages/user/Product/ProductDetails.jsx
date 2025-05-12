@@ -5,6 +5,7 @@ import ProductInfo from "./ProductInfo";
 import Ratings from "./Ratings";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCart } from "../../../contexts/user/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = ({
   details,
@@ -14,6 +15,7 @@ const ProductDetails = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const { cart, addToCartlist } = useCart();
+  const navigate = useNavigate();
   
   // Get current stock quantity
   const currentStock = selectedVariant?.stock?.onhand !== undefined 
@@ -51,6 +53,18 @@ const ProductDetails = ({
       DiscountPrice: discountPrice,
       PrimaryImageUrl: images[0]?.imageUrl,
     });
+  };
+  
+  const handleBuyNow = () => {
+    if (isOutOfStock) return;
+    
+    const buyNowData = {
+      productId: details.productId,
+      variantId: selectedVariant?.variantId || -1,
+      quantity: quantity
+    };
+    
+    navigate('/checkout', { state: { buyNowData } });
   };
   
   useEffect(() => {
@@ -174,6 +188,7 @@ const ProductDetails = ({
         <button 
           className={`bg-[#00211E] text-white rounded-lg py-3 px-6 ${buttonDisabledClass}`}
           disabled={isOutOfStock}
+          onClick={handleBuyNow}
         >
           Buy Now
         </button>

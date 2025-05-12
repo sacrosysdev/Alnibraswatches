@@ -1,10 +1,10 @@
 import React from "react";
 import { useCart } from "../../../contexts/user/CartContext";
 
-const PlaceOrder = ({ disable, isLoading, message, paymentError }) => {
+const PlaceOrder = ({ disable, isLoading, message, paymentError, totalAmount }) => {
   const { cart } = useCart();
 
-  const subtotal = cart.reduce((acc, item) => {
+  const subtotal = totalAmount || cart.reduce((acc, item) => {
     return acc + item.Quantity * (item?.DiscountPrice || item?.Price);
   }, 0);
 
@@ -23,7 +23,9 @@ const PlaceOrder = ({ disable, isLoading, message, paymentError }) => {
       <div className="flex justify-between font-gilroy">
         <h1 className="text-[#303A42] text-lg font-semibold">
           Total{" "}
-          <span className="text-[#5E666C] font-normal">{`(${cart.length} items)`}</span>
+          <span className="text-[#5E666C] font-normal">
+            {`(${totalAmount ? '1 item' : `${cart.length} items`})`}
+          </span>
         </h1>
         <h1 className="text-[#0D1217]">{formatCurrency(subtotal)}</h1>
       </div>
@@ -31,7 +33,7 @@ const PlaceOrder = ({ disable, isLoading, message, paymentError }) => {
       <div className="flex justify-between text-xl text-[#303A42] font-gilroy">
         <h1 className="font-semibold">Total Payable</h1>
         <h1 className="font-black">
-          {formatCurrency(subtotal + subtotal * (5 / 100))}
+          {formatCurrency(subtotal )}
         </h1>
       </div>
       <hr className="text-[#E8E9EA]" />

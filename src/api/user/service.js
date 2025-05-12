@@ -4,7 +4,8 @@ import { CATEGORY_LIST,BRAND_LIST,PRODUCT_LIST,
         GET_WISHLIST,DELETE_WISHLIST,ADDTO_CART,GET_CART,
         UPDATE_CART,DELETE_CART,DELETE_USER_CART,GET_ADDRESS,UPADTE_DEFAULT_ADDRESS,
         POST_ADDRESS,USER_LOGOUT,UPDATE_ADDRESS,PRODUCT_FILTER,
-        ADD_REVIEW,GET_REVIEW } from "./endpoint";
+        ADD_REVIEW,GET_REVIEW, 
+        BUY_NOW} from "./endpoint";
 
 
 export const fetchCategoryList = async () => {
@@ -148,6 +149,11 @@ export const filterProducts = async (payload) =>{
    return activeProducts
 
 }
+
+export const buyNow = async (payload) => {
+  const response = await API.post(BUY_NOW, payload);
+  return response;
+};
 
 //////////////////////   USER AUTHENTICATION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
