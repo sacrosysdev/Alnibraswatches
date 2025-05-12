@@ -19,6 +19,7 @@ import PlaceOrder from "../../../pages/user/CheckOut/PlaceOrder";
 import AddressModal from "../../user/AddressModal";
 
 export default function CheckoutForm({ paymentData }) {
+  console.log(paymentData);
   // Stripe hooks
   const stripe = useStripe();
   const elements = useElements();
@@ -77,12 +78,11 @@ export default function CheckoutForm({ paymentData }) {
       const orderDetails = {
         userName: address?.UserName,
         orderDate: new Date().toISOString(),
-        orderAmount: paymentData.totalAmout,
+        orderAmount: paymentData.totalAmount,
         paymentMode: paymentMode,
         paymentReference: paymentIntent,
         addressId: 0,
         orderDetails: paymentData.cartItems.map((item, index) => ({
-          
           sI_No: index + 1,
           productId: item.productId,
           varientID: item.variantId,
@@ -96,6 +96,7 @@ export default function CheckoutForm({ paymentData }) {
       await createOrderMutation.mutateAsync({ orderDetails });
       clearCart();
       navigate("/profile/my-orders", {
+        replace: true,
         state: {
           success: true,
           orderId: createOrderMutation?.data?.id,
@@ -175,7 +176,7 @@ export default function CheckoutForm({ paymentData }) {
 
             <LinkAuthenticationElement id="link-authentication-element" />
             <PaymentSection
-              amount={paymentData.totalAmout}
+              amount={paymentData.totalAmount}
               onPaymentMethodChange={handlePaymentMode}
             />
           </div>
@@ -186,6 +187,7 @@ export default function CheckoutForm({ paymentData }) {
               isLoading={isLoading}
               message={message}
               paymentError={paymentError}
+              totalAmount={paymentData.totalAmount}
             />
           </div>
         </div>

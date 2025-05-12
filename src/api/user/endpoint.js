@@ -24,3 +24,4 @@ export const GET_REVIEW = "getReview";
 export const GET_PAYMENT_INTENT = "Payment/create-checkout-session";
 
 export const POST_ORDER = "postOrders";
+export const BUY_NOW = "Payment/buy-now";

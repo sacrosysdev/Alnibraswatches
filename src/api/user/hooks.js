@@ -26,6 +26,7 @@ import {
   filterProducts,
   addReview,
   getReview,
+  buyNow,
 } from "./service";
 import {
   useInfiniteQuery,
@@ -274,3 +275,10 @@ export const usePostOrder = () =>
     mutationKey: ["postOrder"],
     mutationFn: ({ orderDetails }) => API.post(POST_ORDER, orderDetails),
   });
+
+export const useBuyNow = () => {
+  return useMutation({
+    mutationKey: ["buyNow"],
+    mutationFn: (payload) => buyNow(payload),
+  });
+};
