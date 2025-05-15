@@ -197,13 +197,13 @@ export const useDeleteCartItem = () => {
     mutationKey: ["deleteCart"],
     mutationFn: (payload) => deleteCart(payload),
   });
-}; 
+};
 export const useDeleteUserCartItem = () => {
   return useMutation({
     mutationKey: ["deleteUserCart"],
     mutationFn: () => deleteUserCart(),
   });
-}; 
+};
 
 //////////////////////   USER ADDRESS ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
@@ -263,8 +263,13 @@ export const useGetReviews = (productId) =>
 export const useGetPaymentIntent = () => {
   return useMutation({
     mutationKey: ["getPaymentIntent"],
-    mutationFn: () => {
-      return API.post(GET_PAYMENT_INTENT);
+    mutationFn: (header) => {
+      let config = {};
+      if (header) {
+        config = { headers: { paymode: "COD" } };
+      }
+
+      return API.post(GET_PAYMENT_INTENT, {}, config);
     },
   });
 };

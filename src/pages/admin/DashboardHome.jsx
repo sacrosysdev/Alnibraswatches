@@ -1,65 +1,92 @@
-import React from "react";
-import { SlOptionsVertical } from "react-icons/sl";
-import SalesAndCostChart from "../../components/admin/SalesAndCostChart";
-import VisitsChart from "../../components/admin/VisitsChart";
-import TotalOrderChart from "../../components/admin/TotalOrderChart";
-import TotalProfitChart from "../../components/admin/TotalProfitChart";
-import DiscountChart from "../../components/admin/DiscountChart";
-import ReportsGraph from "../../components/admin/ReportsGraph";
+import { useState, useEffect } from "react";
+import { ChevronDown, MoreHorizontal, ArrowDown, ArrowUp } from "lucide-react";
+import MetricSection from "../../components/admin/dashbaord/MetricSection";
+import SellingProducts from "../../components/admin/dashbaord/SellingProducts";
+import RecentOrders from "../../components/admin/dashbaord/RecentOrders";
+import WeeklyCustomers from "../../components/admin/dashbaord/WeeklyCustomers";
+import SummeryChart from "../../components/admin/dashbaord/SummeryChart";
+import { DATE_OPTIONS } from "../../constant/admin";
+import { calculateDateRange } from "../../util/calculateDateRange";
 
-function DashboardHome() {
+export default function Dashboard() {
+  const [timeframe, setTimeframe] = useState(() => {
+    // Initialize from localStorage or default to "This Month"
+    return localStorage.getItem("dashboardTimeframe") || "This Month";
+  });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dateRange, setDateRange] = useState({
+    fromDate: "",
+    toDate: "",
+  });
+
+  useEffect(() => {
+    setDateRange(calculateDateRange(timeframe));
+  }, [timeframe]);
+
+  const handleTimeframeChange = (newTimeframe) => {
+    setTimeframe(newTimeframe);
+    setIsDropdownOpen(false);
+    // Save to localStorage
+    localStorage.setItem("dashboardTimeframe", newTimeframe);
+  };
+
   return (
-    <div
-      className={` h-full p-5 pt-2 transition-all duration-300 flex flex-col md:gap-y-6 gap-y-4 w-full  overflow-y-scroll mx-auto`}
-    >
-      {/* Graph section */}
-      <section className="w-full h-fit flex flex-col gap-y-6">
-        <div className="w-full lg:h-[200px] h-fit flex flex-col lg:flex-row  justify-between gap-6 items-center">
-          <div className="lg:w-7/12 w-full  h-fit rounded-2xl shadow-md ">
-            <SalesAndCostChart />
-          </div>
-          <div className="lg:w-5/12 w-full  h-fit rounded-2xl shadow-md  ">
-            <VisitsChart />
-          </div>
+    <div className="bg-gray-50 h-screen overflow-y-scroll p-6">
+      {/* Header Section */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">Welcome Back Al Nibras !</h1>
+          <p className="text-gray-500 text-sm">
+            Here's what happening with your store today
+          </p>
         </div>
-        <div className="w-full h-fit lg:h-[200px] flex flex-col lg:flex-row gap-6 ">
-          <div className="lg:w-4/12 h-[200px] lg:h-full  rounded-2xl ">
-            <TotalOrderChart />
-          </div>
-          <div className="lg:w-4/12 h-[200px] lg:h-full rounded-2xl ">
-            <TotalProfitChart />
-          </div>
-          <div className="lg:w-4/12 h-[200px] lg:h-full rounded-2xl ">
-            <DiscountChart />
-          </div>
-        </div>
-        <div className="w-full h-[480px] flex flex-col lg:flex-row  justify-between gap-x-6 items-center">
-          <div className="lg:w-7/12 w-full bg-white h-full rounded-2xl shadow-md flex flex-col p-3 ">
-            <div className="w-full h-fit flex flex-col">
-              <div className="w-full h-fit flex flex-row justify-between items-start p-3 ">
-                <div className="w-fit h-fit flex flex-col">
-                  <h5 className="text-[#23272E] text-lg font-public capitalize font-semibold  ">
-                    reports
-                  </h5>
-                  <span className="text-[#8B909A] text-sm capitalize font-medium font-public ">
-                    Last 7 Days
-                  </span>
-                </div>
-                <button className="flex items-center justify-center px-1 py-0.5 text-[#4B465C]">
-                  <SlOptionsVertical />
-                </button>
-              </div>
-              <div className="w-full h-full">
-                <ReportsGraph />
-              </div>
-            </div>
-          </div>
+        <div className="relative">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center gap-2 border border-gray-300 rounded-lg px-4 py-2 bg-white hover:bg-gray-50"
+          >
+            {timeframe} <ChevronDown size={16} />
+          </button>
 
-          <div className="lg:w-5/12 w-full bg-amber-100  h-full rounded-2xl shadow-md "></div>
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+              {DATE_OPTIONS.map((option) => (
+                <button
+                  key={option}
+                  onClick={() => handleTimeframeChange(option)}
+                  className={`w-full text-left text-sm cursor-pointer px-4 py-2 hover:bg-gray-100 ${
+                    timeframe === option ? "bg-gray-50" : ""
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      </section>
+      </div>
+
+      {/* Metrics Section */}
+      <MetricSection dateRange={dateRange} />
+
+      {/* Summary Chart Section */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
+        <SummeryChart
+          timeframe={timeframe}
+          setTimeframe={setTimeframe}
+          dateRange={dateRange}
+        />
+        {/* Most Selling Products */}
+        <SellingProducts dateRange={dateRange} />
+      </div>
+
+      {/* Recent Orders and Top Customers */}
+      <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
+        {/* Recent Orders */}
+        <RecentOrders dateRange={dateRange} />
+        {/* Weekly Top Customers */}
+        <WeeklyCustomers dateRange={dateRange} />
+      </div>
     </div>
   );
 }
-
-export default DashboardHome;

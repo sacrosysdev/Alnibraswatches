@@ -44,3 +44,15 @@ export const ACTIVE_PRODUCT = "ProductMasterInactive";
 // order
 export const GET_ORDERS = "getOrders";
 export const PUT_ORDER_STATUS = "putOrderStatus";
+
+// dashboard
+export const GET_METRICS = "getRevenueMetrics";
+export const GET_SELLING_PRODUCTS = "getTopProducts";
+export const GET_RECENT_ORDERS = "getRecentOrders";
+export const GET_WEEKLY_CUSTOMERS = "getWeeklyCustomers";
+export const GET_TOP_CUSTOMERS = "getTopCustomers";
+export const GET_SUMMERY_CHART = "getCardMetrics";
+
+// advertisement
+export const POST_ADVERTISEMENT = "postAdsData";
+export const GET_ADVERTISEMENT = "getAdsData";
