@@ -24,7 +24,6 @@ function CheckoutPage() {
       navigate("/");
       return;
     }
-
     const fetchClientSecret = async () => {
       try {
         let response;

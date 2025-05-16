@@ -9,15 +9,13 @@ const Product = () => {
   const { id } = useParams();
   const { data } = useSingleProduct(id);
   const [selectedVariant, setSelectedVariant] = useState(null);
-
   const hasVariants = data?.variants?.length > 0;
-
   useEffect(() => {
     if (hasVariants) {
       setSelectedVariant(data.variants[0]);
     }
   }, [data]);
-
+  
   // 🔍 Determine image list based on variant or top-level
   const rawImageData = hasVariants ? selectedVariant?.images : data?.images;
 
