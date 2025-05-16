@@ -187,26 +187,18 @@ export const offerSliderData = [
     {
         id:1,
         image:ad1,
-        title:"Make Time Stylish with Timeluxe!",
-        desc:"Get 25% Off + Free Shipping on all orders this week only."
     },
     {
         id:2,
         image:ad2,
-        title:"Timeless Elegance, Just a Click Away!",
-        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
     },
     {
         id:3,
         image:ad3,
-        title:"Timeless Elegance, Just a Click Away!",
-        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
     },
     {
         id:3,
         image:ad4,
-        title:"Timeless Elegance, Just a Click Away!",
-        desc:"Buy 1, Get 1 at 50% Off — Exclusive launch offer on our premium watch collection."
     }
 ]
 export const SIDELINKS_DATA = [
