@@ -233,3 +233,14 @@ export const DATE_PRESET = [
   { value: "thisYear", label: "This Year" },
   { value: "lastYear", label: "Last Year" },
 ];
+
+export const DATE_OPTIONS = [
+  "Today",
+  "Yesterday",
+  "Last 7 Days",
+  "Last 30 Days",
+  "This Month",
+  "Last Month",
+  "This Year",
+  "Last Year",
+];

@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import DashboardLayout from "../../layouts/admin/Layout";
 import DashboardHome from "../../pages/admin/DashboardHome";
 import Orders from "../../pages/admin/Orders";
-import Customers from "../../pages/admin/Customers";
 import Categories from "../../pages/admin/Categories";
 import Brands from "../../pages/admin/Brands";
 import AddProduct from "../../pages/admin/AddProduct";
@@ -16,6 +15,8 @@ import Sizes from "../../pages/admin/Sizes";
 import Banner from "../../pages/admin/Banner";
 import BannerManagement from "../../pages/admin/Banner";
 import Payment from "../../pages/admin/Payment";
+import Dashboard from "../../pages/admin/DashboardHome";
+import Advertisement from "../../pages/admin/Advertisement";
 
 const AdminRoute = () => {
   const isAuthenticated = () => {
@@ -35,9 +36,10 @@ const AdminRoute = () => {
           </ProtectedRoute>
         }
       >
-        <Route index element={<DashboardHome />} />
+        {/* <Route index element={<DashboardHome />} /> */}
+        <Route index element={<Dashboard />} />
         <Route path="order" element={<Orders />} />
-        <Route path="ad" element={<Customers />} />
+        <Route path="ad" element={<Advertisement />} />
         <Route path="banner" element={<BannerManagement />} />
         <Route path="categories" element={<Categories />} />
         <Route path="colors" element={<Colors />} />
