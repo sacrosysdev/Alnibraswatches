@@ -5,15 +5,22 @@ import {
   DELETE_BRAND,
   DELETE_CATEGORY,
   EDIT_PRODUCT,
+  GET_ADVERTISEMENT,
   GET_BANNER,
   GET_BRAND,
   GET_CATEGORY,
   GET_COLOR,
+  GET_METRICS,
   GET_ORDERS,
   GET_PRODUCTS,
+  GET_RECENT_ORDERS,
+  GET_SELLING_PRODUCTS,
   GET_SIZE,
+  GET_SUMMERY_CHART,
+  GET_TOP_CUSTOMERS,
   IMAGE_DELETE_ENDPOINT,
   IMAGE_UPLOAD_ENDPOINT,
+  POST_ADVERTISEMENT,
   POST_BANNER,
   POST_BRAND,
   POST_CATEGORY,
@@ -350,3 +357,53 @@ export const editOrderStatus = ({ OrderId, OrderStatus }) =>
       },
     }
   );
+
+//////////////////////   DASHBOARD SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const getMetrics = (dateRange) =>
+  API.get(GET_METRICS, {
+    headers: {
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
+    },
+  });
+
+export const getSellingProducts = (dateRange) =>
+  API.get(GET_SELLING_PRODUCTS, {
+    headers: {
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
+    },
+  });
+
+export const getRecentOrders = (dateRange) =>
+  API.get(GET_RECENT_ORDERS, {
+    headers: {
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
+    },
+  });
+
+export const getTopCustomers = (dateRange) =>
+  API.get(GET_TOP_CUSTOMERS, {
+    headers: {
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
+    },
+  });
+
+export const getSummeryChart = (dateRange) =>
+  API.get(GET_SUMMERY_CHART, {
+    headers: {
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
+    },
+  });
+
+//////////////////////   ADVERTISEMENT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const addAdvertisement = (advertisementDetails) =>
+  API.post(POST_ADVERTISEMENT, advertisementDetails).then((res) => res.data);
+
+export const getAdvertisement = () =>
+  API.get(GET_ADVERTISEMENT).then((res) => res.data);

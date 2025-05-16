@@ -17,24 +17,41 @@ import Header from "../../../pages/user/CheckOut/Header";
 import PaymentSection from "../../../pages/user/CheckOut/PaymentSection";
 import PlaceOrder from "../../../pages/user/CheckOut/PlaceOrder";
 import AddressModal from "../../user/AddressModal";
+import PaymentSuccessModal from "./PaymentSuccessModal";
 
-export default function CheckoutForm({ paymentData }) {
-  console.log(paymentData);
-  // Stripe hooks
-  const stripe = useStripe();
-  const elements = useElements();
-  
+export default function CheckoutForm({
+  paymentData,
+  handlePaymentMethod,
+  paymentMethod,
+  clientSecret,
+}) {
+  // Stripe hooks - only initialize if payment method exists and is not cod
+  const stripe =
+    paymentMethod && clientSecret && paymentMethod !== "cod"
+      ? useStripe()
+      : null;
+  const elements =
+    paymentMethod && clientSecret && paymentMethod !== "cod"
+      ? useElements()
+      : null;
+
   // Navigation and location
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+  const buyNowData = location.state?.buyNowData;
+
   // State management
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [paymentMode, setPaymentMode] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
-  
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({
+    orderId: null,
+    paymentIntentId: null,
+  });
+
   // Cart and address hooks
   const { clearCart } = useCart();
   const addAddressMutation = useAddAddress();
@@ -64,8 +81,20 @@ export default function CheckoutForm({ paymentData }) {
 
   // Payment handlers
   const handlePaymentMode = (mode) => {
-    setPaymentMode(mode);
+    handlePaymentMethod(mode);
     setPaymentError(null);
+  };
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    navigate("/profile/my-orders", {
+      replace: true,
+      state: {
+        success: true,
+        orderId: orderDetails.orderId,
+        paymentIntentId: orderDetails.paymentIntentId,
+      },
+    });
   };
 
   const createOrder = async (paymentIntent) => {
@@ -79,7 +108,7 @@ export default function CheckoutForm({ paymentData }) {
         userName: address?.UserName,
         orderDate: new Date().toISOString(),
         orderAmount: paymentData.totalAmount,
-        paymentMode: paymentMode,
+        paymentMode: paymentMethod,
         paymentReference: paymentIntent,
         addressId: 0,
         orderDetails: paymentData.cartItems.map((item, index) => ({
@@ -93,44 +122,52 @@ export default function CheckoutForm({ paymentData }) {
         })),
       };
 
-      await createOrderMutation.mutateAsync({ orderDetails });
+      const response = await createOrderMutation.mutateAsync({ orderDetails });
       clearCart();
-      navigate("/profile/my-orders", {
-        replace: true,
-        state: {
-          success: true,
-          orderId: createOrderMutation?.data?.id,
-          paymentIntentId: paymentIntent,
-        },
+
+      // Show success modal instead of navigating immediately
+      setOrderDetails({
+        orderId: response?.id || "Processing",
+        paymentIntentId: paymentIntent,
       });
+      setShowSuccessModal(true);
+
       return true;
     } catch (error) {
       console.error("Failed to create order:", error);
-      setMessage("Payment was successful but we couldn't create your order. Please contact support.");
+      setMessage(
+        "Payment was successful but we couldn't create your order. Please contact support."
+      );
       return false;
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
-
+    if (paymentMethod === "card") {
+      if (!stripe || !elements) return;
+    }
     setIsLoading(true);
     try {
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        redirect: "if_required",
-        confirmParams: {
-          return_url: `${window.location.origin}/profile/my-orders`,
-        },
-      });
-
-      if (error) {
-        setMessage(error.type === "card_error" || error.type === "validation_error" 
-          ? error.message 
-          : "An unexpected error occurred.");
-      } else if (paymentIntent?.status === "succeeded") {
-        await createOrder(paymentIntent.id);
+      if (paymentMethod === "card") {
+        const { error, paymentIntent } = await stripe.confirmPayment({
+          elements,
+          redirect: "if_required",
+          confirmParams: {
+            return_url: `${window.location.origin}/profile/my-orders`,
+          },
+        });
+        if (error) {
+          setMessage(
+            error.type === "card_error" || error.type === "validation_error"
+              ? error.message
+              : "An unexpected error occurred."
+          );
+        } else if (paymentIntent?.status === "succeeded") {
+          await createOrder(paymentIntent.id);
+        }
+      } else {
+        await createOrder(null);
       }
     } catch (error) {
       setMessage("An unexpected error occurred during payment processing.");
@@ -139,7 +176,10 @@ export default function CheckoutForm({ paymentData }) {
     }
   };
 
-  const isFormValid = stripe && elements && address && paymentData?.cartItems?.length > 0;
+  const isFormValid =
+    paymentMethod === "card"
+      ? stripe && elements && address && paymentData?.cartItems?.length > 0
+      : address && paymentData?.cartItems?.length > 0 && paymentMethod;
 
   return (
     <div className="w-full py-20">
@@ -174,20 +214,66 @@ export default function CheckoutForm({ paymentData }) {
               )}
             </div>
 
-            <LinkAuthenticationElement id="link-authentication-element" />
             <PaymentSection
-              amount={paymentData.totalAmount}
+              clientSecret={clientSecret}
+              paymentMethod={paymentMethod}
+              amount={paymentData?.totalAmount}
               onPaymentMethodChange={handlePaymentMode}
             />
+            <button
+              disabled={isLoading || !isFormValid}
+              id="submit"
+              className={`px-6 py-3 relative font-bold text-base
+                mt-5 text-white w-full rounded-lg ${
+                  isLoading || !isFormValid
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#00211E] hover:bg-[#003d38]"
+                }`}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="flex space-x-2">
+                    <div className="h-2 w-2 bg-white rounded-full animate-pulse"></div>
+                    <div className="h-2 w-2 bg-white rounded-full animate-pulse delay-75"></div>
+                    <div className="h-2 w-2 bg-white rounded-full animate-pulse delay-150"></div>
+                  </div>
+                  <span className="ml-3">
+                    {paymentMethod === "cod"
+                      ? "Placing order..."
+                      : "Processing payment..."}
+                  </span>
+                </div>
+              ) : paymentMethod === "cod" ? (
+                "Place Order"
+              ) : (
+                "Pay Now"
+              )}
+            </button>
+            {/* Show any error or success messages */}
+            {message && (
+              <div
+                id="payment-message"
+                className={`mt-2 p-3 rounded-md text-sm font-medium ${
+                  message.includes("error") || message.includes("fail")
+                    ? "bg-red-50 text-red-600 border border-red-200"
+                    : "bg-green-50 text-green-600 border border-green-200"
+                }`}
+              >
+                {message}
+              </div>
+            )}
+            {paymentError && (
+              <div className="text-red-500 text-sm px-2 pb-4">
+                {paymentError}
+              </div>
+            )}
           </div>
-          
+
           <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
             <PlaceOrder
-              disable={!isFormValid}
-              isLoading={isLoading}
-              message={message}
-              paymentError={paymentError}
-              totalAmount={paymentData.totalAmount}
+              totalAmount={
+                buyNowData ? buyNowData.price : paymentData?.totalAmount
+              }
             />
           </div>
         </div>
@@ -200,6 +286,13 @@ export default function CheckoutForm({ paymentData }) {
           handleCloseModal={handleCloseModal}
         />
       )}
+
+      <PaymentSuccessModal
+        isOpen={showSuccessModal}
+        orderId={orderDetails.orderId}
+        paymentIntentId={orderDetails.paymentIntentId}
+        onClose={handleCloseSuccessModal}
+      />
     </div>
   );
 }

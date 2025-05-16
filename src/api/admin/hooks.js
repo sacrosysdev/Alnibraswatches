@@ -5,6 +5,7 @@ import {
   activeColor,
   activeProduct,
   activeSize,
+  addAdvertisement,
   addBanner,
   addBrand,
   addCategory,
@@ -24,13 +25,19 @@ import {
   editOrderStatus,
   editProduct,
   editSizee,
+  getAdvertisement,
   getBanner,
   getBrand,
   getCategory,
   getColors,
+  getMetrics,
   getOrderes,
   getProducts,
+  getRecentOrders,
+  getSellingProducts,
   getSizes,
+  getSummeryChart,
+  getTopCustomers,
   uploadImage,
 } from "./service";
 import { useState } from "react";
@@ -269,4 +276,57 @@ export const useEditOrderStatus = () =>
   useMutation({
     mutationKey: ["editOrderStatus"],
     mutationFn: (product) => editOrderStatus(product),
+  });
+
+//////////////////////   DASHBOARD SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const useGetMetrics = (dateRange) =>
+  useQuery({
+    queryKey: ["getMetrics", dateRange],
+    queryFn: () => getMetrics(dateRange),
+    select: (data) => data.data.data,
+  });
+
+export const useGetSellingProducts = (dateRange) =>
+  useQuery({
+    queryKey: ["getSellingProducts", dateRange],
+    queryFn: () => getSellingProducts(dateRange),
+    select: (data) => data.data,
+  });
+
+export const useGetRecentOrders = (dateRange) =>
+  useQuery({
+    queryKey: ["getRecentOrders", dateRange],
+    queryFn: () => getRecentOrders(dateRange),
+    select: (data) => data.data.data,
+  });
+
+export const useGetTopCustomers = (dateRange) =>
+  useQuery({
+    queryKey: ["getTopCustomers", dateRange],
+    queryFn: () => getTopCustomers(dateRange),
+    select: (data) => data.data.data,
+  });
+
+export const useGetSummeryChart = (dateRange) =>
+  useQuery({
+    queryKey: ["getSummeryChart", dateRange],
+    queryFn: () => getSummeryChart(dateRange),
+    select: (data) => data.data?.data,
+  });
+
+//////////////////////   ADVERTISEMENT SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
+
+export const useAddAdvertisement = () =>
+  useMutation({
+    mutationKey: ["addAdvertisement"],
+    mutationFn: (advertisementDetails) =>
+      addAdvertisement(advertisementDetails),
+  });
+
+export const useGetAdvertisement = () =>
+  useQuery({
+    queryKey: ["getAdvertisement"],
+    queryFn: () => getAdvertisement(),
+    select: (data) => JSON.parse(data.data?.[0]?.AdsData),
   });

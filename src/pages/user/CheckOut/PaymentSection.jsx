@@ -6,104 +6,40 @@ import {
 } from "@stripe/react-stripe-js";
 
 // Import payment method icons
-import gpay from "../../../assets/svg/checkout/gpay.svg";
-import phonepe from "../../../assets/svg/checkout/phonepe.svg";
-import paytm from "../../../assets/svg/checkout/paytm.svg";
 import mastercard from "../../../assets/svg/checkout/mastercard.svg";
-import {
-  PaymentElementShimmer,
-  PaymentMethodShimmer,
-} from "../../../components/user/checkout/PaymentElementShimmer";
+import cod from "../../../assets/svg/checkout/cod.svg";
+import { PaymentElementShimmer } from "../../../components/user/checkout/PaymentElementShimmer";
 
 // Payment methods configuration
 const PAYMENT_METHODS = [
   { id: "card", name: "Debit / Credit Card", icon: mastercard },
-  { id: "upi", name: "UPI", icon: phonepe },
-  { id: "netbanking", name: "Net Banking", icon: paytm },
-  { id: "wallet", name: "Wallet", icon: gpay },
+  { id: "cod", name: "Cash on Delivery", icon: cod },
 ];
 
-const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
-  // hooks
-  const stripe = useStripe();
-  const elements = useElements();
+const PaymentSection = ({
+  onPaymentMethodChange,
+  amount,
+  paymentMethod,
+  clientSecret,
+}) => {
+  // hooks - only initialize if payment method exists and is not cod
+  const stripe =
+    paymentMethod && clientSecret && paymentMethod !== "cod"
+      ? useStripe()
+      : null;
+  const elements =
+    paymentMethod && clientSecret && paymentMethod !== "cod"
+      ? useElements()
+      : null;
 
   // state for payment method
-  const [selectedMethod, setSelectedMethod] = useState(null);
-  const [availableMethods, setAvailableMethods] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [selectedMethod, setSelectedMethod] = useState(paymentMethod);
   const [paymentElementLoading, setPaymentElementLoading] = useState(false);
 
-  // Fetch available payment methods based on the user's region
+  // Update selectedMethod when paymentMethod changes
   useEffect(() => {
-    const fetchPaymentMethods = async () => {
-      if (!stripe || !elements) return;
-
-      setIsLoading(true);
-      try {
-        // This gets the payment methods available from Stripe based on the session
-        const paymentOptions = await stripe.paymentRequest({
-          country: "AE", // This should be dynamic based on user location or selection
-          currency: "aed",
-          total: {
-            label: "Checkout",
-            amount: amount,
-          },
-        });
-
-        // Filter available payment methods based on what Stripe supports in the region
-        const methods = [];
-
-        // Check which payment methods are available
-        if (paymentOptions.canMakePayment()) {
-          // Card is almost always available
-          methods.push(PAYMENT_METHODS.find((m) => m.id === "card"));
-
-          // For other methods, you'd need to check Stripe's response
-          // This is simplified - in a real app you'd check Stripe's response for specific methods
-          const countryCode = selectedAddress?.AddressDetails?.Country || "AE";
-
-          // Add UPI for India
-          if (countryCode === "IN") {
-            methods.push(PAYMENT_METHODS.find((m) => m.id === "upi"));
-          }
-
-          // Add wallets based on device/region
-          if (
-            paymentOptions.canMakePayment().applePay ||
-            paymentOptions.canMakePayment().googlePay
-          ) {
-            methods.push(PAYMENT_METHODS.find((m) => m.id === "wallet"));
-          }
-
-          // Add net banking for India
-          if (countryCode === "IN") {
-            methods.push(PAYMENT_METHODS.find((m) => m.id === "netbanking"));
-          }
-        } else {
-          // Fallback to card if nothing else is available
-          methods.push(PAYMENT_METHODS.find((m) => m.id === "card"));
-        }
-
-        setAvailableMethods(methods.filter(Boolean));
-
-        // Set default payment method
-        if (methods.length > 0 && !selectedMethod) {
-          handleMethodChange(methods[0].id);
-        }
-      } catch (error) {
-        console.error("Failed to fetch payment methods:", error);
-        setErrorMessage("Unable to load payment methods. Please try again.");
-        // Fallback to all payment methods
-        setAvailableMethods(PAYMENT_METHODS);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPaymentMethods();
-  }, [stripe, elements, selectedAddress]);
+    setSelectedMethod(paymentMethod);
+  }, [paymentMethod]);
 
   // Function to change the method
   const handleMethodChange = (methodId) => {
@@ -115,18 +51,14 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
     }
 
     // Update the PaymentElement appearance to match the selected method
-    if (elements) {
+    if (elements && methodId === "card") {
       const paymentElement = elements.getElement(PaymentElement);
       if (paymentElement) {
         paymentElement.update({
-          // Focus on the selected payment method type
           defaultValues: {
-            billingDetails: {
-              // You could pre-fill from selectedAddress here
-            },
+            billingDetails: {},
           },
-          // Customize which payment methods appear first
-          paymentMethodOrder: [methodId],
+          paymentMethodOrder: ["card"],
         });
       }
     }
@@ -139,25 +71,9 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
 
   // Render custom payment method selection UI
   const renderPaymentMethodSelector = () => {
-    if (isLoading) {
-      return <PaymentMethodShimmer />;
-    }
-
-    if (errorMessage) {
-      return <div className="py-4 text-red-500">{errorMessage}</div>;
-    }
-
-    if (availableMethods.length === 0) {
-      return (
-        <div className="py-4 text-gray-500">
-          No payment methods available for your region.
-        </div>
-      );
-    }
-
     return (
       <div className="mt-4">
-        {availableMethods.map((method) => (
+        {PAYMENT_METHODS.map((method) => (
           <label
             key={method.id}
             className={`flex items-center py-3 gap-3 border-t border-[#E8E9EA] cursor-pointer ${
@@ -186,29 +102,59 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
   const renderPaymentForm = () => {
     if (!selectedMethod) return null;
 
+    if (selectedMethod === "cod") {
+      return (
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0">
+              <svg
+                className="h-5 w-5 text-blue-600"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-blue-800">
+                Cash on Delivery
+              </h3>
+              <div className="mt-2 text-sm text-blue-700">
+                <p>
+                  You will be required to pay the full amount when your order is
+                  delivered.
+                </p>
+                <p className="mt-1">
+                  Please keep the exact amount ready for the delivery person.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (!clientSecret) return null;
+
     if (paymentElementLoading) {
       return <PaymentElementShimmer />;
     }
 
-    // Use Stripe's PaymentElement, but configured based on the selected method
     return (
       <div className="mt-4 space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            {selectedMethod === "card"
-              ? "Card Details"
-              : selectedMethod === "upi"
-              ? "UPI Details"
-              : selectedMethod === "netbanking"
-              ? "Net Banking Details"
-              : "Wallet Details"}
+            Card Details
           </label>
           <div className="mt-1 p-2 border border-gray-300 rounded-md">
             <PaymentElement
               options={{
-                // Customize the PaymentElement based on selected method
                 fields: {
-                  billingDetails: "auto", // or 'never' if you collect this elsewhere
+                  billingDetails: "auto",
                 },
                 layout: {
                   type: "tabs",
@@ -216,10 +162,9 @@ const PaymentSection = ({ onPaymentMethodChange, selectedAddress, amount }) => {
                   radios: true,
                   spacedAccordionItems: true,
                 },
-                // Filter to only show the selected payment method
-                paymentMethodTypes: [selectedMethod],
+                paymentMethodTypes: ["card"],
                 terms: {
-                  card: "never", // Hide terms text for cleaner UI
+                  card: "never",
                 },
               }}
               onReady={() => {

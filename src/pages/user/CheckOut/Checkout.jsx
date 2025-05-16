@@ -3,7 +3,6 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate, useLocation } from "react-router-dom";
 import CheckoutForm from "../../../components/user/checkout/CheckoutForm";
-import CheckoutShimmer from "../../../components/user/checkout/CheckoutShimmer";
 import { useGetPaymentIntent, useBuyNow } from "../../../api/user/hooks";
 import { useCart } from "../../../contexts/user/CartContext";
 
@@ -11,6 +10,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIP_PRIVATE_KEY);
 
 function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState(null);
   const [paymentData, setPaymentData] = useState(null);
   const paymentMutation = useGetPaymentIntent();
   const buyNowMutation = useBuyNow();
@@ -24,35 +24,63 @@ function CheckoutPage() {
       navigate("/");
       return;
     }
+  }, [navigate, buyNowData, cart.length]);
 
-    const fetchClientSecret = async () => {
-      try {
-        let response;
-        if (buyNowData) {
-          // Handle buy now flow
+  const fetchClientSecret = async (method) => {
+    try {
+      let response;
+      if (buyNowData) {
+        // Handle buy now flow
+        if (method === "card") {
           response = await buyNowMutation.mutateAsync(buyNowData);
         } else {
+          response = await buyNowMutation.mutateAsync({
+            ...buyNowData,
+            header: "COD",
+          });
+        }
+      } else {
+        if (method === "card") {
           // Handle regular cart checkout
           response = await paymentMutation.mutateAsync();
+        } else {
+          response = await paymentMutation.mutateAsync({
+            header: "COD",
+          });
         }
-        console.log(response);
-        setClientSecret(response.data.clientSecret);
-        setPaymentData(response.data);
-      } catch (error) {
-        console.error("Failed to get client secret", error);
       }
-    };
+      setClientSecret(response.data.clientSecret);
+      setPaymentData(response.data);
+    } catch (error) {
+      console.error("Failed to get client secret", error);
+    }
+  };
 
-    fetchClientSecret();
-  }, [cart.length, navigate, buyNowData]);
+  // handle payment method
+  const handlePaymentMethod = (method) => {
+    setPaymentMethod(method);
+    fetchClientSecret(method);
+  };
 
-  if (!clientSecret || !stripePromise || !paymentData) {
-    return <CheckoutShimmer />;
+  if (!clientSecret) {
+    return (
+      <CheckoutForm
+        clientSecret={clientSecret}
+        paymentData={paymentData}
+        paymentMethod={paymentMethod}
+        handlePaymentMethod={handlePaymentMethod}
+      />
+    );
   }
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutForm paymentData={paymentData} isBuyNow={!!buyNowData} />
+      <CheckoutForm
+        clientSecret={clientSecret}
+        paymentData={paymentData}
+        paymentMethod={paymentMethod}
+        handlePaymentMethod={handlePaymentMethod}
+      />
     </Elements>
   );
 }
