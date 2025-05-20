@@ -229,7 +229,7 @@ const Advertisement = () => {
                 minWidth={400}
                 minHeight={225}
                 max_Width={2000}
-                maxHeight={1125}
+                maxHeight={2000}
                 recommendedWidth={1600}
                 recommendedHeight={900}
                 onImageUpload={(data) => handleImageUpload(index + 1, data)}
