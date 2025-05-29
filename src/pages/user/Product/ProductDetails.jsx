@@ -7,15 +7,87 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCart } from "../../../contexts/user/CartContext";
 import { useNavigate } from "react-router-dom";
 
+
+// Skeleton Loader Component
+const ProductSkeleton = () => (
+  <section className="flex flex-col gap-4 animate-pulse">
+    {/* Product Name Skeleton */}
+    <div className="h-10 bg-gray-200 rounded w-3/4"></div>
+    
+    {/* Brand Name Skeleton */}
+    <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+    
+    {/* Category Skeleton */}
+    <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+    
+    {/* Price Skeleton */}
+    <div className="flex gap-3">
+      <div className="h-8 bg-gray-200 rounded w-24"></div>
+      <div className="h-8 bg-gray-200 rounded w-24"></div>
+    </div>
+    
+    {/* Color Options Skeleton */}
+    <div className="flex flex-col gap-2">
+      <div className="h-5 bg-gray-200 rounded w-32"></div>
+      <div className="flex gap-5">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-12 w-12 bg-gray-200 rounded"></div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Quantity Controls Skeleton */}
+    <div className="flex items-center gap-2">
+      <div className="w-10 h-10 bg-gray-200 rounded"></div>
+      <div className="w-10 h-10 bg-gray-200 rounded"></div>
+      <div className="w-10 h-10 bg-gray-200 rounded"></div>
+    </div>
+    
+    {/* Buttons Skeleton */}
+    <div className="grid grid-cols-2 gap-6">
+      <div className="h-12 bg-gray-200 rounded-lg"></div>
+      <div className="h-12 bg-gray-200 rounded-lg"></div>
+    </div>
+    
+    {/* Additional Info Skeleton */}
+    <div className="space-y-4">
+      <div className="h-4 bg-gray-200 rounded w-full"></div>
+      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+    </div>
+  </section>
+);
+
 const ProductDetails = ({
   details,
   selectedVariant,
   setSelectedVariant,
   images,
+  isLoading = false, // New prop to control loading state
 }) => {
   const [quantity, setQuantity] = useState(1);
   const { cart, addToCartlist } = useCart();
   const navigate = useNavigate();
+
+  // Check if essential data is available
+  const hasEssentialData = () => {
+    // Check if we have basic product details
+    if (!details || !details.productName) return false;
+    
+    // Check if we have images
+    if (!images || images.length === 0) return false;
+    
+    // Check if we have stock information (either from variant or main product)
+    const hasStockInfo = 
+      (selectedVariant?.stock?.onhand !== undefined) || 
+      (details?.stockQty !== undefined);
+    
+    if (!hasStockInfo) return false;
+    
+    return true;
+  };
+
+  // Show loading state if explicitly loading or missing essential data
+  const shouldShowLoader = isLoading || !hasEssentialData();
 
   // Get current stock quantity
   const currentStock =
@@ -33,6 +105,7 @@ const ProductDetails = ({
   };
 
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  
   const discountPrice =
     selectedVariant?.price?.discountPrice || details?.discountPrice;
   const normalPrice = selectedVariant?.price?.price || details?.price;
@@ -71,6 +144,9 @@ const ProductDetails = ({
   };
 
   useEffect(() => {
+    // Only set variant if we have details
+    if (!details) return;
+    
     if (details?.variants?.length > 0) {
       const variantsWithParsedImages = details.variants.map((variant) => ({
         ...variant,
@@ -93,21 +169,32 @@ const ProductDetails = ({
         categoryName: details?.categoryName,
       });
     }
-  }, [details]);
+  }, [details, setSelectedVariant]);
+
+  // Reset quantity when variant changes
+  useEffect(() => {
+    setQuantity(1);
+  }, [selectedVariant]);
 
   // Fix: Corrected the isOutOfStock logic to properly check if stock is zero
   const isOutOfStock =
     (selectedVariant?.stock?.onhand === 0 ||
       selectedVariant?.stock?.onhand === undefined) &&
     (details?.stockQty === 0 || details?.stockQty === undefined);
+  
   // Button states
   const buttonDisabledClass = isOutOfStock
     ? "opacity-50 cursor-not-allowed"
     : "cursor-pointer";
 
+  // Show skeleton loader while loading
+  if (shouldShowLoader) {
+    return <ProductSkeleton />;
+  }
+
   return (
-    <section className="flex flex-col gap-4 ">
-      <h2 className="font-bold font-bodoni text-4xl text-[#0D1217]">
+    <section className="flex flex-col gap-4">
+      <h2 className="font-bold font-normal text-4xl text-[#0D1217]">
         {details?.productName}
       </h2>
       <h3 className="text-[#546D7D] text-base font-normal">
@@ -152,6 +239,7 @@ const ProductDetails = ({
           </div>
         )}
       </div>
+      
       {/* Quantity Handling */}
       <div className="flex items-center gap-2">
         <button
@@ -182,6 +270,8 @@ const ProductDetails = ({
           <AiOutlinePlus />
         </button>
       </div>
+      
+      {/* Stock Information */}
       {currentStock !== undefined && currentStock > 0 && (
         <div className="text-sm text-gray-600">
           <span
@@ -193,6 +283,8 @@ const ProductDetails = ({
           </span>
         </div>
       )}
+      
+      {/* Out of Stock Warning */}
       {isOutOfStock && (
         <div className="bg-red-100 w-full max-w-md border border-red-400 text-red-700 px-4 py-3 rounded-md text-sm font-medium flex items-center">
           <svg
@@ -210,6 +302,8 @@ const ProductDetails = ({
           currently unavailable
         </div>
       )}
+      
+      {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-6">
         <button
           className={`bg-[#00211E] text-white rounded-lg py-3 px-6 ${buttonDisabledClass}`}
@@ -227,20 +321,19 @@ const ProductDetails = ({
           Add to Cart
         </button>
       </div>
+      
+      {/* Size Selection (if needed) */}
       <div className="flex flex-col gap-2 pb-3">
-        {/* <h1 className='font-gilroy text-base'>Select Size</h1> */}
         <div className="relative w-fit">
-          {/* <select className="appearance-none border border-[#005C53] rounded-md py-2 px-8 pr-16  focus:outline-none ">
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select> */}
-          <div className="absolute  inset-0  flex items-center left-4 justify-center pointer-events-none">
+          <div className="absolute inset-0 flex items-center left-4 justify-center pointer-events-none">
             <IoIosArrowDown />
           </div>
         </div>
       </div>
+      
       <hr className="text-[#E5E5E5]" />
+      
+      {/* Delivery Information */}
       <div className="font-gilroy py-2">
         <div className="flex gap-2 items-center">
           <div>
@@ -260,6 +353,7 @@ const ProductDetails = ({
           </h1>
         </div>
       </div>
+      
       <hr className="text-[#E5E5E5]" />
       <ProductInfo description={details?.description ?? []} />
       <hr className="text-[#E5E5E5]" />

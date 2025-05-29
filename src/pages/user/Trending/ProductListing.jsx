@@ -34,11 +34,7 @@ const ProductListing = ({ products: filteredProducts = null, isLoading: external
   const loading = filteredProducts ? externalLoading : defaultLoading;
   return (
     <div>
-    {loading ? (
-      <div className='flex justify-center'>
-        <FadeLoader color="#005C53" />
-      </div>
-    ) : (
+    {!loading&&
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
         {(filteredProducts || data?.pages.flatMap(page => page.data)).map((item, index, arr) => {
           const isLast = index === arr.length - 1;
@@ -52,8 +48,7 @@ const ProductListing = ({ products: filteredProducts = null, isLoading: external
           );
         })}
       </div>
-    )}
-
+    }
     {!filteredProducts && isFetchingNextPage && (
       <div className='flex justify-center'>
         <FadeLoader color="#005C53" />

@@ -5,6 +5,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { normalizeProductData } from '../../../api/user/service';
 
+const ProductCardSkeleton = () => (
+  <div className="min-w-[250px] max-w-[250px] h-[350px] bg-white rounded-xl shadow-md p-4 animate-pulse flex flex-col gap-4">
+    <div className="bg-gray-200 h-[200px] rounded-lg w-full"></div>
+    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+    <div className="h-4 bg-gray-100 rounded w-1/2"></div>
+    <div className="h-6 bg-gray-300 rounded w-full mt-auto"></div>
+  </div>
+);
+
 const DemandItems = () => {
   const scrollRef = useRef(null);
   const { data: products, isLoading: loadingTopDemand } = useProductList({ pageNo: 1, pageSize: 10 });
@@ -23,7 +32,6 @@ const DemandItems = () => {
     navigate('/trending');
   };
 
-  // Handle case when data is still loading or not available
   const hasProducts = !loadingTopDemand && 
     products?.pages && 
     products.pages[0]?.data && 
@@ -36,7 +44,6 @@ const DemandItems = () => {
         <p className='text-[#005C53] py-1 cursor-pointer' onClick={goToProductList}>See All</p>
       </div>
       
-      {/* Only show arrows if we have products */}
       {hasProducts && (
         <>
           <button 
@@ -56,17 +63,16 @@ const DemandItems = () => {
         </>
       )}
       
-      {/* Scrollable Product Cards */}
       <div
         ref={scrollRef}
         className="flex overflow-x-auto scroll-smooth no-scrollbar pt-6 md:pt-10 pb-4 gap-2 md:gap-4"
       >
-        {loadingTopDemand && (
-          <div className="w-full flex justify-center py-8">
-            <p>Loading products...</p>
-          </div>
-        )}
-        
+        {loadingTopDemand &&
+          Array.from({ length: 5 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))
+        }
+
         {!loadingTopDemand && !hasProducts && (
           <div className="w-full flex justify-center py-8">
             <p>No products available at the moment.</p>
@@ -83,7 +89,8 @@ const DemandItems = () => {
             >
               <ProductCard {...normalizeProductData(item)} />
             </div>
-          ))}
+          ))
+        }
       </div>
     </div>
   );
