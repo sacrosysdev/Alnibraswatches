@@ -13,6 +13,7 @@ const AddNewVariant = ({
   editingVariantIndex,
   variantsListRef,
   addVarinatIndex,
+  onCancel,
 }) => {
   // Handle image upload for a specific slot
   const handleImageUploadedForSlot = (data, slotIndex) => {
@@ -358,23 +359,32 @@ const AddNewVariant = ({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleAddVariant}
-        className="flex items-center gap-1 bg-[#005C53] text-white px-4 py-2 rounded-md text-sm hover:bg-opacity-90 transition-colors"
-      >
-        {addVarinatIndex !== null ? (
-          <>
-            <CheckCircle size={16} />
-            Update Variant
-          </>
-        ) : (
-          <>
-            <PlusCircle size={16} />
-            Add Variant
-          </>
-        )}
-      </button>
+      <div className="flex gap-2 justify-end">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex items-center gap-1 bg-gray-500 text-white px-4 py-2 rounded-md text-sm hover:bg-opacity-90 transition-colors"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleAddVariant}
+          className="flex items-center gap-1 bg-[#005C53] text-white px-4 py-2 rounded-md text-sm hover:bg-opacity-90 transition-colors"
+        >
+          {addVarinatIndex !== null ? (
+            <>
+              <CheckCircle size={16} />
+              Update Variant
+            </>
+          ) : (
+            <>
+              <PlusCircle size={16} />
+              Add Variant
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 };

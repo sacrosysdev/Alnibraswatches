@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import FormModal from "../shared/FormModal";
 import Variants from "./Variants";
 import ProductInformation from "./ProductInformation";
@@ -34,6 +34,8 @@ const ProductModal = ({
   sizes,
 }) => {
   const [enableVariants, setEnableVariants] = useState(false);
+  const variantsRef = useRef(null);
+
   // Set variants flag based on existing product data
   useEffect(() => {
     if (formData.variants.length > 0) {
@@ -42,12 +44,26 @@ const ProductModal = ({
       setEnableVariants(false);
     }
   }, [isModalOpen]);
+
+  // Custom form submission handler with variant validation
+  const handleFormSubmit = () => {
+    // Check if variants are enabled and if there's unsaved variant data
+    if (enableVariants && variantsRef.current) {
+      const hasUnsavedVariant = variantsRef.current.checkForUnsavedVariant();
+      if (hasUnsavedVariant) {
+        // Don't proceed with form submission
+        return;
+      }
+    }
+
+    // Proceed with normal form submission
+    handleSubmit();
+  };
+
   const formik = useFormik({
     initialValues: formData,
     validationSchema: PRODUCT_VALIDATION(enableVariants),
-    onSubmit: () => {
-      handleSubmit();
-    },
+    onSubmit: handleFormSubmit,
     enableReinitialize: true,
   });
 
@@ -77,6 +93,7 @@ const ProductModal = ({
 
       {/* Variants Section */}
       <Variants
+        ref={variantsRef}
         isOpen={enableVariants}
         setFormData={setFormData}
         formData={formData}
