@@ -77,10 +77,9 @@ export const features = [
         feature2:"Safe Shopping Guarantee ..."
     },
 ]
-
 import Instagram from './assets/svg/footer/instagram.svg'
 import Youtube from './assets/svg/footer/youtube.svg'
-import LinkedIn from './assets/svg/footer/linkedin.svg'
+
 
 export const footerData = [
     
@@ -94,13 +93,12 @@ export const footerData = [
     {
         title:"Link Up with Friends!",
         subtitles :  [
-            { name: "Instagram", link: "/", icon: Instagram },
+            { name: "Instagram", link: "https://www.instagram.com/alnibras_watches_?igsh=ZmFkODZ5OGkwMjBr", icon: Instagram },
             { name: "Youtube", link: "/", icon: Youtube },
-            { name: "LinkedIn", link: "/", icon: LinkedIn },
+          
         ]
     },
 ]
-
 
 export const productDetails = [
     { label: "Product ID", value: "SKU 1245" },
@@ -116,11 +114,11 @@ export const productDetails = [
     { label: "Weight", value: "70 GM" }
   ];
 
-  import OurMission from './assets/images/aboutus/ourmission.png'
-  import OurVision from './assets/images/aboutus/ourvision.png'
-  import OurTeam from './assets/images/aboutus/ourteam.png'
+import OurMission from './assets/images/aboutus/ourmission.png'
+import OurVision from './assets/images/aboutus/ourvision.png'
+import OurTeam from './assets/images/aboutus/ourteam.png'
 
-  export const aboutUsData = [
+export const aboutUsData = [
 
     {
         image:OurMission,
@@ -145,7 +143,7 @@ export const productDetails = [
         order1:"order-1",
         order2:"order-2"
     },
-  ]
+]
   export const pageLinks =[
     {
         title:"Home",
