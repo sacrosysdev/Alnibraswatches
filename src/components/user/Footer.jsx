@@ -9,6 +9,9 @@ const Footer = () => {
   const goCategoryHandler = (categoryId) =>{
       navigate(`/trending?category=${categoryId}`);
   }
+  const navigationHandler = (link) =>{
+     window.open(link, '_blank');
+  }
   return (
     <div className="bg-[#A3C4C1]">
     <div className="grid grid-cols-1 xl:grid-cols-5 gap-5 p-5 xl:p-20">
@@ -32,7 +35,7 @@ const Footer = () => {
           <h1 className="font-medium text-xl">{item.title}</h1>
           <ul className="pt-5 flex flex-col gap-4 text-base">
             {item.subtitles.map((el, subIndex) => (
-              <li key={subIndex} className="flex gap-1 items-center">
+              <li key={subIndex} className="flex gap-1 items-center cursor-pointer" onClick={()=>navigationHandler(el.link)}>
                 {el.icon && <img src={el.icon} alt="icon" />}
                 <span>{el.name}</span>
               </li>
