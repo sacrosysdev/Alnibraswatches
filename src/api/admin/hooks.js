@@ -253,7 +253,7 @@ export const useEditProduct = () =>
 export const useActiveProduct = () =>
   useMutation({
     mutationKey: ["activeProduct"],
-    mutationFn: (productId) => activeProduct({ productId }),
+    mutationFn: ({productId,status}) => activeProduct({ productId,status }),
   });
 
 //////////////////////   ORDER SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////

@@ -307,16 +307,21 @@ export const editProduct = ({ updatedProduct, productId }) =>
       productID: productId,
     },
   });
-export const activeProduct = ({ productId }) =>
-  API.put(
+export const activeProduct = ({ productId,status }) =>{
+    API.put(
     ACTIVE_PRODUCT,
     {},
     {
       headers: {
         productID: productId,
+        isActive:!status
       },
     }
   );
+
+}
+ 
+  
 
 //////////////////////   ORDER SECTION ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 export const getOrderes = async ({

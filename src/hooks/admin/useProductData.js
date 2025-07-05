@@ -210,7 +210,7 @@ export function useProductData({ initialPage = 1, pageSize = 10 } = {}) {
    * Fucntion to handle active product
    * @param {number} productId - id of the product
    */
-  const handleToggleProducts = async (productId) => {
+  const handleToggleProducts = async (productId,status) => {
     try {
       const filterd = processedProducts.map((item) =>
         item.productId === productId
@@ -218,7 +218,7 @@ export function useProductData({ initialPage = 1, pageSize = 10 } = {}) {
           : item
       );
       setProcessedProducts(filterd);
-      await activeProduct.mutateAsync(productId);
+      await activeProduct.mutateAsync({productId,status});
     } catch (error) {
       const filterd = processedProducts.map((item) =>
         item.productId === productId

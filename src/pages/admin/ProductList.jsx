@@ -154,7 +154,7 @@ const ProductList = () => {
         header: "Active",
         render: (product) => (
           <div
-            onClick={() => handleToggleProducts(product.productId)}
+            onClick={() => handleToggleProducts(product.productId,product.isActive)}
             className="relative cursor-pointer"
           >
             <input
