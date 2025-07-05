@@ -20,6 +20,7 @@ const ImageUploader = ({
   maxHeight = 600,
   recommendedWidth = 300,
   recommendedHeight = 300,
+  maxFileSize = 1024 * 1024, // 1 MB in bytes
 }) => {
   const [image, setImage] = useState(initialImage);
   const [previewImage, setPreviewImage] = useState(initialImage); // Separate state for preview
@@ -147,6 +148,16 @@ const ImageUploader = ({
         return;
       }
 
+      // Check file size
+      if (file.size > maxFileSize) {
+        const maxSizeMB = (maxFileSize / (1024 * 1024)).toFixed(1);
+        setError(
+          `File size too large. Maximum allowed size is ${maxSizeMB} MB`
+        );
+        setIsUploading(false);
+        return;
+      }
+
       // Store the current image URL for deletion after successful upload
       const oldImageUrl = image;
 
@@ -201,6 +212,7 @@ const ImageUploader = ({
       minHeight,
       max_Width,
       maxHeight,
+      maxFileSize,
     ]
   );
 
@@ -348,6 +360,9 @@ const ImageUploader = ({
               Min: {minWidth}px × {minHeight}px, Max: {max_Width}px ×{" "}
               {maxHeight}px
             </p>
+            <p className="text-xs text-gray-500">
+              Max file size: {(maxFileSize / (1024 * 1024)).toFixed(1)} MB
+            </p>
           </div>
         ) : (
           <div className="relative min-h-[200px] h-full w-full">
@@ -397,7 +412,7 @@ const ImageUploader = ({
       </div>
 
       {error && (
-        <div className="mt-2 flex items-center text-red-500 text-sm">
+        <div className="mt-2 flex items-center text-red-500 text-xs">
           <AlertCircle className="w-4 h-4 mr-1" />
           <span>{error}</span>
         </div>
