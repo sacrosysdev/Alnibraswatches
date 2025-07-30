@@ -46,6 +46,7 @@ const ProductList = () => {
       handleToggleProducts,
     },
   } = useProductData({ initialPage: 1, pageSize: 10 });
+
   // Open modal for editing product
   const handleEditProduct = useCallback(
     (product) => {
@@ -223,7 +224,7 @@ const ProductList = () => {
       // Consider showing error message to the user here
     }
   }, [isEditing, formData, updateProduct, createProduct]);
-
+  
   // Delete selected products
   const handleDeleteSelected = async () => {
     try {
@@ -236,7 +237,7 @@ const ProductList = () => {
       setDeleteError(error);
     }
   };
-
+       
   // Reset error when closing the delete modal
   const handleCloseDeleteModal = useCallback(() => {
     setIsDeleteModalVisible(false);
@@ -293,7 +294,6 @@ const ProductList = () => {
         totalPages={totalPages}
         pageSize={pageSize}
       />
-
       <ProductModal
         isLoading={isMutating}
         isModalOpen={isModalOpen}

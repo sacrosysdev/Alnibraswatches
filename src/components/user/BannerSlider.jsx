@@ -49,7 +49,7 @@ const BannerSlider = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
                 >
-                  Welcome to <br /> AL NIBRAZ Watches
+                  Welcome to <br /> AL NIBRAS Watches
                 </motion.h1>
                 <motion.p
                   className="text-xl text-white mt-2"
@@ -90,7 +90,7 @@ const BannerSlider = () => {
                   transition={{ duration: 0.8 }}
                   
                 >
-                  Welcome to <br /> AL NIBRAZ Watches
+                  Welcome to <br /> AL NIBRAS Watches
                 </motion.h1>
                 <motion.p
                   className="text-xl text-white mt-2"
@@ -130,7 +130,7 @@ const BannerSlider = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
                 >
-                  Welcome to <br /> AL NIBRAZ Watches
+                  Welcome to <br /> AL NIBRAS Watches
                 </motion.h1>
                 <motion.p
                   className="text-xl text-white mt-2"
