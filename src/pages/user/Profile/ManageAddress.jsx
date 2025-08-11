@@ -258,7 +258,6 @@ const AddressModal = ({
         <h2 className="text-xl font-bold mb-4">
           {isEditing ? "Edit Address" : "Add New Address"}
         </h2>
-
         <Formik
           initialValues={initialValues}
           validationSchema={checkOutValidation}

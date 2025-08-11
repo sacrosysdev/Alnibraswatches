@@ -22,7 +22,6 @@ const LoginForm = () => {
     const { repeatPassword, agree, ...payload } = values;
     mutate(payload, {
       onSuccess: (data) => {
-        console.log(data[0]);
         const userDet = [
           {
             name: data[0].FullName,

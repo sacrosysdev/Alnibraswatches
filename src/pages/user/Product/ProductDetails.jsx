@@ -5,6 +5,7 @@ import ProductInfo from "./ProductInfo";
 import Ratings from "./Ratings";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCart } from "../../../contexts/user/CartContext";
+import { useAuth } from "../../../contexts/user/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 // Skeleton Loader Component
@@ -65,6 +66,7 @@ const ProductDetails = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const { cart, addToCartlist } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   // Check if product is already in cart
@@ -126,6 +128,16 @@ const ProductDetails = ({
 
   const handleAddToCart = () => {
     if (isOutOfStock || isInCart) return;
+
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Set the current product page as redirect path after login
+      const currentPath = window.location.pathname;
+      localStorage.setItem("redirectAfterLogin", currentPath);
+      navigate("/login");
+      return;
+    }
+
     const safeQuantity =
       currentStock !== undefined ? Math.min(quantity, currentStock) : quantity;
     addToCartlist({
@@ -141,6 +153,15 @@ const ProductDetails = ({
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
+
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Set the current product page as redirect path after login
+      const currentPath = window.location.pathname;
+      localStorage.setItem("redirectAfterLogin", currentPath);
+      navigate("/login");
+      return;
+    }
 
     const buyNowData = {
       productId: details.productId,
