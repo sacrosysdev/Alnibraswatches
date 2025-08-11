@@ -15,7 +15,8 @@ const Address = ({
   const location = useLocation();
   const isProfilePage = location.pathname === "/profile/manage-address";
   return (
-    <div className="border border-gray-200 rounded-md p-4 max-w-md bg-white shadow-sm md:w-1/2 w-90">
+    <div className="border border-gray-200 rounded-md p-4 max-w-md
+     bg-white shadow-sm  md:w-1/2 w-full">
       <div className="flex justify-between items-center mb-2">
         <div className="inline-block bg-teal-100 text-teal-900 text-sm font-semibold px-3 py-1 rounded">
           {label}

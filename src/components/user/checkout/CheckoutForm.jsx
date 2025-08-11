@@ -5,6 +5,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik";
+import { checkOutValidation } from "../../../constant/schema";
 import {
   useAddAddress,
   useGetSelectedAddress,
@@ -16,7 +18,7 @@ import Address from "../../../pages/user/CheckOut/Address";
 import Header from "../../../pages/user/CheckOut/Header";
 import PaymentSection from "../../../pages/user/CheckOut/PaymentSection";
 import PlaceOrder from "../../../pages/user/CheckOut/PlaceOrder";
-import AddressModal from "../../user/AddressModal";
+import AddressForm from "../../../pages/user/CheckOut/CheckOutForm";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 
 export default function CheckoutForm({
@@ -44,14 +46,12 @@ export default function CheckoutForm({
   // State management
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [paymentError, setPaymentError] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [orderDetails, setOrderDetails] = useState({
     orderId: null,
     paymentIntentId: null,
   });
-
   // Cart and address hooks
   const { clearCart } = useCart();
   const addAddressMutation = useAddAddress();
@@ -60,17 +60,13 @@ export default function CheckoutForm({
     data: address,
     isLoading: loadingAddress,
     refetch: refetchAddress,
-  } = useGetSelectedAddress(location.state);
+  } = useGetSelectedAddress(location.state || null);
 
   // Address handlers
-  const handleAddAddressClick = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
   const handleAddAddress = async (values, { setSubmitting, resetForm }) => {
     try {
       await addAddressMutation.mutateAsync(values);
       await refetchAddress();
-      setShowModal(false);
       resetForm();
     } catch (error) {
       console.error("Error saving address:", error);
@@ -183,37 +179,57 @@ export default function CheckoutForm({
 
   return (
     <div className="w-full py-20">
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start mx-auto px-5 md:w-[80%]">
-          <div className="col-span-1 xl:col-span-2">
-            <div className="mb-4">
-              <Header />
-              {loadingAddress || !address ? (
-                <button
-                  type="button"
-                  className="bg-black text-white text-sm px-3 py-1 mt-5 rounded hover:bg-gray-800 transition cursor-pointer"
-                  onClick={handleAddAddressClick}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start mx-auto px-5 md:w-[80%]">
+        <div className="col-span-1 xl:col-span-2">
+          <div className="mb-4">
+            <Header />
+            {loadingAddress ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+                <span className="ml-3">Loading address...</span>
+              </div>
+            ) : !address ? (
+              <div className="mt-4">
+                <Formik
+                  initialValues={INITIAL_ADDRESS_VALUE}
+                  validationSchema={checkOutValidation}
+                  onSubmit={handleAddAddress}
                 >
-                  Add Address
-                </button>
-              ) : (
-                <>
-                  <div className="flex justify-between items-center mt-4 mb-4">
-                    <h2 className="text-lg font-semibold">Delivery Address</h2>
-                  </div>
-                  <Address
-                    label={address.AddressLabel}
-                    phone={address.PhoneNumber}
-                    address={address.Address}
-                    district={address.District}
-                    userName={address.UserName}
-                    city={address.City}
-                    landmark={address.LandMark}
-                  />
-                </>
-              )}
-            </div>
+                  {({ isSubmitting }) => (
+                    <Form>
+                      <AddressForm />
+                      <div className="mt-6 flex justify-end">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="px-6 py-2 bg-black text-white text-sm rounded hover:bg-gray-800 disabled:bg-gray-400 transition"
+                        >
+                          {isSubmitting ? "Saving..." : "Save Address"}
+                        </button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between items-center mt-4 mb-4">
+                  <h2 className="text-lg font-semibold">Delivery Address</h2>
+                </div>
+                <Address
+                  label={address.AddressLabel}
+                  phone={address.PhoneNumber}
+                  address={address.Address}
+                  district={address.District}
+                  userName={address.UserName}
+                  city={address.City}
+                  landmark={address.LandMark}
+                />
+              </>
+            )}
+          </div>
 
+          <form id="payment-form" onSubmit={handleSubmit}>
             <PaymentSection
               clientSecret={clientSecret}
               paymentMethod={paymentMethod}
@@ -224,11 +240,11 @@ export default function CheckoutForm({
               disabled={isLoading || !isFormValid}
               id="submit"
               className={`px-6 py-3 relative font-bold text-base
-                mt-5 text-white w-full rounded-lg ${
-                  isLoading || !isFormValid
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#00211E] hover:bg-[#003d38]"
-                }`}
+                  mt-5 text-white w-full rounded-lg ${
+                    isLoading || !isFormValid
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-[#00211E] hover:bg-[#003d38]"
+                  }`}
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
@@ -267,25 +283,17 @@ export default function CheckoutForm({
                 {paymentError}
               </div>
             )}
-          </div>
-
-          <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
-            <PlaceOrder
-              totalAmount={
-                buyNowData ? buyNowData.price : paymentData?.totalAmount
-              }
-            />
-          </div>
+          </form>
         </div>
-      </form>
 
-      {showModal && (
-        <AddressModal
-          initialValues={INITIAL_ADDRESS_VALUE}
-          onSubmit={handleAddAddress}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
+        <div className="col-span-1 border w-full rounded-2xl border-[#A5B2BA]">
+          <PlaceOrder
+            totalAmount={
+              buyNowData ? buyNowData.price : paymentData?.totalAmount
+            }
+          />
+        </div>
+      </div>
 
       <PaymentSuccessModal
         isOpen={showSuccessModal}

@@ -6,6 +6,7 @@ import loader from "./assets/svg/loader.svg";
 import { WishlistProvider } from "./contexts/user/WishListContext";
 import ScrollToTop from "./components/user/ScrollToTop";
 import { CartProvider } from "./contexts/user/CartContext";
+import { AuthProvider } from "./contexts/user/AuthContext";
 import UserRoute from "./routes/user/UserRoute";
 import AdminRoute from "./routes/admin/AdminRoute";
 import AuthRoute from "./routes/auth/AuthRoute";
@@ -18,20 +19,22 @@ const LoadingFallback = () => (
 
 const AppRoutes = () => {
   return (
-    <CartProvider>
-      <WishlistProvider>
-        <Router>
-          <ScrollToTop />
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/*" element={<UserRoute />} />
-              <Route path="/dashboard/*" element={<AdminRoute />} />
-              <Route path="/auth/*" element={<AuthRoute />} />
-            </Routes>
-          </Suspense>
-        </Router>
-      </WishlistProvider>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <WishlistProvider>
+          <Router>
+            <ScrollToTop />
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/*" element={<UserRoute />} />
+                <Route path="/dashboard/*" element={<AdminRoute />} />
+                <Route path="/auth/*" element={<AuthRoute />} />
+              </Routes>
+            </Suspense>
+          </Router>
+        </WishlistProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 };
 

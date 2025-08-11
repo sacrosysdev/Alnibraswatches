@@ -4,6 +4,7 @@ import FillHeart from "../../../assets/svg/product/heartfill.svg";
 import { useWishlist } from "../../../contexts/user/WishListContext";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { truncateTitle } from "../../../util/truncateText";
 
 const ShopCard = ({
   id,
@@ -47,11 +48,11 @@ const ShopCard = ({
   return (
     <div
       className={`relative flex flex-col items-center gap-4 pb-5 cursor-pointer
-                rounded-2xl overflow-hidden
+                rounded-2xl overflow-hidden transition-all duration-300 ease-in-out
                 ${
                   isOutOfStock
-                    ? "bg-white shadow-md border border-red-200"
-                    : "bg-white shadow-[10px_4px_10px_rgba(0,0,0,0.1)]"
+                    ? "bg-white shadow-md border border-red-200 hover:shadow-lg"
+                    : "bg-white shadow-[10px_4px_10px_rgba(0,0,0,0.1)] hover:shadow-2xl hover:scale-105 hover:bg-gray-50"
                 }`}
       onClick={goToProductDetailPage}
     >
@@ -59,7 +60,7 @@ const ShopCard = ({
         <img
           src={image}
           alt={title}
-          className="h-[230px] md:h-[200px] w-full object-cover"
+          className="h-[230px] md:h-[200px] w-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
           loading="lazy"
         />
         {isOutOfStock && (
@@ -73,7 +74,7 @@ const ShopCard = ({
 
       <div className="text-center flex flex-col gap-1">
         <h1 className="font-medium text-lg md:text-lg text-gray-900">
-          {title}
+          {truncateTitle(title, 20)}
         </h1>
         <h3 className="text-base text-gray-500">
           <span>{brand}</span>

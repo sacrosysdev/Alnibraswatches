@@ -80,7 +80,7 @@ const Cart = () => {
                     </h1>
                   </div>
                   <Link to="/trending">
-                    <button className="px-6 py-3 bg-[#00211E] font-bold text-base cursor-pointer text-white w-fit rounded-lg">
+                    <button className="px-6 py-3 bg-[#00211E] font-bold text-base cursor-pointer text-white w-fit rounded-lg transition-all duration-300 ease-in-out hover:bg-[#001815] hover:shadow-lg hover:scale-105">
                       Explore
                     </button>
                   </Link>
