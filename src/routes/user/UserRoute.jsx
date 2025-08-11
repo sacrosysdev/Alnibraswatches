@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserLayout from "../../layouts/user/Layout";
+import ProtectedRoute from "../../components/user/ProtectedRoute";
 const CheckoutPage = lazy(() => import("../../pages/user/CheckOut/Checkout"));
 const HomePage = lazy(() => import("../../pages/user/Home/Home"));
 const TrendingPage = lazy(() => import("../../pages/user/Trending/Trending"));
@@ -42,12 +43,48 @@ const UserRoute = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/order-history" element={<OrderHistoryPage />} />
+
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-history"
+          element={
+            <ProtectedRoute>
+              <OrderHistoryPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/aboutus" element={<AboutUsPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/profile" element={<ProfilePage />}>
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute>
+              <WishlistPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<PersonalInfoPage />} />
           <Route path="my-orders" element={<MyOrdersPage />} />
           <Route path="manage-address" element={<ManageAddressPage />} />

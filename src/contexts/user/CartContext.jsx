@@ -4,12 +4,15 @@ import {
   useGetCart,
   useUpdateCartItem,
   useDeleteCartItem,
-  useDeleteUserCartItem
+  useDeleteUserCartItem,
 } from "../../api/user/hooks";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
   const [localCartlist, setLocalCartlist] = useState(() => {
     try {
       const stored = localStorage.getItem("cartlist");
@@ -21,40 +24,41 @@ export const CartProvider = ({ children }) => {
   });
 
   const [previousLoginState, setPreviousLoginState] = useState(null);
-  const userId = localStorage.getItem("alNibrazUserId");
 
   const {
     data: serverCart = [],
     refetch,
     isLoading: isLoadingCart,
-  } = useGetCart() || {};
+  } = useGetCart({
+    enabled: Boolean(isAuthenticated), // Ensure it's always a boolean
+  }) || {};
 
   const addMutation = useAddToCart();
   const updateMutation = useUpdateCartItem();
   const removeMutation = useDeleteCartItem();
-  const removeUserMutation = useDeleteUserCartItem()
+  const removeUserMutation = useDeleteUserCartItem();
 
   // Track login status changes
   useEffect(() => {
-    const currentLoginState = !!userId;
+    const currentLoginState = isAuthenticated;
 
-    // Detect login (previous state was no userId, current state has userId)
+    // Detect login (previous state was false, current state is true)
     if (currentLoginState && previousLoginState === false) {
       syncLocalCartToServer();
     }
     setPreviousLoginState(currentLoginState);
-  }, [userId]);
+  }, [isAuthenticated]);
 
   // Sync local storage for guest users
   useEffect(() => {
-    if (!userId) {
+    if (!isAuthenticated) {
       localStorage.setItem("cartlist", JSON.stringify(localCartlist));
     }
-  }, [localCartlist, userId]);
+  }, [localCartlist, isAuthenticated]);
 
   // Function to sync local cart to server when user logs in
   const syncLocalCartToServer = async () => {
-    if (!userId || localCartlist.length === 0) return;
+    if (!isAuthenticated || localCartlist.length === 0) return;
 
     try {
       // Get the latest server cart first
@@ -95,7 +99,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCartlist = async (item) => {
-    if (userId) {
+    if (isAuthenticated) {
       try {
         await addMutation.mutateAsync(item);
         await refetch();
@@ -138,7 +142,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateCartItem = async (item) => {
-    if (userId) {
+    if (isAuthenticated) {
       try {
         await updateMutation.mutateAsync(item);
         await refetch();
@@ -156,8 +160,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (cartId,productId) => {
-    if (userId) {
+  const removeFromCart = async (cartId, productId) => {
+    if (isAuthenticated) {
       try {
         await removeMutation.mutateAsync(cartId);
         await refetch();
@@ -165,16 +169,18 @@ export const CartProvider = ({ children }) => {
         console.error("Failed to remove item from cart:", error);
       }
     } else {
-      setLocalCartlist((prev) => 
-        prev.filter(item => item.ProductId !== productId && item.id !== productId)
+      setLocalCartlist((prev) =>
+        prev.filter(
+          (item) => item.ProductId !== productId && item.id !== productId
+        )
       );
     }
   };
 
   const clearCart = async () => {
-    if (userId) {
+    if (isAuthenticated) {
       try {
-        await removeUserMutation.mutateAsync()
+        await removeUserMutation.mutateAsync();
         await refetch();
       } catch (error) {
         console.error("Failed to clear cart:", error);
@@ -185,12 +191,12 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const cartItemsCount = (userId ? serverCart : localCartlist).reduce(
+  const cartItemsCount = (isAuthenticated ? serverCart : localCartlist).reduce(
     (total, item) => total + (parseInt(item.Quantity || item.quantity) || 1),
     0
   );
 
-  const cartTotal = (userId ? serverCart : localCartlist).reduce(
+  const cartTotal = (isAuthenticated ? serverCart : localCartlist).reduce(
     (total, item) => {
       const price = item.Price || item.price || 0;
       const quantity = parseInt(item.Quantity || item.quantity) || 1;
@@ -199,8 +205,8 @@ export const CartProvider = ({ children }) => {
     0
   );
 
-  const activeCartList = userId ? serverCart : localCartlist;
-  const isLoading = userId ? isLoadingCart : false;
+  const activeCartList = isAuthenticated ? serverCart : localCartlist;
+  const isLoading = isAuthenticated ? isLoadingCart : false;
 
   return (
     <CartContext.Provider

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import CheckoutForm from "../../../components/user/checkout/CheckoutForm";
 import { useGetPaymentIntent, useBuyNow } from "../../../api/user/hooks";
 import { useCart } from "../../../contexts/user/CartContext";
+import { useAuth } from "../../../contexts/user/AuthContext";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIP_PRIVATE_KEY);
 
@@ -18,6 +19,12 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const buyNowData = location.state?.buyNowData;
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    navigate("/login");
+    return;
+  }
 
   useEffect(() => {
     if (!buyNowData && cart.length === 0) {

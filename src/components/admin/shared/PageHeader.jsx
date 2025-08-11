@@ -45,7 +45,7 @@ const PageHeader = ({
 
   // Default button styling
   const defaultButtonClass =
-    "flex items-center gap-2 bg-[#005C53] text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-[#67807d] transition-colors";
+    "flex items-center gap-2 bg-[#005C53] text-white cursor-pointer px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-[#004A42] hover:shadow-lg hover:scale-105";
 
   // Function to close tooltip
   const closeTooltip = (e) => {
@@ -78,7 +78,7 @@ const PageHeader = ({
         {searchQuery && (
           <button
             onClick={handleResetSearch}
-            className="absolute right-3 top-0 bottom-0 my-auto p-1 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute right-3 top-0 bottom-0 my-auto p-1 text-gray-400 transition-all duration-200 ease-in-out hover:text-gray-600 hover:scale-110"
             aria-label="Clear search"
           >
             <X size={16} />
@@ -92,7 +92,7 @@ const PageHeader = ({
           <div className="relative">
             <button
               onClick={() => viewToggle.setViewMode((prev) => !prev)}
-              className="group cursor-pointer p-2 rounded-full hover:bg-gray-100"
+              className="group cursor-pointer p-2 rounded-full transition-all duration-200 ease-in-out hover:bg-gray-100 hover:scale-110"
             >
               {viewToggle.isGridView
                 ? viewToggle.gridIcon
@@ -110,7 +110,7 @@ const PageHeader = ({
                   <div className="font-semibold text-gray-800">Layout tip</div>
                   <button
                     onClick={closeTooltip}
-                    className="text-gray-500 hover:text-gray-700"
+                    className="text-gray-500 transition-colors duration-200 ease-in-out hover:text-gray-700 hover:scale-110"
                   >
                     <X size={16} />
                   </button>

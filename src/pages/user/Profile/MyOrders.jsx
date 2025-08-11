@@ -11,6 +11,7 @@ import {
   Download,
 } from "lucide-react";
 import OrderHeader from "./OrderHeader";
+import MyOrdersSkeleton from "../../../components/user/Skelton/MyOrdersSkeleton";
 
 const MyOrders = () => {
   const { data, isLoading, error } = useGetOrders();
@@ -41,12 +42,7 @@ const MyOrders = () => {
     cancelled: "bg-red-100 text-red-800",
   };
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+  if (isLoading) return <MyOrdersSkeleton />;
   if (error)
     return (
       <div className="bg-red-50 p-4 rounded-md">
@@ -86,7 +82,7 @@ const MyOrders = () => {
   });
 
   return (
-    <div className="bg-white rounded-lg    p-6">
+    <div className="bg-white rounded-lg    md:p-6">
       {/* Order Header */}
       <OrderHeader
         filterStatus={filterStatus}
@@ -270,7 +266,6 @@ const MyOrders = () => {
           </div>
         )}
       </div>
-      
     </div>
   );
 };

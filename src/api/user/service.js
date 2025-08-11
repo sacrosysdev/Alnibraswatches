@@ -256,18 +256,33 @@ export const deleteUserCart = async (cartId) => {
 //////////////////////   USER ADDRESS ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
 
 export const getAddress = async () => {
-  const response = await API.get(GET_ADDRESS);
-  return response?.data?.data ?? [];
+  try {
+    const response = await API.get(GET_ADDRESS);
+    return response?.data?.data ?? [];
+  } catch (error) {
+    // If there's an error (like 401), throw it so the hook can handle it
+    throw error;
+  }
 };
 
 export const getSelectedAddress = async (status) => {
-  const response = await API.get(GET_ADDRESS);
-  const addresses = response?.data?.data ?? [];
-  if (status == null) {
-    const defaultAddress = addresses.find((addr) => addr.IsDefault === true);
-    return defaultAddress || addresses[addresses.length - 1];
-  } else {
-    return addresses[addresses.length - 1];
+  try {
+    const response = await API.get(GET_ADDRESS);
+    const addresses = response?.data?.data ?? [];
+
+    if (addresses.length === 0) {
+      return null; // Return null if no addresses found
+    }
+
+    if (status == null) {
+      const defaultAddress = addresses.find((addr) => addr.IsDefault === true);
+      return defaultAddress || addresses[addresses.length - 1] || null;
+    } else {
+      return addresses[addresses.length - 1] || null;
+    }
+  } catch (error) {
+    // If there's an error (like 401), throw it so the hook can handle it
+    throw error;
   }
 };
 

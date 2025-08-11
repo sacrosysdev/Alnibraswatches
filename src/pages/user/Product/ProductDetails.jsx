@@ -7,25 +7,24 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCart } from "../../../contexts/user/CartContext";
 import { useNavigate } from "react-router-dom";
 
-
 // Skeleton Loader Component
 const ProductSkeleton = () => (
   <section className="flex flex-col gap-4 animate-pulse">
     {/* Product Name Skeleton */}
     <div className="h-10 bg-gray-200 rounded w-3/4"></div>
-    
+
     {/* Brand Name Skeleton */}
     <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-    
+
     {/* Category Skeleton */}
     <div className="h-6 bg-gray-200 rounded w-1/3"></div>
-    
+
     {/* Price Skeleton */}
     <div className="flex gap-3">
       <div className="h-8 bg-gray-200 rounded w-24"></div>
       <div className="h-8 bg-gray-200 rounded w-24"></div>
     </div>
-    
+
     {/* Color Options Skeleton */}
     <div className="flex flex-col gap-2">
       <div className="h-5 bg-gray-200 rounded w-32"></div>
@@ -35,20 +34,20 @@ const ProductSkeleton = () => (
         ))}
       </div>
     </div>
-    
+
     {/* Quantity Controls Skeleton */}
     <div className="flex items-center gap-2">
       <div className="w-10 h-10 bg-gray-200 rounded"></div>
       <div className="w-10 h-10 bg-gray-200 rounded"></div>
       <div className="w-10 h-10 bg-gray-200 rounded"></div>
     </div>
-    
+
     {/* Buttons Skeleton */}
     <div className="grid grid-cols-2 gap-6">
       <div className="h-12 bg-gray-200 rounded-lg"></div>
       <div className="h-12 bg-gray-200 rounded-lg"></div>
     </div>
-    
+
     {/* Additional Info Skeleton */}
     <div className="space-y-4">
       <div className="h-4 bg-gray-200 rounded w-full"></div>
@@ -68,21 +67,31 @@ const ProductDetails = ({
   const { cart, addToCartlist } = useCart();
   const navigate = useNavigate();
 
+  // Check if product is already in cart
+  const cartItem = cart.find(
+    (item) =>
+      item.ProductId === details?.productId &&
+      item.VariantId === (selectedVariant?.variantId || -1)
+  );
+
+  const isInCart = !!cartItem;
+  const cartQuantity = cartItem?.Quantity || 0;
+
   // Check if essential data is available
   const hasEssentialData = () => {
     // Check if we have basic product details
     if (!details || !details.productName) return false;
-    
+
     // Check if we have images
     if (!images || images.length === 0) return false;
-    
+
     // Check if we have stock information (either from variant or main product)
-    const hasStockInfo = 
-      (selectedVariant?.stock?.onhand !== undefined) || 
-      (details?.stockQty !== undefined);
-    
+    const hasStockInfo =
+      selectedVariant?.stock?.onhand !== undefined ||
+      details?.stockQty !== undefined;
+
     if (!hasStockInfo) return false;
-    
+
     return true;
   };
 
@@ -105,7 +114,7 @@ const ProductDetails = ({
   };
 
   const decreaseQty = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  
+
   const discountPrice =
     selectedVariant?.price?.discountPrice || details?.discountPrice;
   const normalPrice = selectedVariant?.price?.price || details?.price;
@@ -116,7 +125,7 @@ const ProductDetails = ({
     discountPrice !== 0;
 
   const handleAddToCart = () => {
-    if (isOutOfStock) return;
+    if (isOutOfStock || isInCart) return;
     const safeQuantity =
       currentStock !== undefined ? Math.min(quantity, currentStock) : quantity;
     addToCartlist({
@@ -146,7 +155,7 @@ const ProductDetails = ({
   useEffect(() => {
     // Only set variant if we have details
     if (!details) return;
-    
+
     if (details?.variants?.length > 0) {
       const variantsWithParsedImages = details.variants.map((variant) => ({
         ...variant,
@@ -181,7 +190,7 @@ const ProductDetails = ({
     (selectedVariant?.stock?.onhand === 0 ||
       selectedVariant?.stock?.onhand === undefined) &&
     (details?.stockQty === 0 || details?.stockQty === undefined);
-  
+
   // Button states
   const buttonDisabledClass = isOutOfStock
     ? "opacity-50 cursor-not-allowed"
@@ -194,7 +203,7 @@ const ProductDetails = ({
 
   return (
     <section className="flex flex-col gap-4">
-      <h2 className="font-bold font-normal text-4xl text-[#0D1217]">
+      <h2 className="font-bold  text-4xl text-[#0D1217]">
         {details?.productName}
       </h2>
       <h3 className="text-[#546D7D] text-base font-normal">
@@ -239,7 +248,7 @@ const ProductDetails = ({
           </div>
         )}
       </div>
-      
+
       {/* Quantity Handling */}
       <div className="flex items-center gap-2">
         <button
@@ -270,7 +279,7 @@ const ProductDetails = ({
           <AiOutlinePlus />
         </button>
       </div>
-      
+
       {/* Stock Information */}
       {currentStock !== undefined && currentStock > 0 && (
         <div className="text-sm text-gray-600">
@@ -283,7 +292,7 @@ const ProductDetails = ({
           </span>
         </div>
       )}
-      
+
       {/* Out of Stock Warning */}
       {isOutOfStock && (
         <div className="bg-red-100 w-full max-w-md border border-red-400 text-red-700 px-4 py-3 rounded-md text-sm font-medium flex items-center">
@@ -302,26 +311,31 @@ const ProductDetails = ({
           currently unavailable
         </div>
       )}
-      
+
       {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-6">
         <button
-          className={`bg-[#00211E] text-white rounded-lg py-3 px-6 ${buttonDisabledClass}`}
+          className={`bg-[#00211E] text-white rounded-lg py-3 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-[#003a35] hover:shadow-lg ${buttonDisabledClass}`}
           disabled={isOutOfStock}
           onClick={handleBuyNow}
         >
           Buy Now
         </button>
         <button
-          className={`bg-white text-[#010F17] border 
-                     border-[#010F17] rounded-lg py-3 px-6 ${buttonDisabledClass}`}
+          className={`border rounded-lg py-3 px-6 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg ${
+            isInCart
+              ? "bg-green-100 text-green-700 border-green-300 cursor-not-allowed opacity-75"
+              : isOutOfStock
+              ? "bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed opacity-50"
+              : "bg-white text-[#010F17] border-[#010F17] hover:bg-[#010F17] hover:text-white"
+          }`}
           onClick={handleAddToCart}
-          disabled={isOutOfStock}
+          disabled={isOutOfStock || isInCart}
         >
-          Add to Cart
+          {isInCart ? `In Cart (${cartQuantity})` : "Add to Cart"}
         </button>
       </div>
-      
+
       {/* Size Selection (if needed) */}
       <div className="flex flex-col gap-2 pb-3">
         <div className="relative w-fit">
@@ -330,9 +344,9 @@ const ProductDetails = ({
           </div>
         </div>
       </div>
-      
+
       <hr className="text-[#E5E5E5]" />
-      
+
       {/* Delivery Information */}
       <div className="font-gilroy py-2">
         <div className="flex gap-2 items-center">
@@ -353,7 +367,7 @@ const ProductDetails = ({
           </h1>
         </div>
       </div>
-      
+
       <hr className="text-[#E5E5E5]" />
       <ProductInfo description={details?.description ?? []} />
       <hr className="text-[#E5E5E5]" />

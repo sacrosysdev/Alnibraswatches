@@ -157,10 +157,11 @@ export const useAddWishlist = () =>
     mutationFn: (payload) => addWishlistItem(payload),
   });
 
-export const useGetWishlist = () =>
+export const useGetWishlist = (options = {}) =>
   useQuery({
     queryKey: ["getWishlist"],
     queryFn: getWishlist,
+    ...options, // Spread any additional options like enabled
   });
 
 export const useRemoveWishlist = () =>
@@ -178,10 +179,12 @@ export const useAddToCart = () => {
   });
 };
 
-export const useGetCart = () => {
+export const useGetCart = (options = {}) => {
   return useQuery({
     queryKey: ["getCart"],
     queryFn: getCart,
+    retry: false,
+    ...options, // Spread any additional options like enabled
   });
 };
 
@@ -211,13 +214,45 @@ export const useGetUserAddress = () =>
   useQuery({
     queryKey: ["getAddress"],
     queryFn: getAddress,
+    select: (data) => data || [], // Ensure we never return undefined
+    // retry: false, // Don't retry on error
+    // retryOnMount: false, // Don't retry when component mounts
+    // refetchOnWindowFocus: false, // Don't refetch when window gains focus
+    // refetchOnReconnect: false, // Don't refetch when reconnecting
+  });
+
+// Hook specifically for route protection
+export const useCheckAuth = () =>
+  useQuery({
+    queryKey: ["checkAuth"],
+    queryFn: getAddress,
+    select: (data) => data || [], // Ensure we never return undefined
+    retry: false, // Don't retry on error
+    retryOnMount: false, // Don't retry when component mounts
+    refetchOnWindowFocus: false, // Don't refetch when window gains focus
+    refetchOnReconnect: false, // Don't refetch when reconnecting
   });
 
 export const useGetSelectedAddress = (status) =>
   useQuery({
-    queryKey: ["getAddress"],
+    queryKey: ["getSelectedAddress", status],
     queryFn: () => getSelectedAddress(status),
-    select: (data) => JSON.parse(data.AddressDetails),
+    select: (data) => {
+      try {
+        // If data is null or undefined, return null
+        if (!data) return null;
+
+        // If data doesn't have AddressDetails, return null
+        if (!data.AddressDetails) return null;
+
+        return JSON.parse(data.AddressDetails);
+      } catch (error) {
+        console.error("Error parsing address details:", error);
+        return null;
+      }
+    },
+    // Ensure we never return undefined
+    placeholderData: null,
   });
 
 export const useUpdateDefaultAddress = () => {
@@ -252,11 +287,12 @@ export const useAddReview = () => {
   });
 };
 
-export const useGetReviews = (productId) =>
+export const useGetReviews = (productId, options = {}) =>
   useQuery({
     queryKey: ["getReview", productId],
     queryFn: () => getReview(productId),
     enabled: !!productId,
+    ...options, // Spread any additional options like enabled
   });
 
 //////////////////////   PAYMENT ⚠️⚠️⚠️⚠️⚠️⚠️   ////////////////////////////
