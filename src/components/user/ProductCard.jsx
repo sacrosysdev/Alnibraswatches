@@ -55,7 +55,7 @@ const ProductCard = ({
   return (
     <div
       className={`relative flex flex-col items-center gap-4 pb-5
-                rounded-2xl h-96 md:h-[450px] cursor-pointer overflow-hidden
+                rounded-2xl h-96 md:h-[350px] cursor-pointer overflow-hidden
                 transition-all duration-300 ease-in-out
                 ${
                   isOutOfStock
