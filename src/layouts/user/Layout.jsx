@@ -7,10 +7,8 @@ import { Outlet } from "react-router-dom";
 
 const UserLayout = () => {
   return (
-    <div className="font-dm">
-      <div className="">
-        <TopNav />
-      </div>
+    <div className="font-dm h-full flex flex-col ">
+      <TopNav />
       <Navbar />
       <main>{<Outlet />}</main>
       <Footer />
