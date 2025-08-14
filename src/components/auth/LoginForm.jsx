@@ -24,8 +24,8 @@ function LoginForm({ onToggle }) {
     handleLogin(values, {
       onSuccess: (data) => {
         // Redirect user to dashboard or appropriate page
-        // localStorage.setItem("isLoged", true);
-        // navigate("/dashboard");
+        localStorage.setItem("isLoged", true);
+        navigate("/dashboard");
       },
       onError: (error) => {
         // Set appropriate error message based on error response

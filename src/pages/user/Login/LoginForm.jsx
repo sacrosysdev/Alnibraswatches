@@ -33,11 +33,11 @@ const LoginForm = () => {
         localStorage.setItem("alNibrazUserId", data[0].UserId);
 
         // Update auth context
-        // login(userDet);
+        login(userDet);
 
-        // const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
-        // localStorage.removeItem("redirectAfterLogin");
-        // navigate(redirectPath);
+        const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+        localStorage.removeItem("redirectAfterLogin");
+        navigate(redirectPath);
       },
       onError: (error) => {
         setError(error.response.data.message);
