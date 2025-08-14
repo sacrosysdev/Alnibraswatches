@@ -35,9 +35,9 @@ const LoginForm = () => {
         // Update auth context
         login(userDet);
 
-        const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
-        localStorage.removeItem("redirectAfterLogin");
-        navigate(redirectPath);
+        // const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
+        // localStorage.removeItem("redirectAfterLogin");
+        // navigate(redirectPath);
       },
       onError: (error) => {
         setError(error.response.data.message);
