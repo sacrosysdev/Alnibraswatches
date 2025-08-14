@@ -33,7 +33,7 @@ const LoginForm = () => {
         localStorage.setItem("alNibrazUserId", data[0].UserId);
 
         // Update auth context
-        login(userDet);
+        // login(userDet);
 
         // const redirectPath = localStorage.getItem("redirectAfterLogin") || "/";
         // localStorage.removeItem("redirectAfterLogin");
