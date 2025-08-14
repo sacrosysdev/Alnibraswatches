@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useLogout } from "../../api/user/hooks";
 import API from "../../api/httpService";
+import { clearAuthData } from "../../util/tokenManager";
 
 const AuthContext = createContext();
 
@@ -13,7 +14,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const logoutMutation = useLogout();
 
@@ -32,10 +33,14 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await logoutMutation.mutateAsync();
+      // Clear all auth-related data from localStorage
+      clearAuthData();
       setIsAuthenticated(false);
     } catch (error) {
       console.error("Logout failed:", error);
       // Even if logout API fails, we should still set user as logged out locally
+      // Clear all auth-related data from localStorage
+      clearAuthData();
       setIsAuthenticated(false);
     }
   };

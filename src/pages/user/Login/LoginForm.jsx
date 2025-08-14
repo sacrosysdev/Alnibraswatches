@@ -7,6 +7,7 @@ import { FaLock } from "react-icons/fa6";
 import { loginValidation } from "../../../components/user/validations";
 import { useSignIn } from "../../../api/user/hooks";
 import { useAuth } from "../../../contexts/user/AuthContext";
+import { storeAuthData } from "../../../util/tokenManager";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -22,15 +23,23 @@ const LoginForm = () => {
     const { repeatPassword, agree, ...payload } = values;
     mutate(payload, {
       onSuccess: (data) => {
+        // Store token and user info in localStorage
+        if (data.data && data.data.token) {
+          storeAuthData({
+            token: data.data.token,
+            userInfo: data.data.userInfo[0],
+          });
+        }
+
         const userDet = [
           {
-            name: data[0].FullName,
-            email: data[0].Email,
-            phone: data[0].PhoneNumber,
+            name: data.data.userInfo[0].FullName,
+            email: data.data.userInfo[0].Email,
+            phone: data.data.userInfo[0].PhoneNumber,
           },
         ];
         localStorage.setItem("alNibrazuserDet", JSON.stringify(userDet));
-        localStorage.setItem("alNibrazUserId", data[0].UserId);
+        localStorage.setItem("alNibrazUserId", data.data.userInfo[0].UserId);
 
         // Update auth context
         login(userDet);
