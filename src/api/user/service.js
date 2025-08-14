@@ -187,7 +187,7 @@ export const userSignUp = async (payload) => {
 
 export const userSignIn = async (payload) => {
   const response = await API.post(USER_SIGNIN, payload);
-  return response?.data?.data ?? [];
+  return response?.data ?? [];
 };
 export const userLogout = async () => {
   const response = await API.post(USER_LOGOUT);

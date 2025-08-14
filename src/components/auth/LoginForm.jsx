@@ -5,6 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { LoginValidation } from "../../constant/schema";
 import { useAdminLogin } from "../../api/admin/hooks";
+import { storeAuthData } from "../../util/tokenManager";
 
 function LoginForm({ onToggle }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,8 +24,15 @@ function LoginForm({ onToggle }) {
     setFormError(null);
     handleLogin(values, {
       onSuccess: (data) => {
+        // Store token and user info in localStorage
+        if (data.data && data.data.token) {
+          storeAuthData({
+            token: data.data.token,
+            userInfo: data.data.userInfo[0],
+          });
+          localStorage.setItem("isLoged", true);
+        }
         // Redirect user to dashboard or appropriate page
-        localStorage.setItem("isLoged", true);
         navigate("/dashboard");
       },
       onError: (error) => {

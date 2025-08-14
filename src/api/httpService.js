@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken, clearAuthData } from "../util/tokenManager";
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -9,6 +10,20 @@ const API = axios.create({
   },
 });
 
+// Add request interceptor to include token in headers
+API.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 // Interceptor for handling errors globally
 API.interceptors.response.use(
   (response) => response,
@@ -18,8 +33,8 @@ API.interceptors.response.use(
       const isAuthCheckRoute = error.config?.url?.includes("getUserAddress");
 
       if (!isAuthCheckRoute) {
-        // Clear any stored auth data
-        localStorage.clear();
+        // Clear any stored auth data including token
+        clearAuthData();
         // Redirect to login page
         window.location.href = "/login";
       }
