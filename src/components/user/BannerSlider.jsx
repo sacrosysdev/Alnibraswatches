@@ -18,22 +18,31 @@ const BannerSlider = () => {
     autoplaySpeed: 5000,
     fade: true,
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const bannerItem = banners?.[0];
-  const mobileImages = bannerItem?.MobileBrandingData ? JSON.parse(bannerItem.MobileBrandingData)[0] : {};
-  const tabImages = bannerItem?.TabBrandingData ? JSON.parse(bannerItem.TabBrandingData)[0] : {};
-  const webImages = bannerItem?.WebBrandingData ? JSON.parse(bannerItem.WebBrandingData)[0] : {};
+  const mobileImages = bannerItem?.MobileBrandingData
+    ? JSON.parse(bannerItem.MobileBrandingData)[0]
+    : {};
+  const tabImages = bannerItem?.TabBrandingData
+    ? JSON.parse(bannerItem.TabBrandingData)[0]
+    : {};
+  const webImages = bannerItem?.WebBrandingData
+    ? JSON.parse(bannerItem.WebBrandingData)[0]
+    : {};
 
   const extractUrls = (dataObj) => {
-      return Object.values(dataObj || {}).filter((url) => typeof url === "string" && url.trim() !== "");
+    return Object.values(dataObj || {}).filter(
+      (url) => typeof url === "string" && url.trim() !== ""
+    );
   };
 
   const mobileSlides = extractUrls(mobileImages);
   const tabSlides = extractUrls(tabImages);
   const webSlides = extractUrls(webImages);
-  const shopNowHandler = () =>{
-    navigate(`/trending`)
-  }
+  console.log(banners);
+  const shopNowHandler = () => {
+    navigate(`/trending`);
+  };
   return (
     <div className="">
       {/* Mobile View  */}
@@ -41,7 +50,11 @@ const BannerSlider = () => {
         <Slider {...settings}>
           {mobileSlides.map((img, idx) => (
             <div key={`mobile-${idx}`}>
-              <img src={img} alt={`mobile-banner-${idx}`} className="w-full h-[80vh] object-cover" />
+              <img
+                src={img}
+                alt={`mobile-banner-${idx}`}
+                className="w-full h-[80vh] object-cover"
+              />
               <div className="absolute left-4 top-6 w-11/12">
                 <motion.h1
                   className="text-3xl font-bold text-white leading-tight pt-5"
@@ -81,14 +94,17 @@ const BannerSlider = () => {
         <Slider {...settings}>
           {tabSlides.map((img, idx) => (
             <div key={`tab-${idx}`}>
-              <img src={img} alt={`tab-banner-${idx}`} className="w-full h-[70vh] object-cover" />
+              <img
+                src={img}
+                alt={`tab-banner-${idx}`}
+                className="w-full h-[70vh] object-cover"
+              />
               <div className="absolute left-4 top-6 w-11/12">
                 <motion.h1
                   className="text-5xl font-bold text-white leading-tight"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
-                  
                 >
                   Welcome to <br /> AL NIBRAS Watches
                 </motion.h1>
@@ -122,7 +138,11 @@ const BannerSlider = () => {
         <Slider {...settings}>
           {webSlides.map((img, idx) => (
             <div key={`web-${idx}`}>
-              <img src={img} alt={`web-banner-${idx}`} className="w-full h-[80vh] object-cover" />
+              <img
+                src={img}
+                alt={`web-banner-${idx}`}
+                className="w-full h-[80vh] object-cover"
+              />
               <div className="absolute left-17 top-24 ">
                 <motion.h1
                   className="text-5xl font-bold text-white leading-tight"

@@ -9,7 +9,7 @@ import BannerSlider from "../../../components/user/BannerSlider";
 
 const Home = () => (
   <div className="bg-[#F1F1F1] h-full overflow-hidden">
-    {/* <Banner/> */}
+    {/* <Banner /> */}
     <BannerSlider />
     <div className="p-2 md:p-12 flex flex-col gap-5 md:gap-10 bg-[#F1F1F1]">
       <Trend />
