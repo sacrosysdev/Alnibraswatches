@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setIsLoading(false);
       });
-  }, []);
+  });
 
   const logout = async () => {
     try {

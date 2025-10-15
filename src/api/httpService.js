@@ -28,7 +28,7 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 401 || error?.response?.status === 500) {
       // Don't redirect for getUserAddress route as it's used for auth checking
       const isAuthCheckRoute = error.config?.url?.includes("getUserAddress");
 
