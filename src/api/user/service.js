@@ -278,7 +278,8 @@ export const getSelectedAddress = async (status) => {
       const defaultAddress = addresses.find((addr) => addr.IsDefault === true);
       return defaultAddress || addresses[addresses.length - 1] || null;
     } else {
-      return addresses[addresses.length - 1] || null;
+      // return addresses[addresses.length - 1] || null;
+      return addresses || [];
     }
   } catch (error) {
     // If there's an error (like 401), throw it so the hook can handle it

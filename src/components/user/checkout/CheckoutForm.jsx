@@ -62,6 +62,8 @@ export default function CheckoutForm({
     refetch: refetchAddress,
   } = useGetSelectedAddress(location.state || null);
 
+  const defaultAddress = address?.find((item) => item.IsDefault === true);
+
   // Address handlers
   const handleAddAddress = async (values, { setSubmitting, resetForm }) => {
     try {
@@ -95,26 +97,28 @@ export default function CheckoutForm({
 
   const createOrder = async (paymentIntent) => {
     try {
-      if (!address) {
+      if (!defaultAddress) {
         console.error("No address selected");
         return false;
       }
 
       const orderDetails = {
-        userName: address?.UserName,
+        userName: defaultAddress?.UserName,
         orderDate: new Date().toISOString(),
         orderAmount: paymentData.totalAmount,
         paymentMode: paymentMethod,
         paymentReference: paymentIntent,
-        addressId: 0,
+        addressId: defaultAddress?.addressId || 0,
         orderDetails: paymentData.cartItems.map((item, index) => ({
           sI_No: index + 1,
           productId: item.productId,
           varientID: item.variantId,
           productName: item.productName,
           quantity: item.quantity,
-          price: item.discountPrice || item.price,
-          totalAmount: item.quantity * (item.discountPrice || item.price),
+          // price: item.discountPrice || item.price,
+          price: 1,
+          // totalAmount: item.quantity * (item.discountPrice || item.price),
+          totalAmount: 1,
         })),
       };
 
@@ -174,8 +178,11 @@ export default function CheckoutForm({
 
   const isFormValid =
     paymentMethod === "card"
-      ? stripe && elements && address && paymentData?.cartItems?.length > 0
-      : address && paymentData?.cartItems?.length > 0 && paymentMethod;
+      ? stripe &&
+        elements &&
+        defaultAddress &&
+        paymentData?.cartItems?.length > 0
+      : defaultAddress && paymentData?.cartItems?.length > 0 && paymentMethod;
 
   return (
     <div className="w-full py-20">
@@ -217,13 +224,13 @@ export default function CheckoutForm({
                   <h2 className="text-lg font-semibold">Delivery Address</h2>
                 </div>
                 <Address
-                  label={address.AddressLabel}
-                  phone={address.PhoneNumber}
-                  address={address.Address}
-                  district={address.District}
-                  userName={address.UserName}
-                  city={address.City}
-                  landmark={address.LandMark}
+                  label={defaultAddress.AddressLabel}
+                  phone={defaultAddress.PhoneNumber}
+                  address={defaultAddress.Address}
+                  district={defaultAddress.District}
+                  userName={defaultAddress.UserName}
+                  city={defaultAddress.City}
+                  landmark={defaultAddress.LandMark}
                 />
               </>
             )}
