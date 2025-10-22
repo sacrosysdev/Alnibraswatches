@@ -8,11 +8,11 @@ export const LoginValidation = Yup.object({
 export const checkOutValidation = Yup.object({
   fullName: Yup.string().required("Full Name is required"),
   phone: Yup.string().required("Phone number is required"),
-  pincode: Yup.string()
-    .required("Pincode is required")
-    .matches(/^\d+$/, "Pincode can only contain numbers")
-    .min(4, "Pincode must be at least 4 digits")
-    .max(10, "Pincode must be at most 10 digits"),
+  pincode: Yup.string(),
+  // .required("Pincode is required")
+  // .matches(/^\d+$/, "Pincode can only contain numbers")
+  // .min(4, "Pincode must be at least 4 digits")
+  // .max(10, "Pincode must be at most 10 digits"),
   addres: Yup.string().required("Address is required"),
   street: Yup.string().required("Street is required"),
   state: Yup.string().required("State is required"),
