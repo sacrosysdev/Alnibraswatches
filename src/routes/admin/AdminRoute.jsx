@@ -28,12 +28,12 @@ const AdminRoute = () => {
       <Route
         path="/"
         element={
-          <ProtectedRoute
-            isAuthenticated={isAuthenticated()}
-            redirectPath="/auth/login"
-          >
-            <DashboardLayout />
-          </ProtectedRoute>
+          // <ProtectedRoute
+          //   isAuthenticated={isAuthenticated()}
+          //   redirectPath="/auth/login"
+          // >
+          <DashboardLayout />
+          // </ProtectedRoute>
         }
       >
         {/* <Route index element={<DashboardHome />} /> */}

@@ -48,7 +48,7 @@ const ManageAddress = () => {
       { AddressId: addressId, IsDefault: true },
       {
         onSuccess: () => {
-          navigate("/checkout");
+          // navigate("/checkout");
           toast.success("Default address updated successfully");
         },
         onError: (error) => {
