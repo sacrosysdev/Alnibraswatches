@@ -63,6 +63,7 @@ const Orders = () => {
             order={order}
             isExpanded={!!expandedOrders[order.orderId]}
             toggleExpand={() => toggleOrderExpand(order.orderId)}
+            onStatusChange={handleOrderStatus}
           />
         ))}
       </div>

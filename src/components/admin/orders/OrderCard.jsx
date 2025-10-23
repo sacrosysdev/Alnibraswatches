@@ -1,8 +1,52 @@
 import ProductRow from "./ProductRow";
+import { useState } from "react";
 
 // Order Card Component
-const OrderCard = ({ order, isExpanded, toggleExpand }) => {
+const OrderCard = ({ order, isExpanded, toggleExpand, onStatusChange }) => {
   const productCount = order.orderDetails.length;
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+
+  // Available status options
+  const statusOptions = [
+    { value: "ordered", label: "Ordered", color: "bg-blue-100 text-blue-800" },
+    {
+      value: "shipped",
+      label: "Shipped",
+      color: "bg-purple-100 text-purple-800",
+    },
+    {
+      value: "delivered",
+      label: "Delivered",
+      color: "bg-green-100 text-green-800",
+    },
+    {
+      value: "cancelled",
+      label: "Cancelled",
+      color: "bg-red-100 text-red-800",
+    },
+  ];
+
+  // Handle status change
+  const handleStatusChange = async (newStatus) => {
+    if (newStatus === order.orderStatus) return; // No change needed
+
+    setIsUpdatingStatus(true);
+    try {
+      // Use the onStatusChange prop if provided, otherwise fallback to direct API call
+      if (onStatusChange) {
+        await onStatusChange(order.orderId, newStatus);
+      } else {
+        console.error("No status change handler provided");
+      }
+      console.log(`Order ${order.orderId} status updated to ${newStatus}`);
+    } catch (error) {
+      console.error("Failed to update order status:", error);
+      // You could add a toast notification here
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
   // Helper function to format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -15,7 +59,7 @@ const OrderCard = ({ order, isExpanded, toggleExpand }) => {
     });
   };
 
-  // Status Badge Component
+  // Status Badge Component with dropdown
   const StatusBadge = ({ status }) => {
     const getStatusColor = (status) => {
       switch (status.toLowerCase()) {
@@ -33,13 +77,32 @@ const OrderCard = ({ order, isExpanded, toggleExpand }) => {
     };
 
     return (
-      <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-          status
-        )}`}
-      >
-        {status}
-      </span>
+      <div className="relative inline-block">
+        <select
+          value={status}
+          onChange={(e) => handleStatusChange(e.target.value)}
+          onClick={(e) => e.stopPropagation()}
+          disabled={isUpdatingStatus}
+          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium cursor-pointer border-0 outline-none ${getStatusColor(
+            status
+          )} ${
+            isUpdatingStatus
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:opacity-80"
+          }`}
+        >
+          {statusOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {isUpdatingStatus && (
+          <div className="absolute -top-1 -right-1">
+            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-gray-600"></div>
+          </div>
+        )}
+      </div>
     );
   };
 
@@ -119,6 +182,79 @@ const OrderCard = ({ order, isExpanded, toggleExpand }) => {
             </div>
           </div>
 
+          {/* Shipping Address */}
+          {order.shippingAddress && (
+            <div className="px-4 py-3 bg-blue-50 border-b border-gray-200">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="w-5 h-5 text-blue-600 mt-0.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3 flex-1">
+                  <h4 className="text-sm font-medium text-gray-900 mb-2">
+                    Shipping Address
+                  </h4>
+                  <div className="text-sm text-gray-700">
+                    {(() => {
+                      try {
+                        const addressData = JSON.parse(order.shippingAddress);
+                        return (
+                          <div className="space-y-1">
+                            <div className="font-medium">
+                              {addressData.UserName}
+                            </div>
+                            <div>{addressData.Address}</div>
+                            <div>{addressData.District}</div>
+                            <div>
+                              {addressData.City} - {addressData.PinCode}
+                            </div>
+                            <div className="text-gray-600">
+                              {addressData.PhoneNumber}
+                            </div>
+                            {addressData.LandMark && (
+                              <div className="text-gray-600">
+                                Landmark: {addressData.LandMark}
+                              </div>
+                            )}
+                            <div className="text-xs text-gray-500 mt-1">
+                              Label: {addressData.AddressLabel}
+                            </div>
+                          </div>
+                        );
+                      } catch (error) {
+                        return (
+                          <div className="text-gray-600">
+                            <div className="font-medium">Address:</div>
+                            <div className="text-sm">
+                              {order.shippingAddress}
+                            </div>
+                          </div>
+                        );
+                      }
+                    })()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Products List */}
           <div className="divide-y divide-gray-100">
             {order.orderDetails.map((product, index) => (
@@ -146,6 +282,27 @@ const OrderCard = ({ order, isExpanded, toggleExpand }) => {
                   AED {order.orderAmount.toFixed(2)}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Status Change Section */}
+          <div
+            className="px-4 py-3 bg-white border-t border-gray-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <span className="text-sm font-medium text-gray-700">
+                  Update Status:
+                </span>
+                <StatusBadge status={order.orderStatus} />
+              </div>
+              {isUpdatingStatus && (
+                <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+                  <span>Updating...</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

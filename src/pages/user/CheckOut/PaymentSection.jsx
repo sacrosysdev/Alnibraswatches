@@ -13,7 +13,7 @@ import { PaymentElementShimmer } from "../../../components/user/checkout/Payment
 // Payment methods configuration
 const PAYMENT_METHODS = [
   { id: "card", name: "Debit / Credit Card", icon: mastercard },
-  { id: "cod", name: "Cash on Delivery", icon: cod },
+  { id: "cod", name: "Cash on Delivery", icon: cod, disabled: true },
 ];
 
 const PaymentSection = ({
@@ -43,6 +43,12 @@ const PaymentSection = ({
 
   // Function to change the method
   const handleMethodChange = (methodId) => {
+    // Prevent selection of disabled methods
+    const method = PAYMENT_METHODS.find((m) => m.id === methodId);
+    if (method && method.disabled) {
+      return;
+    }
+
     setSelectedMethod(methodId);
     setPaymentElementLoading(true);
 
@@ -76,8 +82,12 @@ const PaymentSection = ({
         {PAYMENT_METHODS.map((method) => (
           <label
             key={method.id}
-            className={`flex items-center py-3 gap-3 border-t border-[#E8E9EA] cursor-pointer ${
-              selectedMethod === method.id ? "bg-blue-50" : "hover:bg-gray-100"
+            className={`flex items-center py-3 gap-3 border-t border-[#E8E9EA] ${
+              method.disabled
+                ? "cursor-not-allowed opacity-50"
+                : selectedMethod === method.id
+                ? "bg-blue-50 cursor-pointer"
+                : "hover:bg-gray-100 cursor-pointer"
             }`}
           >
             <input
@@ -86,11 +96,29 @@ const PaymentSection = ({
               value={method.id}
               checked={selectedMethod === method.id}
               onChange={() => handleMethodChange(method.id)}
-              className="w-4 h-4 text-blue-600 accent-blue-600 cursor-pointer ml-2"
+              disabled={method.disabled}
+              className={`w-4 h-4 text-blue-600 accent-blue-600 ml-2 ${
+                method.disabled ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
             />
             <div className="flex gap-2 items-center">
-              <img src={method.icon} alt={method.name} className="w-5 h-5" />
-              <span className="text-base font-medium">{method.name}</span>
+              <img
+                src={method.icon}
+                alt={method.name}
+                className={`w-5 h-5 ${method.disabled ? "opacity-50" : ""}`}
+              />
+              <span
+                className={`text-base font-medium ${
+                  method.disabled ? "text-gray-400" : ""
+                }`}
+              >
+                {method.name}
+                {method.disabled && (
+                  <span className="text-xs text-gray-400 ml-2">
+                    (Currently unavailable)
+                  </span>
+                )}
+              </span>
             </div>
           </label>
         ))}
