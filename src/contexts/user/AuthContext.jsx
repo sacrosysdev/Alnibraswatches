@@ -3,11 +3,17 @@ import { useLogout } from "../../api/user/hooks";
 import API from "../../api/httpService";
 import { clearAuthData } from "../../util/tokenManager";
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  isAuthenticated: false,
+  isLoading: true,
+  login: () => {},
+  logout: () => {},
+});
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) {
+  // Only throw if context is completely undefined (shouldn't happen with default values)
+  if (!context || !context.hasOwnProperty("isAuthenticated")) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
@@ -28,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setIsLoading(false);
       });
-  });
+  }, []); // Empty dependency array to run only once on mount
 
   const logout = async () => {
     try {

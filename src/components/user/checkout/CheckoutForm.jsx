@@ -62,7 +62,12 @@ export default function CheckoutForm({
     refetch: refetchAddress,
   } = useGetSelectedAddress(location.state || null);
 
-  const defaultAddress = address?.find((item) => item.IsDefault === true);
+  console.log(address);
+
+  const defaultAddress =
+    address?.find((item) => item.IsDefault === true) || address[0];
+
+  console.log(defaultAddress);
 
   // Address handlers
   const handleAddAddress = async (values, { setSubmitting, resetForm }) => {
@@ -115,10 +120,8 @@ export default function CheckoutForm({
           varientID: item.variantId,
           productName: item.productName,
           quantity: item.quantity,
-          // price: item.discountPrice || item.price,
-          price: 1,
-          // totalAmount: item.quantity * (item.discountPrice || item.price),
-          totalAmount: 1,
+          price: item.discountPrice || item.price,
+          totalAmount: item.quantity * (item.discountPrice || item.price),
         })),
       };
 
@@ -195,7 +198,7 @@ export default function CheckoutForm({
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
                 <span className="ml-3">Loading address...</span>
               </div>
-            ) : !address ? (
+            ) : !address || address.length === 0 || !defaultAddress ? (
               <div className="mt-4">
                 <Formik
                   initialValues={INITIAL_ADDRESS_VALUE}
@@ -298,6 +301,7 @@ export default function CheckoutForm({
             totalAmount={
               buyNowData ? buyNowData.price : paymentData?.totalAmount
             }
+            buyNowQuantity={buyNowData ? buyNowData.quantity : undefined}
           />
         </div>
       </div>

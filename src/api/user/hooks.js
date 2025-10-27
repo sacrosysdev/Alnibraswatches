@@ -239,27 +239,34 @@ export const useGetSelectedAddress = (status) =>
     queryFn: () => getSelectedAddress(status),
     select: (data) => {
       try {
-        // If data is null or undefined, return null
-        if (!data) return null;
-        const addresses = data.map((item) => {
-          // If data doesn't have AddressDetails, return null
-          if (!item.AddressDetails) return null;
+        // If data is null or undefined, return empty array
+        if (!data) return [];
 
-          const address = JSON.parse(item.AddressDetails);
-          return {
-            ...address,
-            addressId: item.AddressId,
-            IsDefault: item.IsDefault,
-          };
-        });
+        // Handle both single address object and array of addresses
+        const addressesToProcess = Array.isArray(data) ? data : [data];
+
+        const addresses = addressesToProcess
+          .map((item) => {
+            // If data doesn't have AddressDetails, return null
+            if (!item.AddressDetails) return null;
+
+            const address = JSON.parse(item.AddressDetails);
+            return {
+              ...address,
+              addressId: item.AddressId,
+              IsDefault: item.IsDefault,
+            };
+          })
+          .filter(Boolean); // Remove null entries
+
         return addresses;
       } catch (error) {
         console.error("Error parsing address details:", error);
-        return null;
+        return [];
       }
     },
     // Ensure we never return undefined
-    placeholderData: null,
+    placeholderData: [],
   });
 
 export const useUpdateDefaultAddress = () => {
