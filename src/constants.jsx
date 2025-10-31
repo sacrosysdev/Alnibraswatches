@@ -84,6 +84,7 @@ export const footerData = [
     subtitles: [
       { name: "Privacy Policy", link: "/" },
       { name: "Terms & Conditions", link: "/" },
+      { name: "Our Outlets", link: "/our-stores" },
     ],
   },
   {
