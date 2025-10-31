@@ -27,9 +27,9 @@ const TopNav = () => {
         >
           OUR OUTLETS
         </Link>
-        <h1 className="text-[#F0F0D6] text-sm">
+        {/* <h1 className="text-[#F0F0D6] text-sm">
           GST (Mon - Sun) 10:00 AM to 10:00 PM
-        </h1>
+        </h1> */}
       </div>
     </div>
   );
