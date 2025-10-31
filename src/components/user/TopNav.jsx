@@ -1,6 +1,7 @@
 import React from "react";
 import Call from "../../assets/svg/topnav/call.svg";
 import Mail from "../../assets/svg/topnav/mail.svg";
+import { Link } from "react-router-dom";
 
 const TopNav = () => {
   return (
@@ -19,10 +20,16 @@ const TopNav = () => {
           <h1 className="text-[#F0F0D6] text-sm">alnibraswatches@gmail.com</h1>
         </div>
       </div>
-      <div className="hidden md:flex">
-        <h1 className="text-[#F0F0D6] text-sm">
+      <div className="hidden md:flex items-center gap-x-5">
+        <Link
+          to="/our-stores"
+          className="text-[#F0F0D6] text-sm hover:underline"
+        >
+          OUR OUTLETS
+        </Link>
+        {/* <h1 className="text-[#F0F0D6] text-sm">
           GST (Mon - Sun) 10:00 AM to 10:00 PM
-        </h1>
+        </h1> */}
       </div>
     </div>
   );

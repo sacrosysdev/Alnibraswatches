@@ -1,14 +1,31 @@
 import React from "react";
 import { useCart } from "../../../contexts/user/CartContext";
 
-const PlaceOrder = ({ totalAmount }) => {
+const PlaceOrder = ({ totalAmount, buyNowQuantity }) => {
   const { cart } = useCart();
 
+  // Calculate subtotal with proper field handling
   const subtotal =
     totalAmount ||
     cart.reduce((acc, item) => {
-      return acc + item.Quantity * (item?.DiscountPrice || item?.Price);
+      // Handle both Quantity/quantity and DiscountPrice/discountPrice variations
+      const quantity = item.Quantity || item.quantity || 1;
+      const discountPrice = item.DiscountPrice || item.discountPrice;
+      const price = item.Price || item.price || 0;
+      const itemPrice =
+        discountPrice && discountPrice > 0 ? discountPrice : price;
+
+      return acc + quantity * itemPrice;
     }, 0);
+
+  // Count total items in cart
+  // If buyNowQuantity is provided, use it; otherwise count from cart
+  const totalItems =
+    buyNowQuantity !== undefined
+      ? buyNowQuantity
+      : cart.reduce((acc, item) => {
+          return acc + (item.Quantity || item.quantity || 1);
+        }, 0);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -26,7 +43,7 @@ const PlaceOrder = ({ totalAmount }) => {
         <h1 className="text-[#303A42] text-lg font-semibold">
           Total{" "}
           <span className="text-[#5E666C] font-normal">
-            {`(${totalAmount ? "1 item" : `${cart.length} items`})`}
+            {`(${totalItems} ${totalItems === 1 ? "item" : "items"})`}
           </span>
         </h1>
         <h1 className="text-[#0D1217]">{formatCurrency(subtotal)}</h1>
