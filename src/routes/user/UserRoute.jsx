@@ -33,6 +33,9 @@ const PaymentMethodsPage = lazy(() =>
 const HelpCenterPage = lazy(() =>
   import("../../pages/user/Profile/HelpCenter")
 );
+const OurStoresPage = lazy(() =>
+  import("../../pages/user/OurStores/OurStores")
+);
 const UserRoute = () => {
   return (
     <Routes>
@@ -43,6 +46,7 @@ const UserRoute = () => {
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/trending" element={<TrendingPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/our-stores" element={<OurStoresPage />} />
 
         <Route
           path="/checkout"
